@@ -27,6 +27,7 @@ Depends on Enterprise ``account_reports`` and the Panama base localization
         'account_reports',
     ],
     'data': [
+        'security/ir.model.access.csv',
         # itbms_form_430.xml must load first because menuitems.xml's
         # client action references the report xmlid via ref().
         'data/itbms_form_430.xml',

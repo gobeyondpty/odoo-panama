@@ -118,6 +118,22 @@ class AccountMove(models.Model):
         copy=False,
         readonly=True,
     )
+    l10n_pa_pac_send_count = fields.Integer(
+        string="Intentos PAC",
+        copy=False,
+        readonly=True,
+    )
+    l10n_pa_pac_last_attempt = fields.Datetime(
+        string="Último intento PAC",
+        copy=False,
+        readonly=True,
+    )
+    l10n_pa_pac_event_ids = fields.One2many(
+        comodel_name='l10n_pa_edi.pac.event',
+        inverse_name='move_id',
+        string="Historial PAC",
+        readonly=True,
+    )
     l10n_pa_origin_cufe = fields.Char(
         string="CUFE referenciado (Nota de Crédito/Débito)",
         copy=False,
@@ -520,6 +536,26 @@ class AccountMove(models.Model):
     # PAC operations
     # -------------------------------------------------------------------
 
+    def _l10n_pa_log_pac_event(self, operation, state, response=None, message=''):
+        self.ensure_one()
+        response = response or False
+        errors = getattr(response, 'errors', None) or []
+        error_codes = ', '.join(
+            error.get('code', '') for error in errors if error.get('code')
+        )
+        return self.env['l10n_pa_edi.pac.event'].create({
+            'move_id': self.id,
+            'company_id': self.company_id.id,
+            'operation': operation,
+            'state': state,
+            'pac_status_code': getattr(response, 'pac_status_code', '') or '',
+            'pac_status_message': (
+                getattr(response, 'pac_status_message', '') or message or ''
+            ),
+            'error_codes': error_codes,
+            'raw_response': getattr(response, 'raw_response', '') or '',
+        })
+
     def action_l10n_pa_send_to_pac(self):
         """User-facing button: submit this invoice to the configured PAC."""
         self.ensure_one()
@@ -534,11 +570,18 @@ class AccountMove(models.Model):
         if not self.l10n_pa_cufe:
             self.l10n_pa_cufe = self._l10n_pa_compute_cufe()
         self.l10n_pa_pac_status = 'sent'
-        response = provider.send_invoice(self)
-        self._l10n_pa_apply_pac_response(response)
+        self.l10n_pa_pac_send_count += 1
+        self.l10n_pa_pac_last_attempt = fields.Datetime.now()
+        self._l10n_pa_log_pac_event('send', 'sent')
+        try:
+            response = provider.send_invoice(self)
+        except Exception as error:
+            self._l10n_pa_log_pac_event('send', 'error', message=str(error))
+            raise
+        self._l10n_pa_apply_pac_response(response, operation='send')
         return True
 
-    def _l10n_pa_apply_pac_response(self, response):
+    def _l10n_pa_apply_pac_response(self, response, operation='send'):
         """Persist a PACResponse onto this move."""
         self.ensure_one()
         self.l10n_pa_pac_response = response.raw_response or ''
@@ -550,11 +593,13 @@ class AccountMove(models.Model):
                 self.l10n_pa_qr_payload = response.qr_payload
             if response.authorized_xml:
                 self._l10n_pa_store_xml_attachment(response.authorized_xml)
+            self._l10n_pa_log_pac_event(operation, 'authorized', response=response)
         else:
             self.l10n_pa_pac_status = 'rejected'
             self.l10n_pa_pac_error_codes = ', '.join(
                 e.get('code', '') for e in (response.errors or []) if e.get('code')
             )
+            self._l10n_pa_log_pac_event(operation, 'rejected', response=response)
             messages = []
             for e in response.errors or []:
                 if e.get('message'):
@@ -592,6 +637,15 @@ class AccountMove(models.Model):
         self.l10n_pa_pac_response = status.raw_response or ''
         if status.state in ('authorized', 'rejected', 'cancelled'):
             self.l10n_pa_pac_status = status.state
+        self.env['l10n_pa_edi.pac.event'].create({
+            'move_id': self.id,
+            'company_id': self.company_id.id,
+            'operation': 'status',
+            'state': status.state,
+            'pac_status_code': status.pac_status_code or '',
+            'pac_status_message': status.pac_status_message or '',
+            'raw_response': status.raw_response or '',
+        })
         return True
 
     def action_l10n_pa_cancel_with_pac(self):
@@ -606,7 +660,9 @@ class AccountMove(models.Model):
         response = provider.cancel_invoice(self, reason)
         if response.success:
             self.l10n_pa_pac_status = 'cancelled'
+            self._l10n_pa_log_pac_event('cancel', 'cancelled', response=response)
         else:
+            self._l10n_pa_log_pac_event('cancel', 'rejected', response=response)
             raise UserError(_(
                 "DGI rechazó la anulación: %(msg)s",
                 msg=response.pac_status_message or _("sin detalles"),

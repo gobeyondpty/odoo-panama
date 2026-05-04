@@ -19,7 +19,7 @@
                         <field name="file_name" readonly="1"/>
                         <field name="file_data" filename="file_name" readonly="1"/>
                     </group>
-                    <div invisible="state != 'empty'" class="alert alert-warning">
+                    <div invisible="state != 'empty'" class="alert alert-warning" role="status">
                         No hay facturas de proveedor publicadas en el rango seleccionado para esta empresa.
                     </div>
                 </sheet>

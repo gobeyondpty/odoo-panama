@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_l10n_pa_form4331_wizard" model="ir.ui.view">
+        <field name="name">l10n.pa.form4331.wizard.form</field>
+        <field name="model">l10n.pa.form4331.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Formulario 4331">
+                <group>
+                    <field name="company_id"/>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <group invisible="state == 'draft'">
+                    <field name="state"/>
+                    <field name="line_count"/>
+                    <field name="total_base"/>
+                    <field name="total_withheld"/>
+                    <field name="file_name" invisible="not file_data"/>
+                    <field name="file_data" filename="file_name" invisible="not file_data"/>
+                </group>
+                <footer>
+                    <button name="action_generate" type="object" string="Generar" class="btn-primary"/>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_pa_form4331_wizard" model="ir.actions.act_window">
+        <field name="name">Formulario 4331 Retenciones ITBMS</field>
+        <field name="res_model">l10n.pa.form4331.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_l10n_pa_form4331"
+              name="Formulario 4331"
+              parent="account.account_reports_management_menu"
+              action="action_l10n_pa_form4331_wizard"
+              sequence="430"/>
+
+</odoo>

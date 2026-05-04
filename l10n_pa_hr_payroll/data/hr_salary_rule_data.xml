@@ -105,7 +105,7 @@ result = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_pay(base, inputs['VAC_
     </record>
 
     <record id="l10n_pa_rule_bonifications" model="hr.salary.rule">
-        <field name="name">Bonificaciones / Comisiones</field>
+        <field name="name">Bonificaciones</field>
         <field name="code">BONIF</field>
         <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
         <field name="category_id" ref="hr_payroll.ALW"/>
@@ -114,7 +114,137 @@ result = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_pay(base, inputs['VAC_
         <field name="condition_python">result = bool(inputs.get('BONIF_AMT') and inputs['BONIF_AMT'].amount)</field>
         <field name="amount_select">code</field>
         <field name="amount_python_compute">result = inputs['BONIF_AMT'].amount</field>
-        <field name="note">Bonificaciones o comisiones del período. Sujetas a CSS, SE e ISR como salario ordinario.</field>
+        <field name="note">Bonificaciones del período. Sujetas a CSS, SE e ISR como salario ordinario.</field>
+    </record>
+
+    <record id="l10n_pa_rule_commissions" model="hr.salary.rule">
+        <field name="name">Comisiones</field>
+        <field name="code">COMISIONES</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">61</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('COMISIONES_AMT') and inputs['COMISIONES_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['COMISIONES_AMT'].amount</field>
+        <field name="note">Comisiones del período. Sujetas a CSS, SE e ISR como salario ordinario.</field>
+    </record>
+
+    <record id="l10n_pa_rule_combustible" model="hr.salary.rule">
+        <field name="name">Combustible</field>
+        <field name="code">COMBUSTIBLE</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">62</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('COMBUSTIBLE_AMT') and inputs['COMBUSTIBLE_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['COMBUSTIBLE_AMT'].amount</field>
+        <field name="note">Monto reportable en SIPE como combustible. Revisar tratamiento fiscal/CSS según política soportada por comprobantes.</field>
+    </record>
+
+    <record id="l10n_pa_rule_dieta" model="hr.salary.rule">
+        <field name="name">Dieta</field>
+        <field name="code">DIETA</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">63</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('DIETA_AMT') and inputs['DIETA_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['DIETA_AMT'].amount</field>
+        <field name="note">Monto reportable en SIPE como dieta. Revisar tratamiento fiscal/CSS según documentación del pago.</field>
+    </record>
+
+    <record id="l10n_pa_rule_salario_especie" model="hr.salary.rule">
+        <field name="name">Salario en Especie</field>
+        <field name="code">SALARIO_ESPECIE</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">64</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('SALARIO_ESPECIE_AMT') and inputs['SALARIO_ESPECIE_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['SALARIO_ESPECIE_AMT'].amount</field>
+        <field name="note">Salario en especie reportable en SIPE. Sujeto a revisión CPA para tratamiento fiscal y de seguridad social.</field>
+    </record>
+
+    <record id="l10n_pa_rule_viaticos" model="hr.salary.rule">
+        <field name="name">Viáticos</field>
+        <field name="code">VIATICOS</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">65</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('VIATICOS_AMT') and inputs['VIATICOS_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['VIATICOS_AMT'].amount</field>
+        <field name="note">Viáticos reportables en SIPE. Revisar si son reembolso soportado o remuneración gravable según el caso.</field>
+    </record>
+
+    <record id="l10n_pa_rule_decimo_gastos_rep" model="hr.salary.rule">
+        <field name="name">Décimo Tercer Mes Gasto de Representación</field>
+        <field name="code">DECIMO_GASTOS_REP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">66</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('DECIMO_GASTOS_REP_AMT') and inputs['DECIMO_GASTOS_REP_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['DECIMO_GASTOS_REP_AMT'].amount</field>
+        <field name="note">Cuota de décimo asociada a gastos de representación, separada para la columna SIPE correspondiente.</field>
+    </record>
+
+    <record id="l10n_pa_rule_primas_produccion" model="hr.salary.rule">
+        <field name="name">Primas de Producción</field>
+        <field name="code">PRIMAS_PROD</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">67</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('PRIMAS_PROD_AMT') and inputs['PRIMAS_PROD_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['PRIMAS_PROD_AMT'].amount</field>
+        <field name="note">Primas de producción reportables en SIPE.</field>
+    </record>
+
+    <record id="l10n_pa_rule_dividendo" model="hr.salary.rule">
+        <field name="name">Dividendo</field>
+        <field name="code">DIVIDENDO</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">68</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('DIVIDENDO_AMT') and inputs['DIVIDENDO_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['DIVIDENDO_AMT'].amount</field>
+        <field name="note">Dividendo reportable en SIPE cuando el operador lo paga mediante planilla. No usar como tratamiento societario general sin revisión CPA.</field>
+    </record>
+
+    <record id="l10n_pa_rule_participacion_beneficio" model="hr.salary.rule">
+        <field name="name">Participación Beneficio Ingresos</field>
+        <field name="code">PART_BENEFICIO</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">69</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('PART_BENEFICIO_AMT') and inputs['PART_BENEFICIO_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['PART_BENEFICIO_AMT'].amount</field>
+        <field name="note">Participación en beneficios/ingresos reportable en SIPE.</field>
+    </record>
+
+    <record id="l10n_pa_rule_gratificacion_aguinaldo" model="hr.salary.rule">
+        <field name="name">Gratificación Aguinaldo</field>
+        <field name="code">GRAT_AGUINALDO</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">70</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('GRAT_AGUINALDO_AMT') and inputs['GRAT_AGUINALDO_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['GRAT_AGUINALDO_AMT'].amount</field>
+        <field name="note">Gratificación o aguinaldo reportable en SIPE.</field>
     </record>
 
     <record id="l10n_pa_rule_gross" model="hr.salary.rule">

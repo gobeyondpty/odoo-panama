@@ -7,3 +7,5 @@ access_l10n_pa_edi_cpbs_user,CPBS (read),model_l10n_pa_edi_cpbs,base.group_user,
 access_l10n_pa_edi_cpbs_admin,CPBS (admin),model_l10n_pa_edi_cpbs,base.group_system,1,1,1,1
 access_l10n_pa_edi_uom_user,DGI UOM (read),model_l10n_pa_edi_uom,base.group_user,1,0,0,0
 access_l10n_pa_edi_uom_admin,DGI UOM (admin),model_l10n_pa_edi_uom,base.group_system,1,1,1,1
+access_l10n_pa_edi_pac_event_user,PAC Event (read),model_l10n_pa_edi_pac_event,account.group_account_user,1,0,0,0
+access_l10n_pa_edi_pac_event_admin,PAC Event (admin),model_l10n_pa_edi_pac_event,base.group_system,1,1,1,1

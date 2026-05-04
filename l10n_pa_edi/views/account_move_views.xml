@@ -30,6 +30,8 @@
                             <field name="l10n_pa_cufe" readonly="1"/>
                             <field name="l10n_pa_security_code" readonly="1"/>
                             <field name="l10n_pa_xml_attachment_id" readonly="1"/>
+                            <field name="l10n_pa_pac_send_count" readonly="1"/>
+                            <field name="l10n_pa_pac_last_attempt" readonly="1"/>
                             <field name="l10n_pa_pac_error_codes" readonly="1"
                                    invisible="not l10n_pa_pac_error_codes"/>
                         </group>
@@ -49,6 +51,18 @@
                     </group>
                     <group string="Respuesta cruda del PAC (depuración)">
                         <field name="l10n_pa_pac_response" nolabel="1" readonly="1"/>
+                    </group>
+                    <group string="Historial PAC">
+                        <field name="l10n_pa_pac_event_ids" nolabel="1">
+                            <list>
+                                <field name="create_date"/>
+                                <field name="operation"/>
+                                <field name="state"/>
+                                <field name="pac_status_code"/>
+                                <field name="pac_status_message"/>
+                                <field name="error_codes"/>
+                            </list>
+                        </field>
                     </group>
                 </page>
             </xpath>

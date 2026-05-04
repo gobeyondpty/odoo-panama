@@ -8,11 +8,19 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="l10n_pa_wh_subject"
-                       invisible="move_type not in ('in_invoice', 'in_refund')"/>
+                       invisible="move_type not in ('in_invoice', 'in_refund', 'out_invoice', 'out_refund')"/>
+                <field name="l10n_pa_suggested_wh_tax_id"
+                       invisible="not l10n_pa_suggested_wh_tax_id"/>
                 <field name="l10n_pa_f43_concept"
                        invisible="move_type not in ('in_invoice', 'in_refund')"/>
                 <field name="l10n_pa_f43_purchase_source"
                        invisible="move_type not in ('in_invoice', 'in_refund')"/>
+            </xpath>
+            <xpath expr="//header" position="inside">
+                <button name="action_l10n_pa_apply_suggested_wh_tax"
+                        type="object"
+                        string="Aplicar retención PA"
+                        invisible="not l10n_pa_suggested_wh_tax_id or state != 'draft'"/>
             </xpath>
         </field>
     </record>

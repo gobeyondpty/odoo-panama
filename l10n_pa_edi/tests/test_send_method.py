@@ -178,6 +178,8 @@ class TestSendMethod(TransactionCase):
         self.assertTrue(inv.l10n_pa_qr_payload)
         self.assertTrue(inv.l10n_pa_xml_attachment_id)
         self.assertEqual(_FakeProvider.last_call[0], 'send')
+        self.assertEqual(inv.l10n_pa_pac_send_count, 1)
+        self.assertIn('authorized', inv.l10n_pa_pac_event_ids.mapped('state'))
 
     def test_action_send_raises_when_no_provider(self):
         inv = self._make_invoice()
@@ -207,6 +209,8 @@ class TestSendMethod(TransactionCase):
         self.assertEqual(inv.l10n_pa_pac_status, 'rejected')
         self.assertIn('B201', inv.l10n_pa_pac_error_codes or '')
         self.assertIn('REJECTED', inv.l10n_pa_pac_response or '')
+        self.assertEqual(inv.l10n_pa_pac_send_count, 1)
+        self.assertIn('rejected', inv.l10n_pa_pac_event_ids.mapped('state'))
         # invoice_data['error'] is also set so the UI surfaces it.
         self.assertIn('error', invoice_data)
 

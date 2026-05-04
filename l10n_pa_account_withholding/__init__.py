@@ -1,5 +1,6 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 from . import models
+from . import wizard
 
 
 def _l10n_pa_withholding_post_init(env):

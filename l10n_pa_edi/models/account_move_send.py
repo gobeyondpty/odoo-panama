@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import logging
 
-from odoo import _, api, models
+from odoo import _, api, fields, models
 from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
@@ -104,9 +104,12 @@ class AccountMoveSend(models.AbstractModel):
             if not invoice.l10n_pa_cufe:
                 invoice.l10n_pa_cufe = invoice._l10n_pa_compute_cufe()
             invoice.l10n_pa_pac_status = 'sent'
+            invoice.l10n_pa_pac_send_count += 1
+            invoice.l10n_pa_pac_last_attempt = fields.Datetime.now()
+            invoice._l10n_pa_log_pac_event('send', 'sent')
             response = provider.send_invoice(invoice)
             if response.success:
-                invoice._l10n_pa_apply_pac_response(response)
+                invoice._l10n_pa_apply_pac_response(response, operation='send')
             else:
                 # Persist the rejection on the move so the form mirrors
                 # what the wizard reports. Otherwise the move stays at
@@ -116,6 +119,7 @@ class AccountMoveSend(models.AbstractModel):
                 invoice.l10n_pa_pac_error_codes = ', '.join(
                     e.get('code', '') for e in (response.errors or []) if e.get('code')
                 )
+                invoice._l10n_pa_log_pac_event('send', 'rejected', response=response)
                 error_lines = [
                     f"{e.get('code', '')}: {e.get('message', '')}".strip(': ')
                     for e in (response.errors or [])
@@ -126,6 +130,7 @@ class AccountMoveSend(models.AbstractModel):
                 }
         except UserError as e:
             invoice.l10n_pa_pac_status = 'rejected'
+            invoice._l10n_pa_log_pac_event('send', 'error', message=e.args[0])
             invoice_data['error'] = {
                 'error_title': _("Error al enviar al PAC"),
                 'errors': [e.args[0]],

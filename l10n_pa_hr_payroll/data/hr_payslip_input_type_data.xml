@@ -38,9 +38,59 @@
         <field name="code">BONIF_AMT</field>
         <field name="country_id" ref="base.pa"/>
     </record>
+    <record id="hr_payslip_input_commissions" model="hr.payslip.input.type">
+        <field name="name">Comisiones</field>
+        <field name="code">COMISIONES_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_combustible" model="hr.payslip.input.type">
+        <field name="name">Combustible</field>
+        <field name="code">COMBUSTIBLE_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_dieta" model="hr.payslip.input.type">
+        <field name="name">Dieta</field>
+        <field name="code">DIETA_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_salario_especie" model="hr.payslip.input.type">
+        <field name="name">Salario en Especie</field>
+        <field name="code">SALARIO_ESPECIE_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_viaticos" model="hr.payslip.input.type">
+        <field name="name">Viáticos</field>
+        <field name="code">VIATICOS_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
     <record id="hr_payslip_input_gastos_rep" model="hr.payslip.input.type">
         <field name="name">Gastos de Representación (Cód. Fiscal art. 701-l)</field>
         <field name="code">GASTOS_REP_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_decimo_gastos_rep" model="hr.payslip.input.type">
+        <field name="name">Décimo Tercer Mes Gasto de Representación</field>
+        <field name="code">DECIMO_GASTOS_REP_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_primas_produccion" model="hr.payslip.input.type">
+        <field name="name">Primas de Producción</field>
+        <field name="code">PRIMAS_PROD_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_dividendo" model="hr.payslip.input.type">
+        <field name="name">Dividendo</field>
+        <field name="code">DIVIDENDO_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_participacion_beneficio" model="hr.payslip.input.type">
+        <field name="name">Participación Beneficio Ingresos</field>
+        <field name="code">PART_BENEFICIO_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_gratificacion_aguinaldo" model="hr.payslip.input.type">
+        <field name="name">Gratificación Aguinaldo</field>
+        <field name="code">GRAT_AGUINALDO_AMT</field>
         <field name="country_id" ref="base.pa"/>
     </record>
 

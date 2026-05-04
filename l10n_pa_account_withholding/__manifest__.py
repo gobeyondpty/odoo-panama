@@ -26,7 +26,9 @@ Depends on the Enterprise withholding-on-payment framework
         'l10n_account_withholding_tax',
     ],
     'data': [
+        'security/ir.model.access.csv',
         'views/account_move_views.xml',
+        'wizard/form_4331_wizard_views.xml',
     ],
     'demo': [],
     'installable': True,

@@ -14,7 +14,7 @@ from openpyxl import load_workbook
 from odoo.exceptions import UserError, ValidationError
 from odoo.tests.common import TransactionCase, tagged
 
-from odoo.addons.l10n_pa_hr_payroll_sipe.lib.sipe_writer import SIPE_COLUMNS
+from odoo.addons.l10n_pa_hr_payroll_sipe.lib.sipe_writer import SIPE_COLUMNS, numeric_field_keys
 
 
 @tagged("post_install", "-at_install", "l10n_pa")
@@ -181,3 +181,10 @@ class TestSipeExportWizard(TransactionCase):
         })
         with self.assertRaises(ValidationError):
             wizard.action_generate()
+
+    def test_default_mapping_covers_all_numeric_sipe_columns(self):
+        mapped_columns = set(self.env["hr.salary.rule"].search([
+            ("l10n_pa_sipe_column", "!=", False),
+        ]).mapped("l10n_pa_sipe_column"))
+        expected_columns = set(numeric_field_keys())
+        self.assertTrue(expected_columns.issubset(mapped_columns))

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+        Tax groups for Panama withholding (retenciones).
+
+        Two top-level categories per Panama tax law:
+
+        - Retención de ITBMS — ITBMS withheld at source on payments.
+          Applies when the payer is designated as agente de retención
+          de ITBMS (most commonly: government entities and certain
+          credit-card acquirers settling merchant payouts).
+
+        - Retención de ISR — Income tax withheld at source on payments
+          to non-residents, on certain professional services, and in
+          other DGI-defined cases.
+
+        Account assignments are intentionally absent. The CPA must
+        designate the receivable / payable accounts these groups post
+        to during chart-of-accounts review.
+    -->
+
+    <record id="tax_group_pa_wht_itbms" model="account.tax.group">
+        <field name="name">Retención de ITBMS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <record id="tax_group_pa_wht_isr" model="account.tax.group">
+        <field name="name">Retención de ISR</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+</odoo>

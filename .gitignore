@@ -1,0 +1,65 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+.eggs/
+build/
+dist/
+
+# Virtualenvs
+venv/
+.venv/
+env/
+ENV/
+
+# Coverage / test runners
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.pytest_cache/
+.ruff_cache/
+.cache/
+.tox/
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+*.bak
+*~
+.DS_Store
+
+# Odoo
+*.pot~
+.odoorc
+filestore/
+
+# Local secrets and credentials (never commit)
+.env
+.secrets
+*.secret*
+.credentials
+
+# private validation data — real RUCs, employee names, salaries, payslips,
+# bank accounts, customer documents, PAC credentials, eTax2 sessions, etc.
+private/
+fixtures/private/
+*.payslip.json
+*.payslip.csv
+*.local.csv
+*.local.xlsx
+
+# Local-only test artifacts
+tmp/
+test_*.log
+
+# Browser-automation snapshots from playwright-cli (researcher artifact)
+.playwright-cli/
+
+# Internal autonomous-dev plan (kept locally, not part of public repo)
+AUTONOMOUS_DEV_PLAN.md

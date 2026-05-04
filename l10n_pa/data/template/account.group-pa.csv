@@ -1,0 +1,23 @@
+id,name,name@es,code_prefix_start,code_prefix_end
+l10n_pa_group_1,Activo,Activo,1,1
+l10n_pa_group_11,Disponible,Disponible,11,11
+l10n_pa_group_111,Cash and Banks,Caja y Bancos,111,114
+l10n_pa_group_12,Cuentas por Cobrar,Cuentas por Cobrar,12,13
+l10n_pa_group_14,Inventarios,Inventarios,14,14
+l10n_pa_group_15,Inversiones,Inversiones,15,17
+l10n_pa_group_18,Activo Fijo,Activo Fijo,18,19
+l10n_pa_group_2,Pasivo,Pasivo,2,2
+l10n_pa_group_21,Cuentas por Pagar,Cuentas por Pagar,21,22
+l10n_pa_group_23,Impuestos por Pagar,Impuestos por Pagar,23,23
+l10n_pa_group_24,Obligaciones Laborales,Obligaciones Laborales,24,24
+l10n_pa_group_25,Pasivo a Largo Plazo,Pasivo a Largo Plazo,25,29
+l10n_pa_group_3,Patrimonio,Patrimonio,3,3
+l10n_pa_group_4,Ingresos,Ingresos,4,4
+l10n_pa_group_41,Ventas,Ventas,41,41
+l10n_pa_group_42,Otros Ingresos,Otros Ingresos,42,49
+l10n_pa_group_5,Costos,Costos,5,5
+l10n_pa_group_6,Gastos,Gastos,6,6
+l10n_pa_group_61,Gastos de Personal,Gastos de Personal,61,61
+l10n_pa_group_62,Compras,Compras,62,62
+l10n_pa_group_63,Gastos Generales,Gastos Generales,63,79
+l10n_pa_group_8,Cuentas de Orden y Resultado,Cuentas de Orden y Resultado,8,9

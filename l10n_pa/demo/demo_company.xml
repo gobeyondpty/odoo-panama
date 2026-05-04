@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo company for Panama localization. The RUC (155718881-2-2018)
+         + DV (62) is a real-format-but-fictional jurídico identifier;
+         it is NOT a registered taxpayer with DGI. -->
+    <record id="base.partner_demo_company_pa" model="res.partner" forcecreate="1">
+        <field name="name">PA Demo Co.</field>
+        <field name="vat">155718881-2-2018</field>
+        <field name="street">Avenida Balboa, Edificio Demo, Piso 1</field>
+        <field name="city">Panamá</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="zip">0801</field>
+        <field name="phone">+507 200-0000</field>
+        <field name="email">info@pademoco.example.com</field>
+        <field name="website">www.pademoco.example.com</field>
+        <field name="is_company" eval="True"/>
+        <field name="l10n_latam_identification_type_id" ref="l10n_pa.ruc"/>
+    </record>
+
+    <record id="base.demo_company_pa" model="res.company" forcecreate="1">
+        <field name="name">PA Demo Co.</field>
+        <field name="partner_id" ref="base.partner_demo_company_pa"/>
+        <field name="currency_id" ref="base.USD"/>
+    </record>
+
+    <function model="res.company" name="_onchange_country_id">
+        <value eval="[ref('base.demo_company_pa')]"/>
+    </function>
+
+    <function model="res.users" name="write">
+        <value eval="[ref('base.user_root'), ref('base.user_admin'), ref('base.user_demo')]"/>
+        <value eval="{'company_ids': [(4, ref('base.demo_company_pa'))]}"/>
+    </function>
+
+    <function model="account.chart.template" name="try_loading">
+        <value eval="[]"/>
+        <value>pa</value>
+        <value model="res.company" eval="obj().env.ref('base.demo_company_pa')"/>
+        <value name="install_demo" eval="True"/>
+    </function>
+</odoo>

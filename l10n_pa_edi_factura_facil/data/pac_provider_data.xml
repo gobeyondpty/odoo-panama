@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Default endpoint configuration. The `api_key` is intentionally
+         left blank — it is a per-customer secret entered through the
+         Settings UI, not a default value baked into the module. -->
+    <record id="default_qa_base_url" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.factura_facil.base_url</field>
+        <field name="value">https://backend-qa-api.facturafacil.com.pa</field>
+    </record>
+    <record id="default_prod_base_url" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.factura_facil.base_url_prod</field>
+        <field name="value">https://backend-api.facturafacil.com.pa</field>
+    </record>
+    <record id="default_timeout" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.factura_facil.timeout</field>
+        <field name="value">30</field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+{
+  "employee": "Synthetic Employee",
+  "period": "2026-01",
+  "gross_salary": 1000.0,
+  "rates": {
+    "css_employee_rate": 0.0975,
+    "css_employer_rate": 0.1325,
+    "educational_employee_rate": 0.0125,
+    "educational_employer_rate": 0.015,
+    "professional_risk_rate": 0.01,
+    "monthly_income_tax": 23.08
+  },
+  "expected_lines": {
+    "CSS_EMP": -97.5,
+    "SE_EMP": -12.5,
+    "ISR_EMP": -23.08,
+    "CSS_COMP": 132.5,
+    "SE_COMP": 15.0,
+    "RP_COMP": 10.0
+  }
+}

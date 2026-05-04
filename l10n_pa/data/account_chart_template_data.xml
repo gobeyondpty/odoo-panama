@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reports menu placeholder for future Panama-specific reports
+         (libro de compras/ventas, ITBMS declaration, etc.). Sequence
+         keeps it grouped with other LATAM countries. -->
+    <menuitem id="account_reports_pa_statements_menu"
+              name="Panamá"
+              parent="account.menu_finance_reports"
+              sequence="6"
+              groups="account.group_account_readonly"/>
+</odoo>

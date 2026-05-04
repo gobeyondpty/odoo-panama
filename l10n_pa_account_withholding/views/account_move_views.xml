@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_move_form_inherit_l10n_pa" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.l10n_pa_withholding</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="l10n_pa_wh_subject"
+                       invisible="move_type not in ('in_invoice', 'in_refund')"/>
+                <field name="l10n_pa_f43_concept"
+                       invisible="move_type not in ('in_invoice', 'in_refund')"/>
+                <field name="l10n_pa_f43_purchase_source"
+                       invisible="move_type not in ('in_invoice', 'in_refund')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_form_inherit_l10n_pa" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.l10n_pa_withholding</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="l10n_pa_entity_type"
+                       invisible="country_id and country_code != 'PA' and not l10n_pa_entity_type"/>
+                <field name="l10n_pa_certificado_no_contribuyente"
+                       invisible="country_code and country_code != 'PA'"/>
+                <field name="l10n_pa_certificado_actividad_exenta"
+                       invisible="country_code and country_code != 'PA'"/>
+                <field name="l10n_pa_es_intermediario"
+                       invisible="country_code and country_code != 'PA'"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

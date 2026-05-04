@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Payslip input types used by Panama salary rules. Each carries the
+        statute citation it serves so HR users know what to enter.
+    -->
+
+    <!-- Horas extras y recargos (CT arts. 33, 36, 48, 49) -->
+    <record id="hr_payslip_input_ot_day" model="hr.payslip.input.type">
+        <field name="name">Horas Extras Diurnas (CT art. 33 num. 1)</field>
+        <field name="code">OT_DAY_HRS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_ot_mixed" model="hr.payslip.input.type">
+        <field name="name">Horas Extras Nocturnas/Mixta-Diurna (CT art. 33 num. 2)</field>
+        <field name="code">OT_MIXED_HRS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_ot_night" model="hr.payslip.input.type">
+        <field name="name">Horas Extras Nocturnas/Mixta-Nocturna (CT art. 33 num. 3)</field>
+        <field name="code">OT_NIGHT_HRS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_rest_day" model="hr.payslip.input.type">
+        <field name="name">Horas Trabajadas en Día de Descanso (CT art. 48)</field>
+        <field name="code">REST_DAY_HRS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_holiday" model="hr.payslip.input.type">
+        <field name="name">Horas Trabajadas en Fiesta o Duelo Nacional (CT art. 49)</field>
+        <field name="code">HOLIDAY_HRS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!-- Compensación variable -->
+    <record id="hr_payslip_input_bonifications" model="hr.payslip.input.type">
+        <field name="name">Bonificaciones / Comisiones</field>
+        <field name="code">BONIF_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_gastos_rep" model="hr.payslip.input.type">
+        <field name="name">Gastos de Representación (Cód. Fiscal art. 701-l)</field>
+        <field name="code">GASTOS_REP_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!-- ISR -->
+    <record id="hr_payslip_input_spouse_joint" model="hr.payslip.input.type">
+        <field name="name">Declaración Conjunta de Cónyuge (flag) (Cód. Fiscal art. 709)</field>
+        <field name="code">SPOUSE_JOINT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!--
+        F03 deducciones anuales — solo se reportan en la planilla del mes de
+        diciembre. DGI Instructivo F03 V5-6 §19-23.
+    -->
+    <record id="hr_payslip_input_spouse_joint_amt" model="hr.payslip.input.type">
+        <field name="name">F03 §19 – Deducción Conjunta Cónyuge (B/.800 anual)</field>
+        <field name="code">SPOUSE_JOINT_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_int_hipotecarios" model="hr.payslip.input.type">
+        <field name="name">F03 §20 – Intereses Hipotecarios (DE 170/1993 art. 74)</field>
+        <field name="code">INT_HIPOTECARIOS_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_int_educativos" model="hr.payslip.input.type">
+        <field name="name">F03 §21 – Intereses Educativos (DE 170/1993 art. 75)</field>
+        <field name="code">INT_EDUCATIVOS_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_primas_seguro" model="hr.payslip.input.type">
+        <field name="name">F03 §22 – Primas Seguro Hospitalización (DE 170/1993 art. 156)</field>
+        <field name="code">PRIMAS_SEGURO_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_aportes_jubilacion" model="hr.payslip.input.type">
+        <field name="name">F03 §23 – Aportes Fondos de Jubilación (Ley 10/1993, hasta 10 % ingreso bruto)</field>
+        <field name="code">APORTES_JUBILACION_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!-- Vacaciones (CT art. 54) -->
+    <record id="hr_payslip_input_vac_pay_amt" model="hr.payslip.input.type">
+        <field name="name">Días de Vacaciones a Pagar (CT art. 54)</field>
+        <field name="code">VAC_PAY_DAYS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_vac_pay_avg" model="hr.payslip.input.type">
+        <field name="name">Promedio Salarios Ord+Extra Últimos 11 Meses (CT art. 54 num. 2)</field>
+        <field name="code">VAC_PAY_AVG_11M</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!-- Subsidios CSS (Ley 51/2005) -->
+    <record id="hr_payslip_input_subsidio_amt" model="hr.payslip.input.type">
+        <field name="name">Subsidio CSS (Incapacidad / Maternidad)</field>
+        <field name="code">CSS_SUBSIDIO_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_subsidio_days" model="hr.payslip.input.type">
+        <field name="name">Días Cubiertos por Subsidio CSS</field>
+        <field name="code">CSS_SUBSIDIO_DAYS</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <!-- Cesantía / liquidación -->
+    <record id="hr_payslip_input_years_of_service" model="hr.payslip.input.type">
+        <field name="name">Años de Servicio (decimal)</field>
+        <field name="code">YEARS_OF_SERVICE</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_decimo_cuota_amt" model="hr.payslip.input.type">
+        <field name="name">Monto Cuota Décimo Tercer Mes (Ley 8/1981)</field>
+        <field name="code">DECIMO_CUOTA_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_pending_salary" model="hr.payslip.input.type">
+        <field name="name">Salario Pendiente al Cese</field>
+        <field name="code">PENDING_SALARY_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_preaviso" model="hr.payslip.input.type">
+        <field name="name">Preaviso (CT art. 211)</field>
+        <field name="code">PREAVISO_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_unfair_dismissal" model="hr.payslip.input.type">
+        <field name="name">Despido Injustificado (1=sí; activa indemnización CT art. 225)</field>
+        <field name="code">UNFAIR_DISMISSAL</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+    <record id="hr_payslip_input_liq_bonif" model="hr.payslip.input.type">
+        <field name="name">Bonificaciones de Liquidación</field>
+        <field name="code">LIQ_BONIF_AMT</field>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+</odoo>

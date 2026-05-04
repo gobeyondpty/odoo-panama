@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <!--
+        ITBMS withholding tax templates per DGI normative framework.
+
+        Legal basis:
+          - Código Fiscal art. 1057-V parágrafo 4
+          - Decreto Ejecutivo 84 de 26 de agosto de 2005, art. 19 (agentes
+            de retención), art. 20 (oportunidad), art. 21 (responsabilidad)
+          - Decreto Ejecutivo 91 de 25 de agosto de 2010, art. 13 (cálculo
+            ITBMS pagos a no domiciliados — coeficiente 0.065421)
+          - Decreto Ejecutivo 463/2015, 470/2015, 594/2015 (literales)
+          - Decreto Ejecutivo 128 de 29 de mayo de 2017 (umbral grandes
+            empresas reducido a B/.5,000,000)
+          - Resoluciones DGI publicando lista anual de agentes literal d)
+            (publicada al 1 de septiembre de cada año, vigente el período
+            fiscal siguiente)
+
+        Agent literals (Decreto Ejecutivo 84/2005 art. 19):
+          a) El Estado y entidades estatales no exentas
+          b) Pagadores a no domiciliados (servicios gravados)
+          c) Sociedades sin personería jurídica, accidentales o joint venture
+          d) Grandes empresas (compras anuales >= B/.5,000,000)
+          e) Empresas administradoras de tarjetas de débito y crédito
+
+        =================================================================
+        IMPORTANT: rate computation
+        =================================================================
+
+        Odoo's account.tax with amount_type='percent' computes against the
+        invoice line base (gross amount), NOT against another tax. The
+        DGI rules express withholding as "X% of the ITBMS", so each rule
+        must be encoded once per applicable ITBMS rate, with the effective
+        percentage = (DGI withholding %) × (ITBMS rate) / 100.
+
+        ITBMS rates currently in force in Panama:
+          - 7%  standard
+          - 10% bebidas alcohólicas, hospedaje
+          - 15% derivados del tabaco
+
+        Withholding fractions per agent (vigentes desde 01/01/2017):
+          - Estado / Sociedad sin personería: 50% sobre bienes/servicios
+          - Estado: 100% sobre servicios profesionales
+          - Pagos a no domiciliados: 100% via coeficiente 0.065421 sobre
+            monto pagado (precio incluye ITBMS implícitamente)
+          - Privado (gran comprador literal d): 50% sobre bienes,
+            servicios y servicios profesionales
+          - Privado (literal d): 100% sobre pagos a no domiciliados
+            (mismo coeficiente 0.065421)
+          - Tarjetas DB/CR: 50% sobre ventas gravadas del comercio afiliado
+
+        Effective rates encoded below = withholding fraction × ITBMS rate.
+
+        =================================================================
+        Excepciones (no se practica retención):
+          - Proveedor con Certificado de No Contribuyente del ITBMS
+            (ingresos < B/.36,000) — flag on res.partner
+          - Proveedor con Certificado de Actividades Exentas
+          - Caja menuda
+          - Proveedor actúa como intermediario (sólo se retiene 50% de
+            la comisión) — flag on res.partner
+          - Transacciones entre agentes del mismo literal d) o entre
+            agentes del literal e)
+
+        Filing:
+          - Declaración Jurada Formulario 4331 — del 1 al 15 del mes siguiente
+          - Boleta de pago código 250 — pago de retención al fisco
+          - Las sumas retenidas deben entregarse en efectivo, sin importar
+            la forma de pago al proveedor
+          - Custodia de documentos: 5 años
+    -->
+
+    <!-- ============================================================
+         Literal a — Estado: 50% del ITBMS sobre bienes/servicios.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_a_bs_07" model="account.tax">
+        <field name="name">Retención ITBMS Estado bienes/servicios (50% de 7% = 3.5%)</field>
+        <field name="description">Ret ITBMS Estado B/S 7%</field>
+        <field name="amount">-3.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_a_bs_10" model="account.tax">
+        <field name="name">Retención ITBMS Estado bienes/servicios (50% de 10% = 5%)</field>
+        <field name="description">Ret ITBMS Estado B/S 10%</field>
+        <field name="amount">-5.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_a_bs_15" model="account.tax">
+        <field name="name">Retención ITBMS Estado bienes/servicios (50% de 15% = 7.5%)</field>
+        <field name="description">Ret ITBMS Estado B/S 15%</field>
+        <field name="amount">-7.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+         Literal a — Estado: 100% del ITBMS sobre servicios profesionales.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_a_sp_07" model="account.tax">
+        <field name="name">Retención ITBMS Estado servicios profesionales (100% de 7% = 7%)</field>
+        <field name="description">Ret ITBMS Estado SP 7%</field>
+        <field name="amount">-7.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_a_sp_10" model="account.tax">
+        <field name="name">Retención ITBMS Estado servicios profesionales (100% de 10% = 10%)</field>
+        <field name="description">Ret ITBMS Estado SP 10%</field>
+        <field name="amount">-10.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_a_sp_15" model="account.tax">
+        <field name="name">Retención ITBMS Estado servicios profesionales (100% de 15% = 15%)</field>
+        <field name="description">Ret ITBMS Estado SP 15%</field>
+        <field name="amount">-15.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+         Literal b — Pagos a no domiciliados: 100% del ITBMS calculado
+         con coeficiente 0.065421 sobre el monto pagado o acreditado
+         (Decreto Ejecutivo 91/2010 art 13). El precio incluye ITBMS
+         implícitamente; el coeficiente lo extrae directamente del bruto.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_b_no_domiciliado" model="account.tax">
+        <field name="name">Retención ITBMS no domiciliado (6.5421% sobre monto pagado)</field>
+        <field name="description">Ret ITBMS No Dom</field>
+        <field name="amount">-6.5421</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+         Literal c — Sociedades sin personería jurídica: 50% del ITBMS
+         sobre bienes/servicios. Idéntico al Estado para esta categoría.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_c_bs_07" model="account.tax">
+        <field name="name">Retención ITBMS Soc. sin personería bienes/servicios (50% de 7% = 3.5%)</field>
+        <field name="description">Ret ITBMS SSP B/S 7%</field>
+        <field name="amount">-3.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_c_bs_10" model="account.tax">
+        <field name="name">Retención ITBMS Soc. sin personería bienes/servicios (50% de 10% = 5%)</field>
+        <field name="description">Ret ITBMS SSP B/S 10%</field>
+        <field name="amount">-5.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_c_bs_15" model="account.tax">
+        <field name="name">Retención ITBMS Soc. sin personería bienes/servicios (50% de 15% = 7.5%)</field>
+        <field name="description">Ret ITBMS SSP B/S 15%</field>
+        <field name="amount">-7.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+         Literal d — Gran comprador (compras anuales >= B/.5,000,000):
+         50% del ITBMS sobre bienes, servicios, y servicios profesionales.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_d_07" model="account.tax">
+        <field name="name">Retención ITBMS Gran Comprador (50% de 7% = 3.5%)</field>
+        <field name="description">Ret ITBMS GC 7%</field>
+        <field name="amount">-3.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_d_10" model="account.tax">
+        <field name="name">Retención ITBMS Gran Comprador (50% de 10% = 5%)</field>
+        <field name="description">Ret ITBMS GC 10%</field>
+        <field name="amount">-5.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_d_15" model="account.tax">
+        <field name="name">Retención ITBMS Gran Comprador (50% de 15% = 7.5%)</field>
+        <field name="description">Ret ITBMS GC 15%</field>
+        <field name="amount">-7.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">purchase</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <!-- ============================================================
+         Literal e — Administrador de tarjetas DB/CR: 50% del ITBMS
+         de las ventas del comercio afiliado.
+
+         type_tax_use = sale because the acquirer is the agent and
+         the affiliated merchant (the operator) is the retained party,
+         seen from the sale side.
+         ============================================================ -->
+
+    <record id="tax_pa_wht_itbms_e_07" model="account.tax">
+        <field name="name">Retención ITBMS Tarjeta DB/CR (50% de 7% = 3.5%)</field>
+        <field name="description">Ret ITBMS TC/TD 7%</field>
+        <field name="amount">-3.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_e_10" model="account.tax">
+        <field name="name">Retención ITBMS Tarjeta DB/CR (50% de 10% = 5%)</field>
+        <field name="description">Ret ITBMS TC/TD 10%</field>
+        <field name="amount">-5.0</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+    <record id="tax_pa_wht_itbms_e_15" model="account.tax">
+        <field name="name">Retención ITBMS Tarjeta DB/CR (50% de 15% = 7.5%)</field>
+        <field name="description">Ret ITBMS TC/TD 15%</field>
+        <field name="amount">-7.5</field>
+        <field name="amount_type">percent</field>
+        <field name="type_tax_use">sale</field>
+        <field name="is_withholding_tax_on_payment" eval="True"/>
+        <field name="tax_group_id" ref="tax_group_pa_wht_itbms"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="active" eval="True"/>
+    </record>
+
+</odoo>

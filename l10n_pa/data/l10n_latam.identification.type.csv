@@ -1,0 +1,8 @@
+id,name,country_id:id,is_vat,sequence,active
+ruc,RUC,base.pa,TRUE,1,TRUE
+cedula,Cédula,base.pa,FALSE,2,TRUE
+pasaporte,Pasaporte,base.pa,FALSE,3,TRUE
+nt,NT,base.pa,FALSE,4,TRUE
+extranjero,E,base.pa,FALSE,5,TRUE
+pi,PI,base.pa,FALSE,6,TRUE
+av,AV,base.pa,FALSE,7,TRUE

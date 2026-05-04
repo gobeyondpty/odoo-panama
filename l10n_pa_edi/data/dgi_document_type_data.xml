@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- DGI document types per Ficha Técnica B06. Provided as
+         ir.config_parameter records so other modules and reports can
+         resolve a code to its description without re-declaring the
+         catalog. The Selection field on account.move uses the same
+         codes inline. -->
+    <record id="dgi_doc_type_factura" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.01</field>
+        <field name="value">Factura de operación interna</field>
+    </record>
+    <record id="dgi_doc_type_importacion" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.02</field>
+        <field name="value">Factura de importación</field>
+    </record>
+    <record id="dgi_doc_type_exportacion" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.03</field>
+        <field name="value">Factura de exportación</field>
+    </record>
+    <record id="dgi_doc_type_nc_referenciada" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.04</field>
+        <field name="value">Nota de crédito referenciada</field>
+    </record>
+    <record id="dgi_doc_type_nd_referenciada" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.05</field>
+        <field name="value">Nota de débito referenciada</field>
+    </record>
+    <record id="dgi_doc_type_nc_generica" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.06</field>
+        <field name="value">Nota de crédito genérica</field>
+    </record>
+    <record id="dgi_doc_type_nd_generica" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.07</field>
+        <field name="value">Nota de débito genérica</field>
+    </record>
+    <record id="dgi_doc_type_reembolso" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.08</field>
+        <field name="value">Reembolso</field>
+    </record>
+    <record id="dgi_doc_type_zona_franca" model="ir.config_parameter">
+        <field name="key">l10n_pa_edi.doc_type.09</field>
+        <field name="value">Factura zona franca / Zona libre</field>
+    </record>
+</odoo>

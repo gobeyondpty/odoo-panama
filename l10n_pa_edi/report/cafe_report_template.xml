@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- CAFE QWeb template. Per DGI Ficha Técnica iFormCafe=1 (PDF
+         estándar). Layout is intentionally simple: header with
+         emisor/receptor, line table, totals, and a QR code carrying
+         the CUFE so DGI inspectors can verify with a phone scanner. -->
+    <template id="report_cafe">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">
+                            Constancia de Autorización de Factura Electrónica (CAFE)
+                        </h2>
+                        <div class="row">
+                            <div class="col-6">
+                                <strong>Emisor</strong>
+                                <div t-field="o.company_id.name"/>
+                                <div>RUC: <t t-out="o.company_id.vat"/>-<t t-out="o.company_id.partner_id.l10n_pa_dv"/></div>
+                                <div t-field="o.company_id.partner_id.contact_address_inline"/>
+                                <div t-if="o.company_id.l10n_pa_business_activity_code">
+                                    Actividad: <t t-out="o.company_id.l10n_pa_business_activity_code"/>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong>Receptor</strong>
+                                <div t-field="o.commercial_partner_id.name"/>
+                                <div t-if="o.commercial_partner_id.vat">
+                                    Identificación: <t t-out="o.commercial_partner_id.vat"/>
+                                    <t t-if="o.commercial_partner_id.l10n_pa_dv">
+                                        -<t t-out="o.commercial_partner_id.l10n_pa_dv"/>
+                                    </t>
+                                </div>
+                                <div t-field="o.commercial_partner_id.contact_address_inline"/>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row">
+                            <div class="col-8">
+                                <p>
+                                    <strong>Documento:</strong>
+                                    <span t-field="o.name"/>
+                                    <br/>
+                                    <strong>Fecha de emisión:</strong>
+                                    <span t-field="o.invoice_date"/>
+                                    <br/>
+                                    <strong>CUFE:</strong>
+                                    <span style="font-family: monospace; font-size: 8pt; word-break: break-all;"
+                                          t-out="o.l10n_pa_cufe"/>
+                                </p>
+                            </div>
+                            <div class="col-4 text-end">
+                                <img t-if="o.l10n_pa_qr_payload"
+                                     t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=200&amp;height=200' % o.l10n_pa_qr_payload"
+                                     style="max-width: 200px;"/>
+                                <img t-elif="o.l10n_pa_cufe"
+                                     t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=200&amp;height=200' % o.l10n_pa_cufe"
+                                     style="max-width: 200px;"/>
+                            </div>
+                        </div>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Descripción</th>
+                                    <th class="text-end">Cant.</th>
+                                    <th class="text-end">P. Unit.</th>
+                                    <th class="text-end">Subtotal</th>
+                                    <th class="text-end">ITBMS</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-set="idx" t-value="0"/>
+                                <t t-foreach="o.invoice_line_ids.filtered(lambda l: l.display_type == 'product')" t-as="line">
+                                    <t t-set="idx" t-value="idx + 1"/>
+                                    <tr>
+                                        <td t-out="idx"/>
+                                        <td t-field="line.name"/>
+                                        <td class="text-end" t-out="'%.4f' % line.quantity"/>
+                                        <td class="text-end" t-out="'%.2f' % line.price_unit"/>
+                                        <td class="text-end" t-out="'%.2f' % line.price_subtotal"/>
+                                        <td class="text-end"
+                                            t-out="'%.2f' % (line.price_total - line.price_subtotal)"/>
+                                        <td class="text-end" t-out="'%.2f' % line.price_total"/>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        <div class="row">
+                            <div class="col-6"/>
+                            <div class="col-6">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td>Subtotal</td>
+                                        <td class="text-end" t-out="'%.2f' % o.amount_untaxed"/>
+                                    </tr>
+                                    <tr>
+                                        <td>ITBMS</td>
+                                        <td class="text-end" t-out="'%.2f' % o.amount_tax"/>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Total</strong></td>
+                                        <td class="text-end"><strong t-out="'%.2f' % o.amount_total"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <p class="small text-muted">
+                            Este documento es la representación impresa de la factura
+                            electrónica emitida y autorizada por DGI. La factura
+                            electrónica original es el archivo XML asociado.
+                        </p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

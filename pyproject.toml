@@ -1,0 +1,19 @@
+# Repo-wide tooling configuration. Used by ruff for the lint quality
+# gate per Section 9 of AUTONOMOUS_DEV_PLAN.md.
+
+[tool.ruff]
+line-length = 100         # Odoo's effective limit; 88 is too tight for ORM call chains
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "B", "SIM"]
+ignore = [
+    "E501",   # line length: rely on `line-length=100` setting
+    "B018",   # "useless expression": false positive on Odoo manifest dict literal
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Odoo addon convention: `from . import models` in __init__.py registers
+# the package's submodules as a side effect. They are not "unused".
+"**/__init__.py" = ["F401"]
+"**/__manifest__.py" = ["F401"]

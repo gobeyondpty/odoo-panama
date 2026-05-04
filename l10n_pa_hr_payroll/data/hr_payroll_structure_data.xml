@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_pa_payroll_structure_type_employee" model="hr.payroll.structure.type">
+        <field name="name">Panama: Employee</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="wage_type">monthly</field>
+        <field name="default_schedule_pay">monthly</field>
+        <field name="default_work_entry_type_id" ref="hr_work_entry.work_entry_type_attendance"/>
+    </record>
+
+    <!--
+        Regular monthly payroll. Applies the full set of statutory rules:
+        CSS 9.75/13.25, SE 1.25/1.50, ISR retention per DE 170/1993, RP per
+        DG 68/1970. Accruals for décimo, vacaciones, prima de antigüedad,
+        and the cesantía indemnización contingency live here too.
+    -->
+    <record id="l10n_pa_payroll_structure_regular" model="hr.payroll.structure">
+        <field name="name">Panama: Regular Pay</field>
+        <field name="code">PA_REGULAR</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="type_id" ref="l10n_pa_payroll_structure_type_employee"/>
+        <field name="use_worked_day_lines">True</field>
+    </record>
+
+    <!--
+        Décimo Tercer Mes (Ley 8/1981). Each cuota carries reduced CSS
+        rates per Ley 51/2005 art. 96 numerales 4 y 5 and is exempt from
+        Seguro Educativo. ISR is NOT retained on the cuota itself: it has
+        already been projected into the monthly retention via DE 170/1993.
+    -->
+    <record id="l10n_pa_payroll_structure_decimo" model="hr.payroll.structure">
+        <field name="name">Panama: Décimo Tercer Mes</field>
+        <field name="code">PA_DECIMO</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="type_id" ref="l10n_pa_payroll_structure_type_employee"/>
+        <field name="use_worked_day_lines">False</field>
+    </record>
+
+    <!--
+        Liquidación laboral (terminación). CT arts. 224, 225 + Cód. Fiscal
+        art. 701 literal j: prima de antigüedad, indemnización, preaviso,
+        bonificaciones; ISR aplica luego de deducir 1 % × años + B/.5,000;
+        no acumulable con salario regular.
+    -->
+    <record id="l10n_pa_payroll_structure_liquidacion" model="hr.payroll.structure">
+        <field name="name">Panama: Liquidación Laboral</field>
+        <field name="code">PA_LIQUIDACION</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="type_id" ref="l10n_pa_payroll_structure_type_employee"/>
+        <field name="use_worked_day_lines">False</field>
+    </record>
+
+    <record id="l10n_pa_payroll_structure_type_employee" model="hr.payroll.structure.type">
+        <field name="default_struct_id" ref="l10n_pa_payroll_structure_regular"/>
+    </record>
+</odoo>

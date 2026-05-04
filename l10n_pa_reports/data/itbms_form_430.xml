@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--
+        DGI Formulario 430 — Declaración Mensual de ITBMS.
+
+        SCAFFOLD ONLY. The line tree below mirrors the conceptual sections
+        that appear in the DGI Instructivo for Form 430 but does NOT bind
+        the underlying tax tags (`tag_name` expressions) to specific tax
+        records. A Panama-licensed CPA must:
+
+          1. Pull the latest Form 430 + Instructivo from
+             https://dgi.mef.gob.pa/_7Itbms.
+          2. Confirm the casilla numbering for the current revision.
+          3. Map each casilla to the corresponding `account.tax` record
+             (or its tag) defined in `l10n_pa` and
+             `l10n_pa_account_withholding`.
+          4. Add `expression_ids` with `tag_name` engines that aggregate
+             the right `+base` / `-base` / `+tax` / `-tax` tags.
+
+        Until that mapping is done, the report renders an empty
+        zero-balance template — it is safe to install but not to file.
+    -->
+
+    <record id="itbms_form_430" model="account.report">
+        <field name="name">Formulario 430 ITBMS</field>
+        <field name="name@es_419">Formulario 430 ITBMS</field>
+        <field name="root_report_id" ref="account.generic_tax_report"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="availability_condition">country</field>
+        <field name="filter_period_comparison" eval="False"/>
+        <field name="filter_date_range" eval="True"/>
+        <field name="default_opening_date_filter">this_month</field>
+        <field name="filter_fiscal_position" eval="False"/>
+        <field name="filter_multi_company">selector</field>
+        <field name="column_ids">
+            <record id="itbms_form_430_balance" model="account.report.column">
+                <field name="name">Monto</field>
+                <field name="name@es_419">Monto</field>
+                <field name="expression_label">balance</field>
+                <field name="figure_type">monetary</field>
+            </record>
+        </field>
+        <field name="line_ids">
+
+            <!-- Section A — Operations subject to ITBMS -->
+            <record id="itbms_form_430_section_a" model="account.report.line">
+                <field name="name">A. Operaciones Gravadas</field>
+                <field name="name@es_419">A. Operaciones gravadas</field>
+                <field name="hierarchy_level">0</field>
+                <field name="children_ids">
+                    <record id="itbms_form_430_a_07" model="account.report.line">
+                        <field name="name">Ventas gravadas tarifa 7%</field>
+                        <field name="name@es_419">Ventas gravadas tarifa 7%</field>
+                    </record>
+                    <record id="itbms_form_430_a_10" model="account.report.line">
+                        <field name="name">Ventas gravadas tarifa 10%</field>
+                        <field name="name@es_419">Ventas gravadas tarifa 10%</field>
+                    </record>
+                    <record id="itbms_form_430_a_15" model="account.report.line">
+                        <field name="name">Ventas gravadas tarifa 15%</field>
+                        <field name="name@es_419">Ventas gravadas tarifa 15%</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Section B — Exempt and out-of-scope operations -->
+            <record id="itbms_form_430_section_b" model="account.report.line">
+                <field name="name">B. Operaciones Exentas y Exportaciones</field>
+                <field name="name@es_419">B. Operaciones exentas y exportaciones</field>
+                <field name="hierarchy_level">0</field>
+                <field name="children_ids">
+                    <record id="itbms_form_430_b_exempt" model="account.report.line">
+                        <field name="name">Ventas exentas</field>
+                        <field name="name@es_419">Ventas exentas</field>
+                    </record>
+                    <record id="itbms_form_430_b_export" model="account.report.line">
+                        <field name="name">Exportaciones</field>
+                        <field name="name@es_419">Exportaciones</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Section C — Calculated tax -->
+            <record id="itbms_form_430_section_c" model="account.report.line">
+                <field name="name">C. ITBMS Causado</field>
+                <field name="name@es_419">C. ITBMS causado</field>
+                <field name="hierarchy_level">0</field>
+                <field name="children_ids">
+                    <record id="itbms_form_430_c_07" model="account.report.line">
+                        <field name="name">ITBMS causado 7%</field>
+                        <field name="name@es_419">ITBMS causado 7%</field>
+                    </record>
+                    <record id="itbms_form_430_c_10" model="account.report.line">
+                        <field name="name">ITBMS causado 10%</field>
+                        <field name="name@es_419">ITBMS causado 10%</field>
+                    </record>
+                    <record id="itbms_form_430_c_15" model="account.report.line">
+                        <field name="name">ITBMS causado 15%</field>
+                        <field name="name@es_419">ITBMS causado 15%</field>
+                    </record>
+                </field>
+            </record>
+
+            <!-- Section D — Credits, retentions, balance -->
+            <record id="itbms_form_430_section_d" model="account.report.line">
+                <field name="name">D. Créditos y Saldo</field>
+                <field name="name@es_419">D. Créditos y saldo</field>
+                <field name="hierarchy_level">0</field>
+                <field name="children_ids">
+                    <record id="itbms_form_430_d_input" model="account.report.line">
+                        <field name="name">ITBMS pagado en compras (crédito fiscal)</field>
+                        <field name="name@es_419">ITBMS pagado en compras (crédito fiscal)</field>
+                    </record>
+                    <record id="itbms_form_430_d_wht" model="account.report.line">
+                        <field name="name">Retenciones de ITBMS recibidas</field>
+                        <field name="name@es_419">Retenciones de ITBMS recibidas</field>
+                    </record>
+                    <record id="itbms_form_430_d_prior" model="account.report.line">
+                        <field name="name">Saldo a favor del periodo anterior</field>
+                        <field name="name@es_419">Saldo a favor del periodo anterior</field>
+                    </record>
+                    <record id="itbms_form_430_d_payable" model="account.report.line">
+                        <field name="name">ITBMS a pagar</field>
+                        <field name="name@es_419">ITBMS a pagar</field>
+                    </record>
+                </field>
+            </record>
+
+        </field>
+    </record>
+
+</odoo>

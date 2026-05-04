@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        Statutory citations are in each rule's ``description``. Helpers come
+        from ``l10n.pa.hr.payroll.mixin`` so that the math is unit-tested
+        independently of Odoo. Rates resolve through ``payslip._rule_parameter('...')``
+        so changes propagate by date instead of by code release.
+    -->
+
+    <!-- ============================================================ -->
+    <!-- PA_REGULAR: monthly payroll                                   -->
+    <!-- ============================================================ -->
+
+    <record id="l10n_pa_rule_basic" model="hr.salary.rule">
+        <field name="name">Basic Salary</field>
+        <field name="code">BASIC</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="sequence">10</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.paid_amount or version.wage</field>
+    </record>
+
+    <record id="l10n_pa_rule_overtime_day" model="hr.salary.rule">
+        <field name="name">Overtime Day (CT art. 33 num. 1: +25 %)</field>
+        <field name="code">OT_DAY</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">50</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('OT_DAY_HRS') and inputs['OT_DAY_HRS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].overtime_pay(categories['BASIC'], inputs['OT_DAY_HRS'].amount, 0.25)</field>
+        <field name="note">Recargo del 25 % sobre la jornada ordinaria diurna. CT art. 33 numeral 1. Insumo OT_DAY_HRS = horas extras diurnas.</field>
+    </record>
+
+    <record id="l10n_pa_rule_overtime_mixed" model="hr.salary.rule">
+        <field name="name">Overtime Night/Mixed-Day (CT art. 33 num. 2: +50 %)</field>
+        <field name="code">OT_MIXED</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">51</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('OT_MIXED_HRS') and inputs['OT_MIXED_HRS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].overtime_pay(categories['BASIC'], inputs['OT_MIXED_HRS'].amount, 0.50)</field>
+        <field name="note">Recargo del 50 % por jornada extraordinaria nocturna o prolongación de la jornada mixta iniciada en período diurno. CT art. 33 numeral 2.</field>
+    </record>
+
+    <record id="l10n_pa_rule_overtime_night" model="hr.salary.rule">
+        <field name="name">Overtime Night (CT art. 33 num. 3: +75 %)</field>
+        <field name="code">OT_NIGHT</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">52</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('OT_NIGHT_HRS') and inputs['OT_NIGHT_HRS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].overtime_pay(categories['BASIC'], inputs['OT_NIGHT_HRS'].amount, 0.75)</field>
+        <field name="note">Recargo del 75 % por jornada extraordinaria como prolongación de la nocturna o de la jornada mixta iniciada en período nocturno. CT art. 33 numeral 3.</field>
+    </record>
+
+    <record id="l10n_pa_rule_rest_day" model="hr.salary.rule">
+        <field name="name">Rest-Day Work (CT art. 48: +50 %)</field>
+        <field name="code">REST_DAY</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">53</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('REST_DAY_HRS') and inputs['REST_DAY_HRS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].rest_day_pay(categories['BASIC'], inputs['REST_DAY_HRS'].amount)</field>
+        <field name="note">Trabajo en domingo o día de descanso semanal obligatorio. Recargo 50 %. CT art. 48.</field>
+    </record>
+
+    <record id="l10n_pa_rule_holiday" model="hr.salary.rule">
+        <field name="name">Holiday Work (CT art. 49: +150 %)</field>
+        <field name="code">HOLIDAY_WORK</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">54</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('HOLIDAY_HRS') and inputs['HOLIDAY_HRS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].holiday_pay(categories['BASIC'], inputs['HOLIDAY_HRS'].amount)</field>
+        <field name="note">Trabajo en día de fiesta o duelo nacional. Recargo 150 % (incluye remuneración del día de descanso). CT art. 49.</field>
+    </record>
+
+    <record id="l10n_pa_rule_vacation_pay" model="hr.salary.rule">
+        <field name="name">Pago de Vacaciones (CT art. 54)</field>
+        <field name="code">VAC_PAY</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">55</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('VAC_PAY_DAYS') and inputs['VAC_PAY_DAYS'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+avg_11m = (inputs.get('VAC_PAY_AVG_11M') and inputs['VAC_PAY_AVG_11M'].amount) or 0.0
+base = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_base(avg_11m, version.wage)
+result = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_pay(base, inputs['VAC_PAY_DAYS'].amount)
+        </field>
+        <field name="note">Pago efectivo de vacaciones tomadas. CT art. 54: 30 días = un mes de salario base = max(promedio ord+extra últimos 11 meses, último salario base). Insumos: VAC_PAY_DAYS = días de vacación a pagar; VAC_PAY_AVG_11M = promedio de salarios ord+extra. Sujeto a CSS, SE, ISR como salario ordinario.</field>
+    </record>
+
+    <record id="l10n_pa_rule_bonifications" model="hr.salary.rule">
+        <field name="name">Bonificaciones / Comisiones</field>
+        <field name="code">BONIF</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">60</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('BONIF_AMT') and inputs['BONIF_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['BONIF_AMT'].amount</field>
+        <field name="note">Bonificaciones o comisiones del período. Sujetas a CSS, SE e ISR como salario ordinario.</field>
+    </record>
+
+    <record id="l10n_pa_rule_gross" model="hr.salary.rule">
+        <field name="name">Gross Salary</field>
+        <field name="code">GROSS</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.GROSS"/>
+        <field name="sequence">100</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories['BASIC'] + categories['ALW']</field>
+    </record>
+
+    <record id="l10n_pa_rule_css_employee" model="hr.salary.rule">
+        <field name="name">CSS Employee (Ley 51/2005 art. 96 num. 1)</field>
+        <field name="code">CSS_EMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">300</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_css_employee_rate'), 2)</field>
+        <field name="note">Cuota obrera CSS sobre salario regular. Ley 51/2005 art. 96 numeral 1.</field>
+    </record>
+
+    <record id="l10n_pa_rule_educational_employee" model="hr.salary.rule">
+        <field name="name">Seguro Educativo Employee (Ley 13/1987)</field>
+        <field name="code">SE_EMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">310</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_educational_employee_rate'), 2)</field>
+        <field name="note">Cuota obrera Seguro Educativo. Ley 13/1987.</field>
+    </record>
+
+    <record id="l10n_pa_rule_income_tax_employee" model="hr.salary.rule">
+        <field name="name">ISR Employee Withholding (DE 170/1993)</field>
+        <field name="code">ISR_EMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">320</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+ded = 0.0
+if inputs.get('SPOUSE_JOINT') and inputs['SPOUSE_JOINT'].amount:
+    ded = payslip._rule_parameter('l10n_pa_isr_spouse_deduction')
+result = -payslip.env['l10n.pa.hr.payroll.mixin'].monthly_income_tax(
+    categories['GROSS'],
+    int(payslip._rule_parameter('l10n_pa_income_tax_months')),
+    ded,
+)
+        </field>
+        <field name="note">Retención mensual del ISR per DE 170/1993 (Periodo Provisional de Cálculo). Anualiza la base × N + décimo proyectado, aplica tarifa art. 700 Cód. Fiscal, divide entre N. Insumo SPOUSE_JOINT activa la deducción de B/.800 por cónyuge (Cód. Fiscal art. 709 num. 1).</field>
+    </record>
+
+    <record id="l10n_pa_rule_representation" model="hr.salary.rule">
+        <field name="name">Gastos de Representación (sólo informativo)</field>
+        <field name="code">GASTOS_REP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">350</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('GASTOS_REP_AMT') and inputs['GASTOS_REP_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['GASTOS_REP_AMT'].amount</field>
+        <field name="note">Gastos de representación del período. NO acumulables con salario para ISR (Cód. Fiscal art. 701 lit. l, DGI Instructivo F03 §27). NO generan CSS ni Seguro Educativo. La retención se calcula por separado en ISR_REP.</field>
+    </record>
+
+    <record id="l10n_pa_rule_isr_representation" model="hr.salary.rule">
+        <field name="name">ISR Gastos de Representación (Cód. Fiscal art. 701-l)</field>
+        <field name="code">ISR_REP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">355</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('GASTOS_REP_AMT') and inputs['GASTOS_REP_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -payslip.env['l10n.pa.hr.payroll.mixin'].monthly_representation_tax(inputs['GASTOS_REP_AMT'].amount, int(payslip._rule_parameter('l10n_pa_income_tax_months')))</field>
+        <field name="note">Retención ISR sobre gastos de representación con tarifa propia: 10 % hasta B/.25,000 anuales, B/.2,500 + 15 % sobre el excedente. Cód. Fiscal art. 701 literal l (Ley 8/2010).</field>
+    </record>
+
+    <record id="l10n_pa_rule_css_employer" model="hr.salary.rule">
+        <field name="name">CSS Employer (Ley 51/2005 art. 96 num. 2)</field>
+        <field name="code">CSS_COMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">400</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_css_employer_rate'), 2)</field>
+        <field name="note">Cuota patronal CSS sobre salario regular (escalonada por Ley 462/2025). Ley 51/2005 art. 96 numeral 2.</field>
+    </record>
+
+    <record id="l10n_pa_rule_educational_employer" model="hr.salary.rule">
+        <field name="name">Seguro Educativo Employer (Ley 13/1987)</field>
+        <field name="code">SE_COMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">410</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_educational_employer_rate'), 2)</field>
+        <field name="note">Cuota patronal Seguro Educativo. Ley 13/1987.</field>
+    </record>
+
+    <record id="l10n_pa_rule_professional_risk_employer" model="hr.salary.rule">
+        <field name="name">Riesgos Profesionales Employer (DG 68/1970)</field>
+        <field name="code">RP_COMP</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">420</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">
+company_rate = payslip.company_id.l10n_pa_professional_risk_rate(payslip.company_id)
+fallback_rate = payslip._rule_parameter('l10n_pa_professional_risk_employer_rate')
+rate = company_rate or fallback_rate
+result = round(categories['GROSS'] * rate, 2)
+        </field>
+        <field name="note">Prima patronal de Riesgos Profesionales. DG 68/1970 arts. 48-51. La tasa = grado × 0.07 % asignado por CSS al empleador. Se resuelve primero del campo l10n_pa_css_risk_grade en res.company; si éste es cero, cae al parámetro global l10n_pa_professional_risk_employer_rate.</field>
+    </record>
+
+    <record id="l10n_pa_rule_decimo_accrual" model="hr.salary.rule">
+        <field name="name">Décimo Tercer Mes Accrual (Ley 8/1981)</field>
+        <field name="code">DECIMO_ACCR</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">500</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].decimo_accrual(categories['GROSS'], payslip._rule_parameter('l10n_pa_decimo_accrual_rate'))</field>
+        <field name="note">Acumulación mensual del décimo tercer mes (1/12 de la base). Ley 8/1981. La base de cálculo de cada partida incluye salario base, horas extras, comisiones, RP y bonificaciones (DGI Instructivo F03 §16).</field>
+    </record>
+
+    <record id="l10n_pa_rule_vacation_accrual" model="hr.salary.rule">
+        <field name="name">Vacation Accrual (CT art. 54)</field>
+        <field name="code">VAC_ACCR</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">510</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_accrual(categories['GROSS'], payslip._rule_parameter('l10n_pa_vacation_accrual_rate'))</field>
+        <field name="note">Acumulación mensual de vacaciones (1/11 de la base). CT art. 54 numeral 1. La base debe ser el promedio de salarios ordinarios y extraordinarios de los últimos 11 meses, o el último salario base si resulta más favorable (CT art. 54 num. 2). Pase la base correcta vía categories['GROSS'] o sustituya por una base calculada externamente.</field>
+    </record>
+
+    <record id="l10n_pa_rule_seniority_accrual" model="hr.salary.rule">
+        <field name="name">Prima de Antigüedad Accrual (CT art. 224)</field>
+        <field name="code">SEN_ACCR</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">520</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].seniority_premium_accrual(categories['GROSS'], payslip._rule_parameter('l10n_pa_seniority_accrual_rate'))</field>
+        <field name="note">Cuotaparte mensual de la prima de antigüedad: 1/52 de la base (= una semana por año laborado). CT art. 224 + Ley 44/1995 art. 229-B (componente del Fondo de Cesantía).</field>
+    </record>
+
+    <record id="l10n_pa_rule_cesantia_indem_accrual" model="hr.salary.rule">
+        <field name="name">Cesantía – Indemnización Accrual (Ley 44/1995)</field>
+        <field name="code">CES_INDEM_ACCR</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">525</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">
+years = float((inputs.get('YEARS_OF_SERVICE') and inputs['YEARS_OF_SERVICE'].amount) or 0.0)
+if years &lt;= 10.0:
+    rate = payslip._rule_parameter('l10n_pa_cesantia_indem_first_ten_rate')
+else:
+    rate = payslip._rule_parameter('l10n_pa_cesantia_indem_after_ten_rate')
+result = round(categories['GROSS'] * rate, 2)
+        </field>
+        <field name="note">Aporte trimestral al Fondo de Cesantía – componente indemnización: 5 % de la cuotaparte mensual de indemnización (CT art. 225). Salta del 0.327 % al 0.0962 % al cumplirse el décimo año. Insumo YEARS_OF_SERVICE = años de servicio a la fecha del pago.</field>
+    </record>
+
+    <record id="l10n_pa_rule_net" model="hr.salary.rule">
+        <field name="name">Net Salary</field>
+        <field name="code">NET</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_regular"/>
+        <field name="category_id" ref="hr_payroll.NET"/>
+        <field name="sequence">900</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories['BASIC'] + categories['ALW'] + categories['DED']</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- PA_DECIMO: décimo tercer mes cuota                            -->
+    <!-- ============================================================ -->
+
+    <record id="l10n_pa_rule_decimo_basic" model="hr.salary.rule">
+        <field name="name">Décimo Cuota Amount</field>
+        <field name="code">BASIC</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_decimo"/>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="sequence">10</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+amt = (inputs.get('DECIMO_CUOTA_AMT') and inputs['DECIMO_CUOTA_AMT'].amount) or 0.0
+result = float(amt)
+        </field>
+        <field name="note">Monto de la partida del décimo tercer mes. Insumo DECIMO_CUOTA_AMT. Ley 8/1981. La base se calcula como el promedio de salario base + horas extras + comisiones + permisos remunerados + RP + bonificaciones del período de la cuota (DGI Instructivo F03 §16).</field>
+    </record>
+
+    <record id="l10n_pa_rule_decimo_gross" model="hr.salary.rule">
+        <field name="name">Décimo Gross</field>
+        <field name="code">GROSS</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_decimo"/>
+        <field name="category_id" ref="hr_payroll.GROSS"/>
+        <field name="sequence">100</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories['BASIC']</field>
+    </record>
+
+    <record id="l10n_pa_rule_decimo_css_employee" model="hr.salary.rule">
+        <field name="name">CSS Employee on Décimo (Ley 51/2005 art. 96 num. 5: 7.25 %)</field>
+        <field name="code">CSS_EMP_DEC</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_decimo"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">300</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = -round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_css_employee_rate_decimo'), 2)</field>
+        <field name="note">Contribución especial obrera sobre cada partida del décimo. Ley 51/2005 art. 96 numeral 5: 7.25 %. NO modificada por Ley 462.</field>
+    </record>
+
+    <record id="l10n_pa_rule_decimo_css_employer" model="hr.salary.rule">
+        <field name="name">CSS Employer on Décimo (Ley 51/2005 art. 96 num. 4: 10.75 %)</field>
+        <field name="code">CSS_COMP_DEC</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_decimo"/>
+        <field name="category_id" ref="hr_payroll.COMP"/>
+        <field name="sequence">400</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="appears_on_payslip">False</field>
+        <field name="amount_python_compute">result = round(categories['GROSS'] * payslip._rule_parameter('l10n_pa_css_employer_rate_decimo'), 2)</field>
+        <field name="note">Contribución especial patronal sobre cada partida del décimo. Ley 51/2005 art. 96 numeral 4: 10.75 %. NO modificada por Ley 462.</field>
+    </record>
+
+    <!--
+        Décimo NO genera Seguro Educativo (Ley 13/1987 + DGI Instructivo F03 §16).
+        Décimo NO genera retención adicional de ISR: el ISR ya fue proyectado en la
+        retención mensual regular per DE 170/1993 (la base anual incluye sueldo × N
+        + décimo).
+    -->
+
+    <record id="l10n_pa_rule_decimo_net" model="hr.salary.rule">
+        <field name="name">Décimo Net</field>
+        <field name="code">NET</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_decimo"/>
+        <field name="category_id" ref="hr_payroll.NET"/>
+        <field name="sequence">900</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories['BASIC'] + categories['ALW'] + categories['DED']</field>
+    </record>
+
+    <!-- ============================================================ -->
+    <!-- PA_LIQUIDACION: terminación laboral                           -->
+    <!-- ============================================================ -->
+
+    <record id="l10n_pa_rule_liq_basic" model="hr.salary.rule">
+        <field name="name">Liquidación – Salario Pendiente</field>
+        <field name="code">BASIC</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.BASIC"/>
+        <field name="sequence">10</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+amt = (inputs.get('PENDING_SALARY_AMT') and inputs['PENDING_SALARY_AMT'].amount) or 0.0
+result = float(amt)
+        </field>
+        <field name="note">Salario pendiente al cese de la relación laboral. Sujeto a CSS, SE e ISR ordinario.</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_preaviso" model="hr.salary.rule">
+        <field name="name">Liquidación – Preaviso</field>
+        <field name="code">LIQ_PREAVISO</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">200</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('PREAVISO_AMT') and inputs['PREAVISO_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['PREAVISO_AMT'].amount</field>
+        <field name="note">Preaviso (CT art. 211). No acumulable con salario regular para ISR (Cód. Fiscal art. 701 lit. j).</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_prima_antiguedad" model="hr.salary.rule">
+        <field name="name">Liquidación – Prima de Antigüedad (CT art. 224)</field>
+        <field name="code">LIQ_PRIMA</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">210</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('YEARS_OF_SERVICE') and inputs['YEARS_OF_SERVICE'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].prima_antiguedad_payout(payslip.paid_amount, inputs['YEARS_OF_SERVICE'].amount)</field>
+        <field name="note">Prima de antigüedad: una semana de salario por cada año laborado, prorrateado para fracciones. CT art. 224. Insumo YEARS_OF_SERVICE = años de servicio en decimales.</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_indemnizacion" model="hr.salary.rule">
+        <field name="name">Liquidación – Indemnización (CT art. 225 lit. C)</field>
+        <field name="code">LIQ_INDEM</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">220</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('UNFAIR_DISMISSAL') and inputs['UNFAIR_DISMISSAL'].amount and inputs.get('YEARS_OF_SERVICE') and inputs['YEARS_OF_SERVICE'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = payslip.env['l10n.pa.hr.payroll.mixin'].indemnization_payout(payslip.paid_amount, inputs['YEARS_OF_SERVICE'].amount)</field>
+        <field name="note">Indemnización por despido injustificado (relaciones desde 1995): 3.4 semanas/año primeros 10 años + 1 semana/año posteriores. CT art. 225 literal C. Activar con UNFAIR_DISMISSAL = 1.</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_bonif" model="hr.salary.rule">
+        <field name="name">Liquidación – Bonificaciones convencionales</field>
+        <field name="code">LIQ_BONIF</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.ALW"/>
+        <field name="sequence">230</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(inputs.get('LIQ_BONIF_AMT') and inputs['LIQ_BONIF_AMT'].amount)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = inputs['LIQ_BONIF_AMT'].amount</field>
+        <field name="note">Bonificaciones pactadas en convenciones colectivas o contratos individuales. No acumulables con salario regular para ISR (Cód. Fiscal art. 701 lit. j).</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_isr" model="hr.salary.rule">
+        <field name="name">Liquidación – ISR (Cód. Fiscal art. 701 lit. j)</field>
+        <field name="code">ISR_LIQ</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.DED"/>
+        <field name="sequence">320</field>
+        <field name="condition_select">python</field>
+        <field name="condition_python">result = bool(categories['ALW'] and categories['ALW'] &gt; 0)</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">
+years = int(((inputs.get('YEARS_OF_SERVICE') and inputs['YEARS_OF_SERVICE'].amount) or 0.0))
+liq_payout = float(categories['ALW'] or 0.0)
+result = -payslip.env['l10n.pa.hr.payroll.mixin'].liquidation_isr(liq_payout, years)
+        </field>
+        <field name="note">Retención ISR sobre el monto total de liquidación (preaviso + prima + indemnización + bonificaciones de terminación), después de deducir 1 % × años completos + B/.5,000. Cód. Fiscal art. 701 lit. j; DGI Instructivo F03 §30. Excluye salario pendiente (BASIC), que va por la retención ISR regular si aplica.</field>
+    </record>
+
+    <record id="l10n_pa_rule_liq_net" model="hr.salary.rule">
+        <field name="name">Liquidación – Net</field>
+        <field name="code">NET</field>
+        <field name="struct_id" ref="l10n_pa_payroll_structure_liquidacion"/>
+        <field name="category_id" ref="hr_payroll.NET"/>
+        <field name="sequence">900</field>
+        <field name="condition_select">none</field>
+        <field name="amount_select">code</field>
+        <field name="amount_python_compute">result = categories['BASIC'] + categories['ALW'] + categories['DED']</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_company_form_pa_edi" model="ir.ui.view">
+        <field name="name">res.company.form.l10n_pa_edi</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Factura Electrónica Panamá"
+                      name="l10n_pa_edi"
+                      invisible="country_id and country_id.code != 'PA'">
+                    <group>
+                        <group string="PAC">
+                            <field name="l10n_pa_pac_provider"/>
+                            <field name="l10n_pa_pac_environment"/>
+                        </group>
+                        <group string="SFEP / Punto de Emisión">
+                            <field name="l10n_pa_sfep_branch"/>
+                            <field name="l10n_pa_sfep_emission_point"/>
+                            <field name="l10n_pa_sfep_emission_type"/>
+                            <field name="l10n_pa_sfep_form_cafe"/>
+                            <field name="l10n_pa_sfep_delivery_cafe"/>
+                            <field name="l10n_pa_business_activity_code"/>
+                        </group>
+                    </group>
+                    <group string="Firma Electrónica (Registro Público)">
+                        <field name="l10n_pa_certificate_filename" invisible="1"/>
+                        <field name="l10n_pa_certificate_id"
+                               filename="l10n_pa_certificate_filename"/>
+                        <field name="l10n_pa_certificate_password" password="True"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

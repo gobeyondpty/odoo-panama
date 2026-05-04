@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Default SIPE column mapping for the salary rules shipped by
+    l10n_pa_hr_payroll. noupdate is 0 so operators can adjust the mapping
+    via the salary-rule form without us silently overwriting on upgrade —
+    but they will not be reset on module update if customized.
+
+    Rules with no entry here are intentionally unmapped: employer-side
+    contributions (CSS, SE, RP), monthly accruals (decimo, vacation,
+    seniority, cesantía), and subtotals (GROSS, NET) do not flow to SIPE.
+-->
+<odoo noupdate="0">
+    <!-- Sueldo (column F) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_basic" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">sueldo</field>
+    </record>
+
+    <!-- Horas Extras (column G) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_overtime_day" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">horas_extras</field>
+    </record>
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_overtime_mixed" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">horas_extras</field>
+    </record>
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_overtime_night" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">horas_extras</field>
+    </record>
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_rest_day" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">horas_extras</field>
+    </record>
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_holiday" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">horas_extras</field>
+    </record>
+
+    <!-- Impuesto Sobre Renta (column H) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_income_tax_employee" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">impuesto_sobre_renta</field>
+    </record>
+
+    <!-- Décimo Tercer Mes (column I) — only the cuota actually paid in
+         the PA_DECIMO_TERCERO_CUOTA structure; the monthly DECIMO_ACCR
+         in PA_REGULAR is an internal accrual and does NOT go to SIPE. -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_decimo_basic" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">decimo_tercer_mes</field>
+    </record>
+
+    <!-- Vacaciones (column J) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_vacation_pay" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">vacaciones</field>
+    </record>
+
+    <!-- Bonificaciones (column L) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_bonifications" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">bonificaciones</field>
+    </record>
+
+    <!-- Gasto de Representación (column Q) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_representation" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">gasto_representacion</field>
+    </record>
+
+    <!-- Impuesto Sobre Renta Gasto Representación (column R) -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_isr_representation" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">impuesto_sobre_renta_gasto_representacion</field>
+    </record>
+
+    <!-- Preaviso (column X) — termination notice payment -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_liq_preaviso" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">preaviso</field>
+    </record>
+
+    <!-- Indemnización (column Y) — termination indemnification -->
+    <record id="l10n_pa_hr_payroll.l10n_pa_rule_liq_indemnizacion" model="hr.salary.rule">
+        <field name="l10n_pa_sipe_column">indemnizacion</field>
+    </record>
+
+    <!-- TODO[INTEGRATION] Columns not yet covered by l10n_pa_hr_payroll
+         rules:
+           - K Comisiones                 (need a Comisiones rule)
+           - M Combustible                (need a Combustible allowance rule)
+           - N Dieta                      (need a Dieta per-diem rule)
+           - O Salario en Especie         (need a Salario en Especie rule)
+           - P Viáticos                   (need a Viáticos rule)
+           - S Décimo Tercer Mes Gasto Representación
+           - T Primas de Producción       (need a Primas rule)
+           - U Dividendo                  (need a Dividendo rule — note: dividends are not labor income; CSS still requires them on planilla if paid through the empleador)
+           - V Participación Beneficio Ingresos
+           - W Gratificación Aguinaldo
+         These will be filled when the corresponding l10n_pa_hr_payroll rules
+         land. Operators with custom rules can map them directly via the
+         salary-rule form.
+    -->
+</odoo>

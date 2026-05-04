@@ -1,0 +1,20 @@
+{
+  "employee": "Synthetic Décimo Cuota",
+  "period": "2026-04",
+  "gross_salary": 1000.0,
+  "structure": "PA_DECIMO",
+  "rates": {
+    "css_employee_rate_decimo": 0.0725,
+    "css_employer_rate_decimo": 0.1075,
+    "educational_employee_rate_decimo": 0.0,
+    "educational_employer_rate_decimo": 0.0,
+    "monthly_income_tax": 0.0
+  },
+  "expected_lines": {
+    "CSS_EMP_DEC": -72.5,
+    "SE_EMP_DEC": 0.0,
+    "CSS_COMP_DEC": 107.5,
+    "SE_COMP_DEC": 0.0
+  },
+  "notes": "Ley 51/2005 art. 96 num. 4 y 5: décimo carries 7.25 % obrera y 10.75 % patronal. SE no aplica. ISR no se retiene en la cuota: ya está proyectado en la retención mensual regular per DE 170/1993."
+}

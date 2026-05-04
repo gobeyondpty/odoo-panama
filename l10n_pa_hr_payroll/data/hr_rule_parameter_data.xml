@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--
+        All rule parameter values cite the primary source they encode.
+        Date-effective values (date_from) let statutory changes propagate
+        without a code release. Verified against:
+
+        - Texto Único Ley 51/2005 (CSS) modificada por Ley 462/2025
+        - DGI Instructivo F03 V5-6 (Cód. Fiscal art. 700, 701-j, 701-l)
+        - Decreto Ejecutivo 170/1993 (Reglamento ISR)
+        - Decreto Gabinete 68/1970 art. 51 (Riesgos Profesionales)
+        - Código de Trabajo arts. 33, 48, 49, 54, 224, 225
+        - Ley 44/1995 art. 229-B (Fondo de Cesantía)
+        - Ley 13/1987 (Seguro Educativo)
+        - Ley 8/1981 (Décimo Tercer Mes)
+    -->
+
+    <!-- ==================== CSS ==================== -->
+
+    <record id="l10n_pa_rule_param_css_employee_rate" model="hr.rule.parameter">
+        <field name="name">Panama CSS Employee Rate</field>
+        <field name="code">l10n_pa_css_employee_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Cuota obrera CSS sobre salario regular. Ley 51/2005 art. 96 numeral 1.</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employee_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employee_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0975</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_css_employer_rate" model="hr.rule.parameter">
+        <field name="name">Panama CSS Employer Rate</field>
+        <field name="code">l10n_pa_css_employer_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Cuota patronal CSS sobre salario regular. Ley 51/2005 art. 96 numeral 2 (modif. Ley 462/2025).</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employer_rate_2025_04" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employer_rate"/>
+        <field name="date_from">2025-04-01</field>
+        <field name="parameter_value">0.1325</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employer_rate_2027_03" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employer_rate"/>
+        <field name="date_from">2027-03-01</field>
+        <field name="parameter_value">0.1425</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employer_rate_2029_03" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employer_rate"/>
+        <field name="date_from">2029-03-01</field>
+        <field name="parameter_value">0.1525</field>
+    </record>
+
+    <!-- Décimo CSS rates: Ley 51/2005 art. 96 numerales 4 y 5. NOT modified by Ley 462. -->
+    <record id="l10n_pa_rule_param_css_employee_rate_decimo" model="hr.rule.parameter">
+        <field name="name">Panama CSS Employee Rate on Décimo Tercer Mes</field>
+        <field name="code">l10n_pa_css_employee_rate_decimo</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Contribución especial obrera sobre cada partida del décimo. Ley 51/2005 art. 96 numeral 5: 7.25 %.</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employee_rate_decimo_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employee_rate_decimo"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0725</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_css_employer_rate_decimo" model="hr.rule.parameter">
+        <field name="name">Panama CSS Employer Rate on Décimo Tercer Mes</field>
+        <field name="code">l10n_pa_css_employer_rate_decimo</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Contribución especial patronal sobre cada partida del décimo. Ley 51/2005 art. 96 numeral 4: 10.75 %.</field>
+    </record>
+    <record id="l10n_pa_rule_param_css_employer_rate_decimo_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_css_employer_rate_decimo"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.1075</field>
+    </record>
+
+    <!-- ==================== Seguro Educativo (Ley 13/1987) ==================== -->
+
+    <record id="l10n_pa_rule_param_educational_employee_rate" model="hr.rule.parameter">
+        <field name="name">Panama Educational Insurance Employee Rate</field>
+        <field name="code">l10n_pa_educational_employee_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Seguro Educativo cuota obrera. Ley 13/1987. Décimo está exento.</field>
+    </record>
+    <record id="l10n_pa_rule_param_educational_employee_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_educational_employee_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0125</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_educational_employer_rate" model="hr.rule.parameter">
+        <field name="name">Panama Educational Insurance Employer Rate</field>
+        <field name="code">l10n_pa_educational_employer_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Seguro Educativo cuota patronal. Ley 13/1987. Décimo está exento.</field>
+    </record>
+    <record id="l10n_pa_rule_param_educational_employer_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_educational_employer_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.015</field>
+    </record>
+
+    <!-- ==================== Riesgos Profesionales ==================== -->
+
+    <record id="l10n_pa_rule_param_professional_risk_employer_rate" model="hr.rule.parameter">
+        <field name="name">Panama Professional Risk Employer Rate</field>
+        <field name="code">l10n_pa_professional_risk_employer_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Prima de Riesgos Profesionales asignada por CSS al empleador. DG 68/1970 art. 51: tasa = grado × 0.07 %.</field>
+    </record>
+    <record id="l10n_pa_rule_param_professional_risk_employer_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_professional_risk_employer_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0</field>
+    </record>
+
+    <!-- ==================== ISR (Cód. Fiscal arts. 700, 701-j, 701-l, 709) ==================== -->
+
+    <record id="l10n_pa_rule_param_income_tax_months" model="hr.rule.parameter">
+        <field name="name">Panama Income Tax Pay Events (Privado)</field>
+        <field name="code">l10n_pa_income_tax_months</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Número de eventos de retención usado para anualizar y dividir el ISR. Para empleados a tiempo completo del sector PRIVADO durante todo el año fiscal, DGI eTax2 usa N=13 (12 sueldos mensuales + 1 décimo, contando el décimo como un evento de retención). Verificado contra el calculador oficial DGI eTax2 (ver tools/etax2_probe.py). El sector PÚBLICO usa una fórmula distinta no modelada en este parámetro.</field>
+    </record>
+    <record id="l10n_pa_rule_param_income_tax_months_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_income_tax_months"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">13</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_isr_spouse_deduction" model="hr.rule.parameter">
+        <field name="name">Panama ISR Spouse Deduction (Joint Filing)</field>
+        <field name="code">l10n_pa_isr_spouse_deduction</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Deducción anual cónyuge en declaración conjunta. Cód. Fiscal art. 709 numeral 1 (única deducción no derogada por Ley 8/2010 aplicable a retención mensual). Aplicar solo si el empleado declara conjuntamente.</field>
+    </record>
+    <record id="l10n_pa_rule_param_isr_spouse_deduction_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_isr_spouse_deduction"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">800</field>
+    </record>
+
+    <!-- ==================== Décimo, Vacaciones, Prima de Antigüedad accruals ==================== -->
+
+    <record id="l10n_pa_rule_param_decimo_accrual_rate" model="hr.rule.parameter">
+        <field name="name">Panama Decimo Accrual Rate</field>
+        <field name="code">l10n_pa_decimo_accrual_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Acumulación mensual del décimo: 1/12 de la base de cálculo. Ley 8/1981.</field>
+    </record>
+    <record id="l10n_pa_rule_param_decimo_accrual_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_decimo_accrual_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0833333333</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_vacation_accrual_rate" model="hr.rule.parameter">
+        <field name="name">Panama Vacation Accrual Rate</field>
+        <field name="code">l10n_pa_vacation_accrual_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Acumulación mensual de vacaciones: 1/11 de la base. CT art. 54 numeral 1 (30 días por cada 11 meses).</field>
+    </record>
+    <record id="l10n_pa_rule_param_vacation_accrual_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_vacation_accrual_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.0909090909</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_seniority_accrual_rate" model="hr.rule.parameter">
+        <field name="name">Panama Seniority Premium Accrual Rate</field>
+        <field name="code">l10n_pa_seniority_accrual_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Acumulación mensual de prima de antigüedad: 1/52 (= una semana de salario por año laborado). CT art. 224 + Ley 44/1995 art. 229-B.</field>
+    </record>
+    <record id="l10n_pa_rule_param_seniority_accrual_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_seniority_accrual_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.01923076923</field>
+    </record>
+
+    <!-- Cesantía indemnización step rates. Ley 44/1995 art. 229-B + CT art. 225 lit. C. -->
+    <record id="l10n_pa_rule_param_cesantia_indem_first_ten_rate" model="hr.rule.parameter">
+        <field name="name">Panama Cesantía Indemnization Rate (First 10 Years)</field>
+        <field name="code">l10n_pa_cesantia_indem_first_ten_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Aporte mensual al Fondo de Cesantía, componente indemnización, primeros 10 años de servicio: 5 % de la cuotaparte mensual de 3.4 semanas/año. Ley 44/1995 art. 229-B + CT art. 225 lit. C.</field>
+    </record>
+    <record id="l10n_pa_rule_param_cesantia_indem_first_ten_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_cesantia_indem_first_ten_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.003269230769</field>
+    </record>
+
+    <record id="l10n_pa_rule_param_cesantia_indem_after_ten_rate" model="hr.rule.parameter">
+        <field name="name">Panama Cesantía Indemnization Rate (After 10 Years)</field>
+        <field name="code">l10n_pa_cesantia_indem_after_ten_rate</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">Aporte mensual al Fondo de Cesantía, componente indemnización, posterior al décimo año de servicio: 5 % de la cuotaparte mensual de 1 semana/año. Ley 44/1995 art. 229-B + CT art. 225 lit. C.</field>
+    </record>
+    <record id="l10n_pa_rule_param_cesantia_indem_after_ten_rate_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_cesantia_indem_after_ten_rate"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">0.000961538462</field>
+    </record>
+
+</odoo>

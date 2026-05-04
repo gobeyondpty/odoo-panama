@@ -1,0 +1,21 @@
+{
+  "employee": "Synthetic Low Wage Employee",
+  "period": "2026-01",
+  "gross_salary": 800.0,
+  "rates": {
+    "css_employee_rate": 0.0975,
+    "css_employer_rate": 0.1325,
+    "educational_employee_rate": 0.0125,
+    "educational_employer_rate": 0.015,
+    "professional_risk_rate": 0.0,
+    "monthly_income_tax": 0.0
+  },
+  "expected_lines": {
+    "CSS_EMP": -78.0,
+    "SE_EMP": -10.0,
+    "ISR_EMP": -0.0,
+    "CSS_COMP": 106.0,
+    "SE_COMP": 12.0,
+    "RP_COMP": 0.0
+  }
+}

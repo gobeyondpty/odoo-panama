@@ -1,0 +1,5 @@
+"id","name","country_id","name@es"
+"tax_group_pa_itbms_00","ITBMS Exempt","base.pa","ITBMS Exento"
+"tax_group_pa_itbms_07","ITBMS 7%","base.pa","ITBMS 7%"
+"tax_group_pa_itbms_10","ITBMS 10%","base.pa","ITBMS 10%"
+"tax_group_pa_itbms_15","ITBMS 15%","base.pa","ITBMS 15%"

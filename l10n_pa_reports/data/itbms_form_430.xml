@@ -31,7 +31,6 @@
         <field name="filter_period_comparison" eval="False"/>
         <field name="filter_date_range" eval="True"/>
         <field name="default_opening_date_filter">this_month</field>
-        <field name="filter_fiscal_position" eval="False"/>
         <field name="filter_multi_company">selector</field>
         <field name="column_ids">
             <record id="itbms_form_430_balance" model="account.report.column">

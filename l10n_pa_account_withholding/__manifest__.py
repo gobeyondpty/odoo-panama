@@ -26,11 +26,10 @@ Depends on the Enterprise withholding-on-payment framework
         'l10n_account_withholding_tax',
     ],
     'data': [
-        'data/account_tax_group_data.xml',
-        'data/account_tax_data.xml',
         'views/account_move_views.xml',
     ],
     'demo': [],
     'installable': True,
     'auto_install': False,
+    'post_init_hook': '_l10n_pa_withholding_post_init',
 }

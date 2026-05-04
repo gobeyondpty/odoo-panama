@@ -39,16 +39,33 @@ class TestPanamaWithholdingTaxes(TransactionCase):
     (Decreto Ejecutivo 84/2005 art 19, vigente desde 01/01/2017).
     """
 
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env['res.company'].create({
+            'name': 'Test PA Withholding Co',
+            'country_id': cls.env.ref('base.pa').id,
+            'currency_id': cls.env.ref('base.USD').id,
+        })
+        cls.env['account.chart.template'].try_loading(
+            'pa',
+            company=cls.company,
+            install_demo=False,
+        )
+
+    def _chart_ref(self, xmlid):
+        return self.env['account.chart.template'].with_company(self.company).ref(xmlid)
+
     def test_groups_loaded(self):
         groups = self.env['account.tax.group'].browse([
-            self.env.ref('l10n_pa_account_withholding.tax_group_pa_wht_itbms').id,
-            self.env.ref('l10n_pa_account_withholding.tax_group_pa_wht_isr').id,
+            self._chart_ref('tax_group_pa_wht_itbms').id,
+            self._chart_ref('tax_group_pa_wht_isr').id,
         ])
         self.assertEqual(len(groups), 2)
 
     def test_all_taxes_loaded_with_correct_amounts(self):
         for xmlid, expected_amount, expected_type in EXPECTED_TAXES:
-            tax = self.env.ref(f'l10n_pa_account_withholding.{xmlid}')
+            tax = self._chart_ref(xmlid)
             self.assertAlmostEqual(
                 tax.amount, expected_amount, places=4,
                 msg=f"{xmlid}: expected {expected_amount}, got {tax.amount}",
@@ -60,7 +77,7 @@ class TestPanamaWithholdingTaxes(TransactionCase):
 
     def test_all_taxes_marked_withholding_on_payment(self):
         for xmlid, _amount, _type in EXPECTED_TAXES:
-            tax = self.env.ref(f'l10n_pa_account_withholding.{xmlid}')
+            tax = self._chart_ref(xmlid)
             self.assertTrue(
                 tax.is_withholding_tax_on_payment,
                 f"{xmlid} must defer until payment via the framework flag",
@@ -68,7 +85,7 @@ class TestPanamaWithholdingTaxes(TransactionCase):
 
     def test_all_taxes_negative(self):
         for xmlid, _amount, _type in EXPECTED_TAXES:
-            tax = self.env.ref(f'l10n_pa_account_withholding.{xmlid}')
+            tax = self._chart_ref(xmlid)
             self.assertLess(
                 tax.amount, 0,
                 f"{xmlid} must have a negative amount (withholding reduces payment)",
@@ -76,7 +93,7 @@ class TestPanamaWithholdingTaxes(TransactionCase):
 
     def test_all_taxes_country_panama(self):
         for xmlid, _amount, _type in EXPECTED_TAXES:
-            tax = self.env.ref(f'l10n_pa_account_withholding.{xmlid}')
+            tax = self._chart_ref(xmlid)
             self.assertEqual(
                 tax.country_id.code, 'PA',
                 f"{xmlid} must be country-scoped to Panama",
@@ -88,5 +105,5 @@ class TestPanamaWithholdingTaxes(TransactionCase):
         The presentation gives a worked example: B/.100,000.00 paid → B/.6,542.10
         ITBMS retained, which confirms the percentage as 6.5421% applied to gross.
         """
-        tax = self.env.ref('l10n_pa_account_withholding.tax_pa_wht_itbms_b_no_domiciliado')
+        tax = self._chart_ref('tax_pa_wht_itbms_b_no_domiciliado')
         self.assertEqual(tax.amount, -6.5421)

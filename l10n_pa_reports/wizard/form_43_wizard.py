@@ -153,20 +153,20 @@ class L10nPaForm43Wizard(models.TransientModel):
             })
         return rows, missing
 
-    def _itbms_tax_group_ids(self):
-        """Return the set of Panama ITBMS tax-group ids defined by l10n_pa."""
-        ref = self.env.ref
-        groups = []
-        for xmlid in (
-            'l10n_pa.tax_group_pa_itbms_00',
-            'l10n_pa.tax_group_pa_itbms_07',
-            'l10n_pa.tax_group_pa_itbms_10',
-            'l10n_pa.tax_group_pa_itbms_15',
-        ):
-            group = ref(xmlid, raise_if_not_found=False)
-            if group:
-                groups.append(group.id)
-        return set(groups)
+    def _is_itbms_tax(self, tax):
+        """Return whether ``tax`` is one of the Panama ITBMS purchase taxes.
+
+        Chart-template loading creates company-specific tax groups, so the
+        template XMLIDs are not reliable on posted move lines. Match the
+        statutory ITBMS purchase taxes by country, use, and current rates.
+        """
+        return (
+            tax
+            and tax.country_id.code == 'PA'
+            and tax.type_tax_use == 'purchase'
+            and tax.amount_type == 'percent'
+            and tax.amount in (0.0, 7.0, 10.0, 15.0)
+        )
 
     def _move_amounts(self, move):
         """Return (subtotal, itbms) for a move in company currency.
@@ -183,12 +183,11 @@ class L10nPaForm43Wizard(models.TransientModel):
           inflate the ITBMS column.
         """
         subtotal = -move.amount_untaxed_signed
-        itbms_group_ids = self._itbms_tax_group_ids()
         itbms = sum(
             line.balance
             for line in move.line_ids
             if line.tax_line_id
-            and line.tax_line_id.tax_group_id.id in itbms_group_ids
+            and self._is_itbms_tax(line.tax_line_id)
         )
         return subtotal, itbms
 

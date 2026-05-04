@@ -58,3 +58,56 @@ class TestChartTemplate(TransactionCase):
     def test_business_activity_code_field_exists(self):
         """The DGI business-activity-code field is on res.company."""
         self.assertIn('l10n_pa_business_activity_code', self.env['res.company']._fields)
+
+    def test_public_panama_general_license_banks_loaded(self):
+        """SBP general-license public bank seed data is available."""
+        bank = self.env.ref('l10n_pa.bank_pa_banco_general', raise_if_not_found=False)
+        self.assertTrue(bank)
+        self.assertEqual(bank.country.code, 'PA')
+        bank_xmlids = (
+            'bank_pa_atlas_bank',
+            'bank_pa_bac_international_bank',
+            'bank_pa_banco_aliado',
+            'bank_pa_banco_azteca',
+            'bank_pa_bbp_bank',
+            'bank_pa_banco_davivienda',
+            'bank_pa_banco_delta',
+            'bank_pa_banco_de_bogota',
+            'bank_pa_banisi',
+            'bank_pa_banco_ficohsa',
+            'bank_pa_banco_general',
+            'bank_pa_bicsa',
+            'bank_pa_banco_lafise',
+            'bank_pa_bladex',
+            'bank_pa_banco_la_hipotecaria',
+            'bank_pa_bancolombia',
+            'bank_pa_pacific_bank',
+            'bank_pa_banco_pichincha',
+            'bank_pa_prival_bank',
+            'bank_pa_banesco',
+            'bank_pa_bank_of_china',
+            'bank_pa_bct_bank',
+            'bank_pa_bi_bank',
+            'bank_pa_canal_bank',
+            'bank_pa_capital_bank',
+            'bank_pa_citibank',
+            'bank_pa_credicorp_bank',
+            'bank_pa_global_bank',
+            'bank_pa_banistmo',
+            'bank_pa_keb_hana_bank',
+            'bank_pa_mega_icbc',
+            'bank_pa_mercantil_banco',
+            'bank_pa_metrobank',
+            'bank_pa_mmg_bank',
+            'bank_pa_multibank',
+            'bank_pa_st_georges_bank',
+            'bank_pa_scotiabank',
+            'bank_pa_towerbank',
+            'bank_pa_unibank',
+            'bank_pa_icbc',
+        )
+        banks = self.env['res.bank'].browse([
+            self.env.ref(f'l10n_pa.{xmlid}').id
+            for xmlid in bank_xmlids
+        ])
+        self.assertEqual(len(banks), 40)

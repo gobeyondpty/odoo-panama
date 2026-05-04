@@ -27,9 +27,10 @@ class L10nPaEdiDgiErrorCode(models.Model):
     short_message = fields.Char(string="Mensaje corto", translate=True)
     description = fields.Text(string="Descripción", translate=True)
 
-    _sql_constraints = [
-        ('code_unique', 'UNIQUE(code)', "El código DGI debe ser único."),
-    ]
+    _code_unique = models.Constraint(
+        'unique(code)',
+        "El código DGI debe ser único.",
+    )
 
     @api.model
     def resolve(self, code: str) -> str:

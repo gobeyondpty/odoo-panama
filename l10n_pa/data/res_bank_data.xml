@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!--
+        Panama banks with General License, re-derived from the official
+        Superintendencia de Bancos de Panama public list reviewed on
+        2026-05-04:
+        https://www.superbancos.gob.pa/en/gen-info-banks/general-license
+
+        This seed list intentionally stores only public institution names
+        and country. It does not include account numbers, SWIFT/BIC values,
+        contacts, or operator-specific banking details.
+    -->
+    <record id="bank_pa_atlas_bank" model="res.bank">
+        <field name="name">Atlas Bank (Panamá), S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bac_international_bank" model="res.bank">
+        <field name="name">BAC International Bank, Inc.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_aliado" model="res.bank">
+        <field name="name">Banco Aliado S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_azteca" model="res.bank">
+        <field name="name">Banco Azteca (Panamá), S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bbp_bank" model="res.bank">
+        <field name="name">BBP Bank S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_davivienda" model="res.bank">
+        <field name="name">Banco Davivienda (Panamá) S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_delta" model="res.bank">
+        <field name="name">Banco Delta, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_de_bogota" model="res.bank">
+        <field name="name">Banco de Bogotá, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banisi" model="res.bank">
+        <field name="name">BANISI, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_ficohsa" model="res.bank">
+        <field name="name">Banco Ficohsa (Panamá), S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_general" model="res.bank">
+        <field name="name">Banco General, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bicsa" model="res.bank">
+        <field name="name">Banco Internacional de Costa Rica, S.A. (BICSA)</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_lafise" model="res.bank">
+        <field name="name">Banco Lafise Panamá S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bladex" model="res.bank">
+        <field name="name">Banco Latinoamericano de Comercio Exterior, S.A. (BLADEX)</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_la_hipotecaria" model="res.bank">
+        <field name="name">Banco La Hipotecaria, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bancolombia" model="res.bank">
+        <field name="name">Bancolombia S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_pacific_bank" model="res.bank">
+        <field name="name">Pacific Bank, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banco_pichincha" model="res.bank">
+        <field name="name">Banco Pichincha Panamá, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_prival_bank" model="res.bank">
+        <field name="name">Prival Bank, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banesco" model="res.bank">
+        <field name="name">Banesco S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bank_of_china" model="res.bank">
+        <field name="name">Bank of China Limited</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bct_bank" model="res.bank">
+        <field name="name">BCT Bank International, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_bi_bank" model="res.bank">
+        <field name="name">BI-BANK, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_canal_bank" model="res.bank">
+        <field name="name">Canal Bank S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_capital_bank" model="res.bank">
+        <field name="name">Capital Bank Inc.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_citibank" model="res.bank">
+        <field name="name">Citibank, N.A. Panama Branch</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_credicorp_bank" model="res.bank">
+        <field name="name">Credicorp Bank, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_global_bank" model="res.bank">
+        <field name="name">Global Bank Corporation</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_banistmo" model="res.bank">
+        <field name="name">Banistmo S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_keb_hana_bank" model="res.bank">
+        <field name="name">KEB HANA BANK</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_mega_icbc" model="res.bank">
+        <field name="name">Mega International Commercial Bank Co. Ltd.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_mercantil_banco" model="res.bank">
+        <field name="name">Mercantil Banco, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_metrobank" model="res.bank">
+        <field name="name">Metrobank, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_mmg_bank" model="res.bank">
+        <field name="name">MMG Bank Corporation</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_multibank" model="res.bank">
+        <field name="name">Multibank Inc.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_st_georges_bank" model="res.bank">
+        <field name="name">St. Georges Bank &amp; Company, Inc.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_scotiabank" model="res.bank">
+        <field name="name">The Bank of Nova Scotia (SCOTIABANK)</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_towerbank" model="res.bank">
+        <field name="name">Towerbank International, Inc.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_unibank" model="res.bank">
+        <field name="name">Unibank, S.A.</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+    <record id="bank_pa_icbc" model="res.bank">
+        <field name="name">Industrial and Commercial Bank of China Limited</field>
+        <field name="country" ref="base.pa"/>
+    </record>
+</odoo>

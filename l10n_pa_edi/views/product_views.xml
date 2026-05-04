@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_product_template_form_l10n_pa_edi" model="ir.ui.view">
+        <field name="name">product.template.form.l10n_pa_edi</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='group_standard_price']" position="after">
+                <group string="Factura Electrónica Panamá">
+                    <field name="l10n_pa_edi_cpbs_id"/>
+                    <field name="l10n_pa_edi_uom_id"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_product_category_form_l10n_pa_edi" model="ir.ui.view">
+        <field name="name">product.category.form.l10n_pa_edi</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='parent_id']" position="after">
+                <field name="l10n_pa_edi_cpbs_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

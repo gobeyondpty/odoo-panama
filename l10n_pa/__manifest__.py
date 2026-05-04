@@ -27,6 +27,7 @@ separately by `l10n_pa_edi` and provider-specific modules such as
     'auto_install': ['account'],
     'data': [
         'data/l10n_latam.identification.type.csv',
+        'data/res_bank_data.xml',
         'data/account_chart_template_data.xml',
     ],
     'demo': [

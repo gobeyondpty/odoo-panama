@@ -1,3 +1,9 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_l10n_pa_edi_dgi_error_code_user,DGI Error Code (read),model_l10n_pa_edi_dgi_error_code,base.group_user,1,0,0,0
 access_l10n_pa_edi_dgi_error_code_admin,DGI Error Code (admin),model_l10n_pa_edi_dgi_error_code,base.group_system,1,1,1,1
+access_l10n_pa_edi_location_user,DGI Location (read),model_l10n_pa_edi_location,base.group_user,1,0,0,0
+access_l10n_pa_edi_location_admin,DGI Location (admin),model_l10n_pa_edi_location,base.group_system,1,1,1,1
+access_l10n_pa_edi_cpbs_user,CPBS (read),model_l10n_pa_edi_cpbs,base.group_user,1,0,0,0
+access_l10n_pa_edi_cpbs_admin,CPBS (admin),model_l10n_pa_edi_cpbs,base.group_system,1,1,1,1
+access_l10n_pa_edi_uom_user,DGI UOM (read),model_l10n_pa_edi_uom,base.group_user,1,0,0,0
+access_l10n_pa_edi_uom_admin,DGI UOM (admin),model_l10n_pa_edi_uom,base.group_system,1,1,1,1

@@ -1,0 +1,166 @@
+id,code,name
+l10n_pa_edi_uom_acre,acre,acre
+l10n_pa_edi_uom_actividad,Actividad,Actividad
+l10n_pa_edi_uom_ano,Ano,Año
+l10n_pa_edi_uom_ano_comun,Ano común,Año común
+l10n_pa_edi_uom_barrica,Barrica,Barrica
+l10n_pa_edi_uom_barril,Barril,Barril
+l10n_pa_edi_uom_bit,bit,bit
+l10n_pa_edi_uom_bit_s,bit/s,bit/s
+l10n_pa_edi_uom_blanco,Blanco,Blanco
+l10n_pa_edi_uom_bobina,Bobina,Bobina
+l10n_pa_edi_uom_bolso,Bolso,Bolso
+l10n_pa_edi_uom_btu,BTU,BTU
+l10n_pa_edi_uom_bu,bu,bu
+l10n_pa_edi_uom_bu_uk,bu UK,bu UK
+l10n_pa_edi_uom_byte,byte,byte
+l10n_pa_edi_uom_cabeza,Cabeza,Cabeza
+l10n_pa_edi_uom_caja,Caja,Caja
+l10n_pa_edi_uom_cesta,Cesta,Cesta
+l10n_pa_edi_uom_cg,cg,cg
+l10n_pa_edi_uom_ciento,Ciento,Ciento
+l10n_pa_edi_uom_cl,cl,cl
+l10n_pa_edi_uom_cm,cm,cm
+l10n_pa_edi_uom_cm2,cm2,cm²
+l10n_pa_edi_uom_cm3,cm3,cm3
+l10n_pa_edi_uom_ct,ct,ct
+l10n_pa_edi_uom_cuarto_seco,cuarto seco,cuarto seco
+l10n_pa_edi_uom_cuarto_seco_uk,cuarto seco UK,cuarto seco UK
+l10n_pa_edi_uom_cwt,cwt,cwt
+l10n_pa_edi_uom_dag,dag,dag
+l10n_pa_edi_uom_dal,dal,dal
+l10n_pa_edi_uom_dam,dam,dam
+l10n_pa_edi_uom_decena,Decena,Decena
+l10n_pa_edi_uom_denier,Denier,Denier
+l10n_pa_edi_uom_dg,dg,dg
+l10n_pa_edi_uom_dia,Dia,Día
+l10n_pa_edi_uom_dl,dl,dl
+l10n_pa_edi_uom_dm,dm,dm
+l10n_pa_edi_uom_dm2,dm2,dm²
+l10n_pa_edi_uom_dm3,dm3,dm3
+l10n_pa_edi_uom_docena,Docena,Docena
+l10n_pa_edi_uom_dpi,dpi,dpi
+l10n_pa_edi_uom_dr,dr,dr
+l10n_pa_edi_uom_dwt,dwt,dwt
+l10n_pa_edi_uom_ebyte,Ebyte,Ebyte
+l10n_pa_edi_uom_fl_oz,fl oz,fl oz
+l10n_pa_edi_uom_fl_oz_uk,fl oz UK,fl oz UK
+l10n_pa_edi_uom_ft,ft,ft
+l10n_pa_edi_uom_ft2,Ft2,ft²
+l10n_pa_edi_uom_ft3,Ft3,ft3
+l10n_pa_edi_uom_g,g,g
+l10n_pa_edi_uom_gal,gal,gal
+l10n_pa_edi_uom_gal_uk,gal UK,gal UK
+l10n_pa_edi_uom_galon_seco,galon seco,galón seco
+l10n_pa_edi_uom_gbit,Gbit,Gbit
+l10n_pa_edi_uom_gbit_s,Gbit/s,Gbit/s
+l10n_pa_edi_uom_gbyte,Gbyte,Gbyte
+l10n_pa_edi_uom_gibit,Gibit,Gibit
+l10n_pa_edi_uom_gibyte,Gibyte,Gibyte
+l10n_pa_edi_uom_gill,gill,gill
+l10n_pa_edi_uom_gill_uk,gill UK,gill UK
+l10n_pa_edi_uom_gr,gr,gr
+l10n_pa_edi_uom_grupo,Grupo,Grupo
+l10n_pa_edi_uom_gw,GW,GW
+l10n_pa_edi_uom_gwh,GWh,GWh
+l10n_pa_edi_uom_ha,ha,ha
+l10n_pa_edi_uom_hg,hg,hg
+l10n_pa_edi_uom_hl,hl,hl
+l10n_pa_edi_uom_hm,hm,hm
+l10n_pa_edi_uom_hora,Hora,Hora
+l10n_pa_edi_uom_hora_extra,Hora extra,Hora extra
+l10n_pa_edi_uom_hora_trabajo,Hora trabajo,Hora de trabajo
+l10n_pa_edi_uom_in,in,in
+l10n_pa_edi_uom_in2,in2,in²
+l10n_pa_edi_uom_in3,in3,in3
+l10n_pa_edi_uom_kbit,kbit,kbit
+l10n_pa_edi_uom_kbit_s,kbit/s,kbit/s
+l10n_pa_edi_uom_kbyte,kbyte,kbyte
+l10n_pa_edi_uom_kcaracter,Kcaracter,Kcaracter
+l10n_pa_edi_uom_kg,kg,kg
+l10n_pa_edi_uom_kibit,Kibit,Kibit
+l10n_pa_edi_uom_kibyte,Kibyte,Kibyte
+l10n_pa_edi_uom_kit,Kit,Kit
+l10n_pa_edi_uom_kl,kl,kl
+l10n_pa_edi_uom_km,km,km
+l10n_pa_edi_uom_km2,km2,km²
+l10n_pa_edi_uom_kva,kVA,kVA
+l10n_pa_edi_uom_kw,kW,kW
+l10n_pa_edi_uom_kwh,kWh,kWh
+l10n_pa_edi_uom_l,l,l
+l10n_pa_edi_uom_lb,lb,lb
+l10n_pa_edi_uom_lbb,lbb,lbb
+l10n_pa_edi_uom_lbt,lbt,lbt
+l10n_pa_edi_uom_lineas_acceso,Lineas acceso,Líneas de acceso
+l10n_pa_edi_uom_lineas_servicio,Líneas servicio,Líneas en servicio
+l10n_pa_edi_uom_llamada,Llamada,Llamada
+l10n_pa_edi_uom_ltn,LTN,LTN
+l10n_pa_edi_uom_m,m,m
+l10n_pa_edi_uom_m2,m2,m²
+l10n_pa_edi_uom_m3,m3,m3
+l10n_pa_edi_uom_madeja,Madeja,Madeja
+l10n_pa_edi_uom_mbit,Mbit,Mbit
+l10n_pa_edi_uom_mbit_s,Mbit/s,Mbit/s
+l10n_pa_edi_uom_mbyte,Mbyte,Mbyte
+l10n_pa_edi_uom_mes,Mes,Mes
+l10n_pa_edi_uom_mes_trabajo,Mes trabajo,Mes de trabajo
+l10n_pa_edi_uom_mg,mg,mg
+l10n_pa_edi_uom_mi,mi,mi
+l10n_pa_edi_uom_mi2,mi2,mi²
+l10n_pa_edi_uom_mibit,Mibit,Mibit
+l10n_pa_edi_uom_mibyte,Mibyte,Mibyte
+l10n_pa_edi_uom_millar,Millar,Millar
+l10n_pa_edi_uom_min,Min,Minuto
+l10n_pa_edi_uom_ml,ml,ml
+l10n_pa_edi_uom_mm,mm,mm
+l10n_pa_edi_uom_mm2,mm2,mm²
+l10n_pa_edi_uom_mm3,mm3,mm3
+l10n_pa_edi_uom_mml,MML,MML
+l10n_pa_edi_uom_mpixel,MPixel,MPixel
+l10n_pa_edi_uom_mva,MVA,MVA
+l10n_pa_edi_uom_mw,MW,MW
+l10n_pa_edi_uom_mwh,MWh,MWh
+l10n_pa_edi_uom_nmi,nmi,nmi
+l10n_pa_edi_uom_oz,oz,oz
+l10n_pa_edi_uom_ozt,ozt,ozt
+l10n_pa_edi_uom_paquete,Paquete,Paquete
+l10n_pa_edi_uom_pbit,Pbit,Pbit
+l10n_pa_edi_uom_pbyte,Pbyte,Pbyte
+l10n_pa_edi_uom_persona,Persona,Persona
+l10n_pa_edi_uom_personas,Personas,Personas
+l10n_pa_edi_uom_ping,Ping,Ping
+l10n_pa_edi_uom_pint,pint,pint
+l10n_pa_edi_uom_pint_uk,pint UK,pint UK
+l10n_pa_edi_uom_pinta_seca,pinta seca,pinta seca
+l10n_pa_edi_uom_pinta_seca_uk,pinta seca UK,pinta seca UK
+l10n_pa_edi_uom_pixel,Pixel,Pixel
+l10n_pa_edi_uom_pk,pk,pk
+l10n_pa_edi_uom_pk_uk,pk UK,pk UK
+l10n_pa_edi_uom_puerto,Puerto,Puerto
+l10n_pa_edi_uom_puesto,Puesto,Puesto
+l10n_pa_edi_uom_qr,qr,qr
+l10n_pa_edi_uom_quart,quart,quart
+l10n_pa_edi_uom_quart_uk,quart UK,quart UK
+l10n_pa_edi_uom_seg,Seg,Segundo
+l10n_pa_edi_uom_semana,Semana,Semana
+l10n_pa_edi_uom_st,st,st
+l10n_pa_edi_uom_t,t,t
+l10n_pa_edi_uom_tbit,Tbit,Tbit
+l10n_pa_edi_uom_tbyte,Tbyte,Tbyte
+l10n_pa_edi_uom_tibyte,Tibyte,Tibyte
+l10n_pa_edi_uom_tn,TN,TN
+l10n_pa_edi_uom_ton,ton,ton
+l10n_pa_edi_uom_tw,TW,TW
+l10n_pa_edi_uom_twh,TWh,TWh
+l10n_pa_edi_uom_ug,ug,µg
+l10n_pa_edi_uom_ul,ul,µl
+l10n_pa_edi_uom_um,um,µm
+l10n_pa_edi_uom_und,und,Unidad
+l10n_pa_edi_uom_va,VA,VA
+l10n_pa_edi_uom_viaje,Viaje,Viaje
+l10n_pa_edi_uom_visita,Visita,Visita
+l10n_pa_edi_uom_w,W,W
+l10n_pa_edi_uom_wh,Wh,Wh
+l10n_pa_edi_uom_yd,yd,yd
+l10n_pa_edi_uom_yd2,yd2,yd²
+l10n_pa_edi_uom_yd3,yd3,yd3

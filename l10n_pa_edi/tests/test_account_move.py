@@ -71,11 +71,18 @@ class TestInvoiceXmlPayload(TransactionCase):
             'l10n_pa_receiver_type': '01',
         })
 
+        cls.product_category = cls.env['product.category'].create({
+            'name': 'Servicios FE',
+        })
         cls.product = cls.env['product.product'].create({
             'name': 'Servicio de prueba',
             'list_price': 100.0,
             'type': 'service',
+            'categ_id': cls.product_category.id,
         })
+        cls.cpbs = cls.env.ref('l10n_pa_edi.l10n_pa_edi_cpbs_8010')
+        cls.edi_uom = cls.env.ref('l10n_pa_edi.l10n_pa_edi_uom_und')
+        cls.location = cls.env.ref('l10n_pa_edi.l10n_pa_edi_location_8_8_1')
 
     def _create_invoice(self, **overrides):
         sale_tax = self.env['account.tax'].with_company(self.company).search([
@@ -141,6 +148,36 @@ class TestInvoiceXmlPayload(TransactionCase):
         self.assertEqual(payload['emisor']['dDV'], inv.company_id.partner_id.l10n_pa_dv)
         self.assertEqual(len(payload['items']), 1)
 
+    def test_xml_payload_uses_product_fe_catalog_codes(self):
+        self.product.product_tmpl_id.write({
+            'l10n_pa_edi_cpbs_id': self.cpbs.id,
+            'l10n_pa_edi_uom_id': self.edi_uom.id,
+        })
+        inv = self._create_invoice()
+        inv.name = 'INV/2026/00008'
+        item = inv._l10n_pa_build_xml_payload()['items'][0]
+        self.assertEqual(item['dCodCPBSAbr'], '8010')
+        self.assertEqual(item['dUnidadMedida'], 'und')
+
+    def test_xml_payload_uses_category_cpbs_fallback(self):
+        self.product.product_tmpl_id.write({
+            'l10n_pa_edi_cpbs_id': False,
+            'l10n_pa_edi_uom_id': False,
+        })
+        self.product_category.l10n_pa_edi_cpbs_id = self.cpbs
+        inv = self._create_invoice()
+        inv.name = 'INV/2026/00009'
+        item = inv._l10n_pa_build_xml_payload()['items'][0]
+        self.assertEqual(item['dCodCPBSAbr'], '8010')
+
+    def test_xml_payload_includes_emitter_location_when_configured(self):
+        self.company.partner_id.l10n_pa_edi_location_id = self.location
+        inv = self._create_invoice()
+        inv.name = 'INV/2026/00011'
+        payload = inv._l10n_pa_build_xml_payload()
+        self.assertEqual(payload['emisor']['gUbiEm']['dCodUbi'], '8-8-1')
+        self.assertEqual(payload['emisor']['gUbiEm']['dCorreg'], 'SAN FELIPE')
+
     def test_generate_xml_produces_well_formed_xml(self):
         inv = self._create_invoice()
         inv.name = 'INV/2026/00007'
@@ -201,19 +238,54 @@ class TestInvoiceXmlPayload(TransactionCase):
         )
 
     def test_xml_payload_credit_note_uses_devolucion_op_type(self):
-        """Regression: credit notes (out_refund) must report iTipoOp='2'
-        (devolución), not '1' (venta). DGI rejects mismatched op types.
+        """Credit notes report devolución as iNatOp, while iTipoOp
+        remains salida/venta per DGI's operation-type catalog.
         """
         refund = self._create_invoice(move_type='out_refund')
         refund.name = 'NC/2026/00001'
         payload = refund._l10n_pa_build_xml_payload()
-        self.assertEqual(payload['general']['iTipoOp'], '2')
+        self.assertEqual(payload['general']['iNatOp'], '11')
+        self.assertEqual(payload['general']['iTipoOp'], '1')
 
     def test_xml_payload_factura_keeps_venta_op_type(self):
         inv = self._create_invoice()
         inv.name = 'INV/2026/00010'
         payload = inv._l10n_pa_build_xml_payload()
+        self.assertEqual(payload['general']['iNatOp'], '01')
         self.assertEqual(payload['general']['iTipoOp'], '1')
+
+    def test_xml_payload_foreign_customer_defaults_to_export_destination(self):
+        foreign = self.env['res.partner'].create({
+            'name': 'Foreign Buyer',
+            'country_id': self.env.ref('base.us').id,
+            'vat': 'US12345',
+        })
+        inv = self._create_invoice(partner_id=foreign.id)
+        inv.name = 'INV/2026/00012'
+        payload = inv._l10n_pa_build_xml_payload()
+        self.assertEqual(payload['general']['iNatOp'], '02')
+        self.assertEqual(payload['general']['iDest'], '2')
+
+    def test_xml_payload_respects_manual_operation_override(self):
+        inv = self._create_invoice()
+        inv.write({
+            'l10n_pa_operation_nature': '14',
+            'l10n_pa_operation_destination': '1',
+            'l10n_pa_operation_type': '1',
+        })
+        inv.name = 'INV/2026/00013'
+        payload = inv._l10n_pa_build_xml_payload()
+        self.assertEqual(payload['general']['iNatOp'], '14')
+        self.assertEqual(payload['general']['iDest'], '1')
+
+    def test_company_cafe_defaults_match_dgi_catalog(self):
+        company = self.env['res.company'].create({
+            'name': 'Test PA EDI CAFE Co',
+            'country_id': self.country_pa.id,
+            'currency_id': self.env.ref('base.USD').id,
+        })
+        self.assertEqual(company.l10n_pa_sfep_form_cafe, '3')
+        self.assertEqual(company.l10n_pa_sfep_delivery_cafe, '3')
 
     def test_partner_receiver_type_government_via_nt(self):
         """Partners with NT identification type → Gobierno automatically."""
@@ -255,6 +327,7 @@ class TestInvoiceXmlPayload(TransactionCase):
         """
         original = self._create_invoice()
         original.name = 'INV/2026/00200'
+        original.action_post()
         original.l10n_pa_cufe = '01' + 'X' * 64  # simulated authorized CUFE
         reversal = self.env['account.move.reversal'].with_context(
             active_model='account.move', active_ids=original.ids,
@@ -274,6 +347,7 @@ class TestInvoiceXmlPayload(TransactionCase):
         """
         original = self._create_invoice()
         original.name = 'INV/2026/00300'
+        original.action_post()
         original.l10n_pa_cufe = '01' + 'Y' * 64
         debit_wiz = self.env['account.debit.note'].with_context(
             active_model='account.move', active_ids=original.ids,
@@ -316,3 +390,22 @@ class TestPACErrorCodeResolver(TransactionCase):
 
     def test_resolve_empty_returns_empty(self):
         self.assertEqual(self.env['l10n_pa_edi.dgi.error.code'].resolve(''), '')
+
+
+@tagged('-at_install', 'post_install', 'l10n_pa_edi')
+class TestDgiCatalogData(TransactionCase):
+
+    def test_official_location_catalog_loaded(self):
+        location = self.env.ref('l10n_pa_edi.l10n_pa_edi_location_8_8_1')
+        self.assertEqual(location.province, 'PANAMA')
+        self.assertEqual(location.district, 'PANAMA')
+        self.assertEqual(location.township, 'SAN FELIPE')
+
+    def test_official_cpbs_abbreviated_catalog_loaded(self):
+        cpbs = self.env.ref('l10n_pa_edi.l10n_pa_edi_cpbs_8010')
+        self.assertEqual(cpbs.name, 'Servicios de asesoría de gestión')
+
+    def test_official_unit_catalog_loaded(self):
+        uom = self.env.ref('l10n_pa_edi.l10n_pa_edi_uom_und')
+        self.assertEqual(uom.code, 'und')
+        self.assertEqual(uom.name, 'Unidad')

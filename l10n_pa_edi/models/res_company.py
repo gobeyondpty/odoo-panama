@@ -51,23 +51,23 @@ class ResCompany(models.Model):
     )
     l10n_pa_sfep_form_cafe = fields.Selection(
         [
-            ('1', "PDF estándar DGI"),
-            ('2', "Diseño propio del emisor"),
-            ('3', "Sin generación de CAFE"),
+            ('1', "Sin generación de CAFE"),
+            ('2', "Cinta de papel"),
+            ('3', "Papel formato carta"),
         ],
-        default='1',
+        default='3',
         string="Formato CAFE",
-        help="Forma de generación del CAFE (iFormCafe).",
+        help="Forma de generación del CAFE (iFormCafe), según Ficha Técnica DGI PAC v1.00.",
     )
     l10n_pa_sfep_delivery_cafe = fields.Selection(
         [
-            ('1', "Impreso al receptor"),
-            ('2', "Electrónico al receptor"),
-            ('3', "No se entrega CAFE"),
+            ('1', "Sin generación de CAFE"),
+            ('2', "CAFE en papel"),
+            ('3', "CAFE en formato electrónico"),
         ],
-        default='2',
+        default='3',
         string="Entrega CAFE",
-        help="Manera de entrega del CAFE al receptor (iEntCafe).",
+        help="Manera de entrega del CAFE al receptor (iEntCafe), según Ficha Técnica DGI PAC v1.00.",
     )
     l10n_pa_certificate_id = fields.Binary(
         string="Certificado de Firma Electrónica (.p12)",

@@ -42,6 +42,11 @@
                                    required="l10n_pa_contingency"/>
                         </group>
                     </group>
+                    <group string="Clasificación DGI">
+                        <field name="l10n_pa_operation_nature"/>
+                        <field name="l10n_pa_operation_type"/>
+                        <field name="l10n_pa_operation_destination"/>
+                    </group>
                     <group string="Respuesta cruda del PAC (depuración)">
                         <field name="l10n_pa_pac_response" nolabel="1" readonly="1"/>
                     </group>

@@ -165,6 +165,52 @@ class AccountMove(models.Model):
         string="Motivo de Contingencia",
         copy=False,
     )
+    l10n_pa_operation_nature = fields.Selection(
+        [
+            ('01', "Venta"),
+            ('02', "Exportación"),
+            ('03', "Re-exportación"),
+            ('04', "Venta de fuente extranjera"),
+            ('05', "Servicio de fuente extranjera"),
+            ('10', "Transferencia / Traspaso"),
+            ('11', "Devolución"),
+            ('12', "Consignación"),
+            ('13', "Remesa"),
+            ('14', "Entrega gratuita"),
+            ('20', "Compra"),
+            ('21', "Importación"),
+        ],
+        string="Naturaleza de la Operación DGI",
+        compute='_compute_l10n_pa_dgi_operation_defaults',
+        store=True,
+        readonly=False,
+        copy=False,
+        help="Campo iNatOp de la Ficha Técnica DGI PAC v1.00.",
+    )
+    l10n_pa_operation_type = fields.Selection(
+        [
+            ('1', "Salida o venta"),
+            ('2', "Entrada o compra"),
+        ],
+        string="Tipo de Operación DGI",
+        compute='_compute_l10n_pa_dgi_operation_defaults',
+        store=True,
+        readonly=False,
+        copy=False,
+        help="Campo iTipoOp de la Ficha Técnica DGI PAC v1.00.",
+    )
+    l10n_pa_operation_destination = fields.Selection(
+        [
+            ('1', "Panamá"),
+            ('2', "Extranjero"),
+        ],
+        string="Destino de la Operación DGI",
+        compute='_compute_l10n_pa_dgi_operation_defaults',
+        store=True,
+        readonly=False,
+        copy=False,
+        help="Campo iDest de la Ficha Técnica DGI PAC v1.00.",
+    )
     l10n_pa_xml_attachment_id = fields.Many2one(
         'ir.attachment',
         string="XML DGI",
@@ -177,6 +223,22 @@ class AccountMove(models.Model):
         readonly=True,
         help="Cadena codificada en el código QR del CAFE.",
     )
+
+    @api.depends('move_type', 'commercial_partner_id.country_id', 'debit_origin_id')
+    def _compute_l10n_pa_dgi_operation_defaults(self):
+        for move in self:
+            partner = move.commercial_partner_id
+            is_foreign = bool(partner.country_id and partner.country_id.code != 'PA')
+            is_refund = move.move_type in ('out_refund', 'in_refund')
+            is_purchase = move.move_type in ('in_invoice', 'in_refund')
+            if is_refund:
+                move.l10n_pa_operation_nature = '11'
+            elif is_purchase:
+                move.l10n_pa_operation_nature = '21' if is_foreign else '20'
+            else:
+                move.l10n_pa_operation_nature = '02' if is_foreign else '01'
+            move.l10n_pa_operation_type = '2' if is_purchase else '1'
+            move.l10n_pa_operation_destination = '2' if is_foreign else '1'
 
     # -------------------------------------------------------------------
     # Provider plumbing
@@ -305,12 +367,9 @@ class AccountMove(models.Model):
             'dPtoFacDF': (company.l10n_pa_sfep_emission_point or '001').rjust(3, '0'),
             'dSeg': self.l10n_pa_security_code or generate_security_code(),
             'dFechaEm': fields.Datetime.to_datetime(emission_date),
-            'iNatOp': '01' if partner.country_id.code == 'PA' else '02',
-            # iTipoOp: '1' = Venta, '2' = Devolución. Credit notes are
-            # devoluciones; everything else (factura, nota de débito) is
-            # venta.
-            'iTipoOp': '2' if self.move_type in ('out_refund', 'in_refund') else '1',
-            'iDest': '1' if partner.country_id.code == 'PA' else '2',
+            'iNatOp': self.l10n_pa_operation_nature or ('02' if partner.country_id.code != 'PA' else '01'),
+            'iTipoOp': self.l10n_pa_operation_type or '1',
+            'iDest': self.l10n_pa_operation_destination or ('2' if partner.country_id.code != 'PA' else '1'),
             'iFormCafe': company.l10n_pa_sfep_form_cafe or '1',
             'iEntCafe': company.l10n_pa_sfep_delivery_cafe or '2',
             'dEnvFe': '1',
@@ -336,6 +395,8 @@ class AccountMove(models.Model):
             'dTfnEm': [company.phone] if company.phone else [],
             'dCodAct': company.l10n_pa_business_activity_code or '',
         }
+        if company.partner_id.l10n_pa_edi_location_id:
+            emisor['gUbiEm'] = self._l10n_pa_location_dict(company.partner_id.l10n_pa_edi_location_id)
 
         receptor = self._l10n_pa_build_receptor_dict(partner)
 
@@ -385,6 +446,15 @@ class AccountMove(models.Model):
             }
         return receptor
 
+    @staticmethod
+    def _l10n_pa_location_dict(location) -> dict:
+        return {
+            'dCodUbi': location.code or '',
+            'dCorreg': location.township or '',
+            'dDistr': location.district or '',
+            'dProv': location.province or '',
+        }
+
     def _l10n_pa_build_item_dict(self, line, sec_item: int) -> dict:
         # Resolve the ITBMS rate from the line's taxes. Take the first
         # tax in the ITBMS family.
@@ -392,17 +462,26 @@ class AccountMove(models.Model):
             lambda t: t.tax_group_id and 'ITBMS' in (t.tax_group_id.name or '')
         )[:1]
         rate = itbms_tax.amount if itbms_tax else 0.0
-        return {
+        product = line.product_id
+        template = product.product_tmpl_id if product else False
+        cpbs = template and (
+            template.l10n_pa_edi_cpbs_id or template.categ_id.l10n_pa_edi_cpbs_id
+        )
+        edi_uom = template.l10n_pa_edi_uom_id if template else False
+        item = {
             'dSecItem': sec_item,
             'dDescProd': line.name or line.product_id.display_name or '',
             'dCantCodInt': line.quantity,
-            'dUnidadMedida': (line.product_uom_id.name or '')[:20],
+            'dUnidadMedida': (edi_uom.code if edi_uom else line.product_uom_id.name or '')[:20],
             'dPrUnit': line.price_unit,
             'dPrItem': line.price_subtotal,
             'dValTotItem': line.price_total,
             'tasa_itbms': dgi_xml.itbms_rate_to_code(rate),
             'valor_itbms': line.price_total - line.price_subtotal,
         }
+        if cpbs:
+            item['dCodCPBSAbr'] = cpbs.code
+        return item
 
     def _l10n_pa_build_totales_dict(self) -> dict:
         product_lines = self.invoice_line_ids.filtered(

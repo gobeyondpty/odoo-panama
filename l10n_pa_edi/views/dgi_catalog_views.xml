@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_l10n_pa_edi_location_list" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.location.list</field>
+        <field name="model">l10n_pa_edi.location</field>
+        <field name="arch" type="xml">
+            <list string="Ubicaciones DGI">
+                <field name="code"/>
+                <field name="province"/>
+                <field name="district"/>
+                <field name="township"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_pa_edi_location_form" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.location.form</field>
+        <field name="model">l10n_pa_edi.location</field>
+        <field name="arch" type="xml">
+            <form string="Ubicación DGI">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="province"/>
+                        <field name="district"/>
+                        <field name="township"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_pa_edi_location" model="ir.actions.act_window">
+        <field name="name">Ubicaciones DGI</field>
+        <field name="res_model">l10n_pa_edi.location</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_l10n_pa_edi_cpbs_list" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.cpbs.list</field>
+        <field name="model">l10n_pa_edi.cpbs</field>
+        <field name="arch" type="xml">
+            <list string="Códigos CPBS">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_pa_edi_cpbs_form" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.cpbs.form</field>
+        <field name="model">l10n_pa_edi.cpbs</field>
+        <field name="arch" type="xml">
+            <form string="Código CPBS">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_pa_edi_cpbs" model="ir.actions.act_window">
+        <field name="name">Códigos CPBS</field>
+        <field name="res_model">l10n_pa_edi.cpbs</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_l10n_pa_edi_uom_list" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.uom.list</field>
+        <field name="model">l10n_pa_edi.uom</field>
+        <field name="arch" type="xml">
+            <list string="Unidades FE">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_l10n_pa_edi_uom_form" model="ir.ui.view">
+        <field name="name">l10n_pa_edi.uom.form</field>
+        <field name="model">l10n_pa_edi.uom</field>
+        <field name="arch" type="xml">
+            <form string="Unidad FE">
+                <sheet>
+                    <group>
+                        <field name="code"/>
+                        <field name="name"/>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_l10n_pa_edi_uom" model="ir.actions.act_window">
+        <field name="name">Unidades FE</field>
+        <field name="res_model">l10n_pa_edi.uom</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_l10n_pa_edi_catalog_root"
+              name="Catálogos FE Panamá"
+              parent="account.menu_finance_configuration"
+              sequence="45"
+              groups="account.group_account_manager"/>
+    <menuitem id="menu_l10n_pa_edi_location"
+              parent="menu_l10n_pa_edi_catalog_root"
+              action="action_l10n_pa_edi_location"
+              sequence="10"
+              groups="account.group_account_manager"/>
+    <menuitem id="menu_l10n_pa_edi_cpbs"
+              parent="menu_l10n_pa_edi_catalog_root"
+              action="action_l10n_pa_edi_cpbs"
+              sequence="20"
+              groups="account.group_account_manager"/>
+    <menuitem id="menu_l10n_pa_edi_uom"
+              parent="menu_l10n_pa_edi_catalog_root"
+              action="action_l10n_pa_edi_uom"
+              sequence="30"
+              groups="account.group_account_manager"/>
+</odoo>

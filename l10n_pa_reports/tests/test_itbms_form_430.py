@@ -18,7 +18,7 @@ class TestPanamaItbmsForm430(TransactionCase):
 
     def test_top_level_sections(self):
         report = self.env.ref('l10n_pa_reports.itbms_form_430')
-        section_ids = report.line_ids.filtered(lambda l: l.hierarchy_level == 0).mapped('id')
+        section_ids = report.line_ids.filtered(lambda line: line.hierarchy_level == 0).mapped('id')
         expected = {
             self.env.ref('l10n_pa_reports.itbms_form_430_section_a').id,
             self.env.ref('l10n_pa_reports.itbms_form_430_section_b').id,

@@ -8,6 +8,8 @@
             <xpath expr="//field[@name='vat']" position="after">
                 <field name="l10n_pa_receiver_type"
                        invisible="country_id and country_id.code != 'PA'"/>
+                <field name="l10n_pa_edi_location_id"
+                       invisible="country_id and country_id.code != 'PA'"/>
             </xpath>
         </field>
     </record>

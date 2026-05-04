@@ -23,6 +23,11 @@ class ResPartner(models.Model):
         readonly=False,
         help="Clasificación del receptor según DGI (campo iTipoRec).",
     )
+    l10n_pa_edi_location_id = fields.Many2one(
+        'l10n_pa_edi.location',
+        string="Ubicación DGI",
+        help="Código Provincia-Distrito-Corregimiento usado por DGI para la dirección fiscal.",
+    )
 
     @api.depends('country_id', 'is_company', 'l10n_latam_identification_type_id', 'vat')
     def _compute_l10n_pa_receiver_type(self):

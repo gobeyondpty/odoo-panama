@@ -73,12 +73,12 @@ class HrPayrollPanamaPlanilla03(models.AbstractModel):
 
     @api.model
     def _payslip_line_total(self, payslip, code, default=0.0):
-        line = payslip.line_ids.filtered(lambda l: l.code == code)
+        line = payslip.line_ids.filtered(lambda line: line.code == code)
         return round(sum(line.mapped("total")), 2) if line else default
 
     @api.model
     def _payslip_input_amount(self, payslip, code, default=0.0):
-        line = payslip.input_line_ids.filtered(lambda l: l.code == code)
+        line = payslip.input_line_ids.filtered(lambda line: line.code == code)
         return round(sum(line.mapped("amount")), 2) if line else default
 
     @api.model

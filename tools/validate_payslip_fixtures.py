@@ -26,7 +26,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO_ROOT / "l10n_pa_hr_payroll"))
 
-from lib.calculations import (
+from lib.calculations import (  # noqa: E402
     StatutoryRates,
     calculate_decimo_lines,
     calculate_statutory_lines,

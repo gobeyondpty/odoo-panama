@@ -1,6 +1,6 @@
 # Agent Handoff
 
-This repository is the long-term home for Panama Odoo localization modules. It owns `l10n_pa`, `l10n_pa_postal`, `l10n_pa_edi`, `l10n_pa_edi_factura_facil`, `l10n_pa_account_withholding`, `l10n_pa_reports`, `l10n_pa_hr_payroll`, and `l10n_pa_hr_payroll_account`. The planned `l10n_pa_hr_payroll_sipe` will land here as well.
+This repository is the long-term home for Panama Odoo localization modules. It owns `l10n_pa`, `l10n_pa_postal`, `l10n_pa_edi`, `l10n_pa_edi_factura_facil`, `l10n_pa_account_withholding`, `l10n_pa_reports`, `l10n_pa_hr_payroll`, `l10n_pa_hr_holidays`, and `l10n_pa_hr_payroll_account`. The planned `l10n_pa_hr_payroll_sipe` will land here as well.
 
 ## Scope rules
 
@@ -23,9 +23,10 @@ rules; the directory is gitignored.
 - `l10n_pa_account_withholding` — DGI ITBMS / ISR retentions on processor settlements + government counterparties
 - `l10n_pa_reports` — DGI Form 430 ITBMS monthly + annual rentas
 - `l10n_pa_hr_payroll` — Panama payroll structures, parameters, rules, and pure-Python helper calculations
+- `l10n_pa_hr_holidays` — Panama Time Off defaults for legal vacation accrual and calendar-day consumption
 - `l10n_pa_hr_payroll_account` — accounting mappings for Panama payroll rules
 
-`l10n_pa_postal`, `l10n_pa_account_withholding`, and `l10n_pa_reports` depend on `l10n_pa` (now in-repo, no longer cross-repo). `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll`.
+`l10n_pa_postal`, `l10n_pa_account_withholding`, and `l10n_pa_reports` depend on `l10n_pa` (now in-repo, no longer cross-repo). `l10n_pa_hr_holidays` and `l10n_pa_hr_payroll_account` depend on `l10n_pa_hr_payroll`.
 
 ## Payroll validation tooling
 

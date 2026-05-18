@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="l10n_pa_work_entry_type_vacation" model="hr.work.entry.type">
+        <field name="name">Panama Legal Vacation</field>
+        <field name="display_code">VAC</field>
+        <field name="code">PA_VAC</field>
+        <field name="color">5</field>
+        <field name="is_leave" eval="True"/>
+        <field name="country_id" ref="base.pa"/>
+    </record>
+
+    <record id="l10n_pa_leave_type_vacation" model="hr.leave.type">
+        <field name="name">Vacaciones (Panama)</field>
+        <field name="requires_allocation" eval="True"/>
+        <field name="employee_requests" eval="False"/>
+        <field name="leave_validation_type">both</field>
+        <field name="allocation_validation_type">hr</field>
+        <field name="request_unit">day</field>
+        <field name="include_public_holidays_in_duration" eval="True"/>
+        <field name="l10n_pa_is_legal_vacation" eval="True"/>
+        <field name="work_entry_type_id" ref="l10n_pa_work_entry_type_vacation"/>
+        <field name="leave_notif_subtype_id" ref="hr_holidays.mt_leave"/>
+        <field name="allocation_notif_subtype_id" ref="hr_holidays.mt_leave_allocation"/>
+        <field name="responsible_ids" eval="[(4, ref('base.user_admin'))]"/>
+        <field name="icon_id" ref="hr_holidays.icon_14"/>
+        <field name="color">2</field>
+        <field name="company_id" eval="False"/>
+        <field name="country_id" ref="base.pa"/>
+        <field name="sequence">1</field>
+    </record>
+</odoo>

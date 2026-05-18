@@ -75,6 +75,7 @@ CSS employer-rate parameter values currently included:
 - **Día de fiesta o duelo nacional**: +150 % (incluye remuneración del día de descanso). CT art. 49.
 - **Recargos combinados**: primero recargo de día (50 % o 150 %), luego recargo de OT, multiplicativo. CT art. 50.
 - **Vacation pay**: `VAC_PAY` rule. Pago efectivo de vacaciones tomadas: base × días/30. Base = `vacation_base()`. Sujeto a CSS, SE e ISR. CT art. 54.
+- **Time Off vacation balance**: `l10n_pa_hr_holidays` consumes Panama legal vacation in calendar days, not Odoo working days. The default Time Off accrual plan grants `1/11` day per service day and caps available balance at 60 days as a compliance-review threshold, not as a statutory forfeiture rule. CT art. 54.
 - **Subsidios CSS**: helpers `subsidio_enfermedad_diario(70 %)`, `subsidio_maternidad_semanal()` per Ley 51/2005 arts. 143, 146. Estos NO se pagan por el empleador; CSS los liquida directamente. La reducción de salario en planilla durante el subsidio se modela vía work entry types impagados (estándar Odoo).
 - **Riesgos profesionales por compañía**: el campo `l10n_pa_css_risk_grade` en `res.company` toma precedencia sobre el parámetro global. Si el grado es 0 se usa el parámetro `l10n_pa_professional_risk_employer_rate`. DG 68/1970 art. 51.
 - **DGI Planilla 03**: aggregator en `l10n.pa.hr.payroll.planilla_03`. Devuelve un dict con las 33 columnas documentadas en el Instructivo F03 V5-6.

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_leave_type_view_form_l10n_pa" model="ir.ui.view">
+        <field name="name">hr.leave.type.view.form.l10n.pa</field>
+        <field name="model">hr.leave.type</field>
+        <field name="inherit_id" ref="hr_work_entry_holidays.work_entry_type_leave_form_inherit"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <field name="country_code" invisible="1"/>
+            </xpath>
+            <xpath expr="//group[@name='configuration']//field[@name='support_document']" position="after">
+                <field name="l10n_pa_is_legal_vacation" invisible="country_code != 'PA' or not requires_allocation"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -15,9 +15,10 @@ upstream as `OCA/l10n-panama` later.
 | [`l10n_pa_account_withholding`](l10n_pa_account_withholding/) | DGI ITBMS / ISR retentions for processor settlements and government counterparties | LGPL-3 | scaffold |
 | [`l10n_pa_reports`](l10n_pa_reports/) | DGI Form 430 (ITBMS monthly) and annual Declaración Jurada de Rentas | LGPL-3 | scaffold |
 | [`l10n_pa_hr_payroll`](l10n_pa_hr_payroll/) | Panama payroll structures, parameters, rules, and pure-Python helper calculations | LGPL-3 | early scaffold |
+| [`l10n_pa_hr_holidays`](l10n_pa_hr_holidays/) | Panama Time Off defaults for legal vacation accrual and calendar-day consumption | LGPL-3 | early scaffold |
 | [`l10n_pa_hr_payroll_account`](l10n_pa_hr_payroll_account/) | Accounting mappings for Panama payroll rules | LGPL-3 | early scaffold |
 
-`l10n_pa_postal`, `l10n_pa_account_withholding`, and `l10n_pa_reports` depend on `l10n_pa`. `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll`. The planned `l10n_pa_hr_payroll_sipe` will land here too.
+`l10n_pa_postal`, `l10n_pa_account_withholding`, and `l10n_pa_reports` depend on `l10n_pa`. `l10n_pa_hr_holidays` depends on `l10n_pa_hr_payroll`. `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll`. The planned `l10n_pa_hr_payroll_sipe` will land here too.
 
 ## Quick Start
 
@@ -25,7 +26,7 @@ Install all modules in dependency order against a fresh Odoo 19 database:
 
 ```bash
 odoo-bin -d <db> \
-    -i l10n_pa,l10n_pa_postal,l10n_pa_edi,l10n_pa_edi_factura_facil,l10n_pa_account_withholding,l10n_pa_reports,l10n_pa_hr_payroll,l10n_pa_hr_payroll_account \
+    -i l10n_pa,l10n_pa_postal,l10n_pa_edi,l10n_pa_edi_factura_facil,l10n_pa_account_withholding,l10n_pa_reports,l10n_pa_hr_payroll,l10n_pa_hr_holidays,l10n_pa_hr_payroll_account \
     --stop-after-init
 ```
 
@@ -53,6 +54,7 @@ Invoicing** and the withholding rules per the relevant DGI resoluciones.
   `l10n_account_withholding_tax`.
 - `l10n_pa_reports` depends on `l10n_pa` and Enterprise `account_reports`.
 - `l10n_pa_hr_payroll` depends on Enterprise `hr_payroll`.
+- `l10n_pa_hr_holidays` depends on `l10n_pa_hr_payroll`, Odoo Time Off, and Time Off work entries.
 - `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll` and Enterprise `hr_payroll_account`.
 
 ## Payroll Validation

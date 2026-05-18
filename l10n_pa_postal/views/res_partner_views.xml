@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_res_partner_form_pa_postal" model="ir.ui.view">
+        <field name="name">res.partner.form.l10n_pa_postal</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='zip']" position="after">
+                <field name="l10n_pa_postal_valid"
+                       invisible="country_id and country_id.code != 'PA'"/>
+                <field name="l10n_pa_postal_estafeta_prefix"
+                       invisible="not l10n_pa_postal_valid or (country_id and country_id.code != 'PA')"/>
+            </xpath>
+            <xpath expr="//page[@name='internal_notes']" position="inside">
+                <group string="Código postal Panamá"
+                       invisible="not l10n_pa_postal_valid or (country_id and country_id.code != 'PA')">
+                    <group>
+                        <field name="l10n_pa_postal_level" readonly="1"/>
+                        <field name="l10n_pa_postal_precision_meters" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="l10n_pa_postal_latitude" readonly="1"/>
+                        <field name="l10n_pa_postal_longitude" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

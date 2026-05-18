@@ -1,0 +1,5 @@
+# Development/test dependencies for repo-root pure-Python checks.
+#
+# Odoo runtime dependencies are still declared in each module manifest via
+# external_dependencies. This file exists for host-side unittest runs.
+openpyxl

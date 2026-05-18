@@ -9,6 +9,7 @@ upstream as `OCA/l10n-panama` later.
 | Module | Purpose | License | Status |
 | --- | --- | --- | --- |
 | [`l10n_pa`](l10n_pa/) | Base accounting localization (taxes, fiscal positions, ID types, RUC + DV validation) | LGPL-3 | tested, 32 tests green |
+| [`l10n_pa_postal`](l10n_pa_postal/) | Panama postal-code validation, coordinate decoding, and local GeoJSON lookup helpers | LGPL-3 | tested |
 | [`l10n_pa_edi`](l10n_pa_edi/) | PAC-agnostic e-invoicing layer (CUFE, DGI XML, CAFÉ PDF, send method) | LGPL-3 | tested, 64 tests green |
 | [`l10n_pa_edi_factura_facil`](l10n_pa_edi_factura_facil/) | Concrete Factura Fácil S.A. PAC implementation | LGPL-3 | skeleton + mocked tests, see [`INTEGRATION_CHECKLIST.md`](INTEGRATION_CHECKLIST.md) |
 | [`l10n_pa_account_withholding`](l10n_pa_account_withholding/) | DGI ITBMS / ISR retentions for processor settlements and government counterparties | LGPL-3 | scaffold |
@@ -16,7 +17,7 @@ upstream as `OCA/l10n-panama` later.
 | [`l10n_pa_hr_payroll`](l10n_pa_hr_payroll/) | Panama payroll structures, parameters, rules, and pure-Python helper calculations | LGPL-3 | early scaffold |
 | [`l10n_pa_hr_payroll_account`](l10n_pa_hr_payroll_account/) | Accounting mappings for Panama payroll rules | LGPL-3 | early scaffold |
 
-`l10n_pa_account_withholding` and `l10n_pa_reports` depend on `l10n_pa`. `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll`. The planned `l10n_pa_hr_payroll_sipe` will land here too.
+`l10n_pa_postal`, `l10n_pa_account_withholding`, and `l10n_pa_reports` depend on `l10n_pa`. `l10n_pa_hr_payroll_account` depends on `l10n_pa_hr_payroll`. The planned `l10n_pa_hr_payroll_sipe` will land here too.
 
 ## Quick Start
 
@@ -24,7 +25,7 @@ Install all modules in dependency order against a fresh Odoo 19 database:
 
 ```bash
 odoo-bin -d <db> \
-    -i l10n_pa,l10n_pa_edi,l10n_pa_edi_factura_facil,l10n_pa_account_withholding,l10n_pa_reports,l10n_pa_hr_payroll,l10n_pa_hr_payroll_account \
+    -i l10n_pa,l10n_pa_postal,l10n_pa_edi,l10n_pa_edi_factura_facil,l10n_pa_account_withholding,l10n_pa_reports,l10n_pa_hr_payroll,l10n_pa_hr_payroll_account \
     --stop-after-init
 ```
 
@@ -45,6 +46,7 @@ Invoicing** and the withholding rules per the relevant DGI resoluciones.
 ## Dependencies
 
 - `l10n_pa` depends only on Community modules (`account` + `l10n_latam_base`).
+- `l10n_pa_postal` depends on `l10n_pa`.
 - `l10n_pa_edi` depends on `l10n_pa`, `account`, `account_debit_note`.
 - `l10n_pa_edi_factura_facil` depends on `l10n_pa_edi`.
 - `l10n_pa_account_withholding` depends on `l10n_pa` and Enterprise
@@ -58,8 +60,10 @@ Invoicing** and the withholding rules per the relevant DGI resoluciones.
 Pure-Python statutory checks (run from repo root):
 
 ```bash
-python -m unittest discover -s tests
-python tools/validate_payslip_fixtures.py fixtures/synthetic
+python -m venv .venv
+.venv/bin/python -m pip install -r requirements-dev.txt
+.venv/bin/python -m unittest discover -s tests
+.venv/bin/python tools/validate_payslip_fixtures.py fixtures/synthetic
 ```
 
 Public synthetic fixtures live in `fixtures/synthetic/`. Private

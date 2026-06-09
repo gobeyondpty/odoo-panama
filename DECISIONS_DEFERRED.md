@@ -40,6 +40,14 @@ Items in this repo that need outside input (Panama CPA, DGI documentation, proce
 - **Suggested next step:** Use real merchant settlement statements to confirm each acquirer is applying 50% del ITBMS as expected. Keep statements in `private/` only.
 - **Blocks:** Nothing.
 
+## Withholding-on-payment operational requirements (found 2026-06-09)
+
+- **Status:** `l10n_pa_account_withholding` was installed and exercised in staging against a simulated card-acquirer settlement (Tarjeta DB/CR 50% del ITBMS). Retention math is correct (3.5% of base = 50% of the 7% ITBMS). Three operational findings need decisions:
+- **(a) Withholding account defaults.** The Enterprise framework requires an account per withholding line (or `res.company.withholding_tax_base_account_id` as default). The PA taxes ship none. **Provisional default validated 2026-06-09:** setting the company's `withholding_tax_base_account_id` to `231 ITBMS a Pagar` directly nets the payable and makes wizard lines auto-default their account. A CPA may instead prefer a dedicated "ITBMS retenido por acreditar" asset/contra account so Form 430 casilla "retenciones que le efectuaron" reads off one account — if so, flip the company field and reclass.
+- **(b) Odoo 19 "payment without move" silently drops withholding lines.** If the journal's payment method line has no outstanding account, payments don't generate a journal entry; at bank reconciliation the retained amount lands in Bank Suspense and the stored withholding line is never posted. With an outstanding account configured the payment posts correctly: D outstanding (net), D 231 (retention), C receivable (gross). **Mitigated 2026-06-09:** `l10n_pa_account_withholding` 19.0.1.1.0 now blocks such payments with a `ValidationError` naming the journal/method to configure, so any card-settlement journal missing the outstanding account gets force-configured on first use. Consider reporting the silent-drop behavior upstream to Odoo.
+- **(c) Withholding number is mandatory** per line (`UserError` otherwise). For card retentions use the acquirer settlement/liquidación reference; for government counterparties the constancia number. Optionally configure a sequence on the taxes.
+- **Blocks:** Production card-settlement bookkeeping until (a)/(b) are decided and documented.
+
 ## DGI Form 430 line definitions
 
 - **Status:** `l10n_pa_reports` ships the report skeleton with conceptual sections (Operaciones Gravadas / Exentas / ITBMS Causado / Créditos) but no `tag_name` expressions binding casillas to underlying `account.tax` records.

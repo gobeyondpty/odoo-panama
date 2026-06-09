@@ -1,7 +1,7 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 {
     'name': 'Panama - Withholding Taxes',
-    'version': '19.0.1.0.1',
+    'version': '19.0.1.1.0',
     'countries': ['pa'],
     'category': 'Accounting/Localizations',
     'summary': 'DGI ITBMS and ISR retentions for Panama',

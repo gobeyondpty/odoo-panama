@@ -8,6 +8,49 @@ and this project adheres to semantic versioning per Odoo conventions
 
 ## [Unreleased]
 
+### Added
+
+#### `l10n_pa_hr_payroll_account`
+
+- The module now actually maps accounts (it was an empty shell):
+  `_configure_payroll_account_pa` wires every Panama salary rule to the
+  `l10n_pa` chart — salary expense (514), employer social-security
+  expense (515), net salaries payable (241), CSS/SE payable (242), ISR
+  withheld (244), and the decimo (243) / vacation (245) / seniority
+  premium (246) / cesantia (261) provisions. Decimo payouts and
+  liquidacion prima/indemnizacion consume their provisions.
+- Two payroll provision accounts (`245` Provisión para Vacaciones,
+  `246` Provisión para Prima de Antigüedad) are added to the `pa`
+  chart template; companies whose chart predates the module get them
+  created (and chart-style xmlids registered) on install.
+- Existing `pa`-chart companies are configured at install time via the
+  `_load_payroll_accounts` function-call data record, matching the
+  upstream Enterprise `l10n_*_hr_payroll_account` pattern.
+- 5 integration tests covering account creation, rule mappings, and
+  journal assignment on a fresh `pa` chart load.
+- The mapping is a CPA-reviewable reference default; see
+  `DECISIONS_DEFERRED.md`.
+
+#### `l10n_pa_account_withholding` (19.0.1.1.0)
+
+- New guard on `account.payment`: creating a payment with withholding
+  lines on a journal whose payment method line has no outstanding
+  account now raises a `ValidationError` with setup instructions.
+  Without it, Odoo 19's "payment without journal entry" flow stores
+  the withholding lines but never posts them — the retained amount
+  silently lands in the bank suspense account at reconciliation.
+  2 regression tests cover the blocked and the posting flow.
+
+### Changed
+
+#### `l10n_pa_edi`
+
+- `_COUNTRY_ALPHA3` extended from 35 hand-picked countries to the full
+  ISO 3166-1 table (249 entries, sourced from the Debian `iso-codes`
+  dataset) plus Odoo's non-ISO `XK` (Kosovo → `XKX`) and `XI`
+  (Northern Ireland → `GBR`). A new test asserts every `res.country`
+  record resolves to a real alpha-3 code.
+
 ### Fixed
 
 #### `l10n_pa_edi_factura_facil`

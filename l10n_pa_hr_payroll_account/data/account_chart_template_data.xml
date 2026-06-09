@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Configure payroll accounts for companies whose Panama chart
+             was already loaded before this module was installed. New
+             chart loads run _configure_payroll_account_pa automatically
+             via hr_payroll_account's _post_load_data hook. -->
+        <function model="account.chart.template" name="_load_payroll_accounts">
+            <value eval="[]"/>
+            <value>pa</value>
+            <value model="res.company" eval="obj().search([('chart_template', '=', 'pa')])"/>
+        </function>
+    </data>
+</odoo>

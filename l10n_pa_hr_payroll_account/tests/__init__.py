@@ -1,2 +1,2 @@
-# Reserved for accounting integration tests.
-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
+from . import test_payroll_account_mapping

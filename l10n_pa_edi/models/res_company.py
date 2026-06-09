@@ -14,73 +14,73 @@ class ResCompany(models.Model):
     l10n_pa_pac_provider = fields.Selection(
         selection='_l10n_pa_pac_provider_selection',
         string="PAC (DGI)",
-        help="Proveedor de Autorización Calificado (PAC) que la "
-             "compañía utiliza para emitir facturas electrónicas a DGI.",
+        help="Qualified Authorization Provider (PAC) used by the company "
+             "to issue electronic invoices to DGI.",
     )
     l10n_pa_pac_environment = fields.Selection(
         [
-            ('test', "Pruebas / Sandbox"),
-            ('prod', "Producción"),
+            ('test', "Testing / Sandbox"),
+            ('prod', "Production"),
         ],
         default='test',
-        string="Ambiente PAC",
-        help="Ambiente del PAC. En 'Pruebas' las facturas no son fiscales.",
+        string="PAC Environment",
+        help="PAC environment. In testing mode, invoices are not fiscal.",
     )
     l10n_pa_sfep_branch = fields.Char(
-        string="Sucursal SFEP",
+        string="SFEP Branch",
         size=4,
         default='0001',
-        help="Código de sucursal del SFEP (4 dígitos, dSucEm).",
+        help="SFEP branch code (4 digits, dSucEm).",
     )
     l10n_pa_sfep_emission_point = fields.Char(
-        string="Punto de Emisión",
+        string="Emission Point",
         size=3,
         default='001',
-        help="Punto de facturación SFEP (3 dígitos, dPtoFacDF).",
+        help="SFEP billing point (3 digits, dPtoFacDF).",
     )
     l10n_pa_sfep_emission_type = fields.Selection(
         [
-            ('01', "Operación normal"),
-            ('02', "Contingencia"),
+            ('01', "Normal operation"),
+            ('02', "Contingency"),
             ('03', "Provisional"),
-            ('04', "Reemplazo"),
+            ('04', "Replacement"),
         ],
         default='01',
-        string="Tipo de Emisión",
-        help="Modalidad de emisión por defecto (iTpEmis).",
+        string="Emission Type",
+        help="Default emission mode (iTpEmis).",
     )
     l10n_pa_sfep_form_cafe = fields.Selection(
         [
-            ('1', "Sin generación de CAFE"),
-            ('2', "Cinta de papel"),
-            ('3', "Papel formato carta"),
+            ('1', "No CAFE generation"),
+            ('2', "Paper roll"),
+            ('3', "Letter-size paper"),
         ],
         default='3',
-        string="Formato CAFE",
-        help="Forma de generación del CAFE (iFormCafe), según Ficha Técnica DGI PAC v1.00.",
+        string="CAFE Format",
+        help="CAFE generation format (iFormCafe), according to DGI PAC Technical Specification v1.00.",
     )
     l10n_pa_sfep_delivery_cafe = fields.Selection(
         [
-            ('1', "Sin generación de CAFE"),
-            ('2', "CAFE en papel"),
-            ('3', "CAFE en formato electrónico"),
+            ('1', "No CAFE generation"),
+            ('2', "Paper CAFE"),
+            ('3', "Electronic CAFE"),
         ],
         default='3',
-        string="Entrega CAFE",
-        help="Manera de entrega del CAFE al receptor (iEntCafe), según Ficha Técnica DGI PAC v1.00.",
+        string="CAFE Delivery",
+        help="How the CAFE is delivered to the recipient (iEntCafe), according to DGI PAC Technical Specification v1.00.",
     )
     l10n_pa_certificate_id = fields.Binary(
-        string="Certificado de Firma Electrónica (.p12)",
+        string="Electronic Signature Certificate (.p12)",
         attachment=True,
-        help="Certificado PKCS#12 emitido por Registro Público / Firma "
-             "Electrónica usado para firmar documentos DGI.",
+        help="PKCS#12 certificate issued by Registro Publico / Firma "
+             "Electronica used to sign DGI documents.",
     )
     l10n_pa_certificate_password = fields.Char(
-        string="Contraseña del Certificado",
-        help="Almacenada como ir.config_parameter cifrado por Odoo. "
-             "No imprimir en logs ni respuestas API.",
+        string="Certificate Password",
+        help="Stored as an Odoo-encrypted ir.config_parameter. Do not print "
+             "it in logs or API responses.",
     )
-    l10n_pa_certificate_filename = fields.Char(string="Nombre del Archivo del Certificado")
+    l10n_pa_certificate_filename = fields.Char(string="Certificate Filename")
 
     @api.model
     def _l10n_pa_pac_provider_selection(self):
@@ -91,4 +91,4 @@ class ResCompany(models.Model):
         implementation contains only the 'none' placeholder so the
         field is usable when no provider is installed.
         """
-        return [('none', "Sin PAC configurado")]
+        return [('none', "No PAC configured")]

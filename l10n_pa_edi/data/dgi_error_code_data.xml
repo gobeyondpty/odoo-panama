@@ -37,6 +37,20 @@
         <field name="description">El campo iFormCafe debe estar entre 1 y 3 según la modalidad de entrega configurada.</field>
     </record>
 
+    <record id="dgi_error_1002_doc_duplicado" model="l10n_pa_edi.dgi.error.code">
+        <field name="code">1002</field>
+        <field name="severity">error</field>
+        <field name="short_message">Documento duplicado</field>
+        <field name="description">El PAC ya recibió un documento con el mismo identificador; verifique si el envío anterior fue autorizado antes de reintentar.</field>
+    </record>
+
+    <record id="dgi_error_1513_nro_df_duplicado" model="l10n_pa_edi.dgi.error.code">
+        <field name="code">1513</field>
+        <field name="severity">error</field>
+        <field name="short_message">Número del documento fiscal duplicado</field>
+        <field name="description">El número de documento fiscal ya fue usado en la serie del emisor; el correlativo no puede reiniciarse ni repetirse.</field>
+    </record>
+
     <record id="dgi_error_emisor_ruc" model="l10n_pa_edi.dgi.error.code">
         <field name="code">B201</field>
         <field name="severity">error</field>

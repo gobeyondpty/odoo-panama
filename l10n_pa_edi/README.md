@@ -46,16 +46,16 @@ implements the abstract interface.
 ## How it Plugs Into the Send Wizard
 
 When a user posts a Panama sale invoice and opens **Send & Print**,
-"**Enviar a DGI vía PAC**" appears as an **Extra EDI** option. Selecting
+"**Send to DGI**" appears as an **Extra EDI** option. Selecting
 it triggers the configured provider's `send_invoice()` from inside the
-send-flow hook. On success the move flips to `Autorizada`, the CUFE is
+send-flow hook. On success the move flips to `Authorized`, the CUFE is
 populated, and the authorized XML attaches to the move.
 
 For ad-hoc submission outside the wizard, the form view exposes:
 
-- **Enviar a DGI vía PAC** (button) — when posted and not yet authorized
-- **Consultar estado DGI** — refresh from PAC for a sent/rejected move
-- **Anular en DGI** — register an Anulación event for an authorized move
+- **Send to DGI** (button) — when posted and not yet authorized
+- **Check DGI Status** — refresh from PAC for a sent/rejected move
+- **Cancel with DGI** — register a cancellation event for an authorized move
 
 ## Writing a New Provider Module
 

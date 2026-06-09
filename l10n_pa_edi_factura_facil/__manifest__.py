@@ -3,7 +3,7 @@
     'name': 'Panama - Factura Fácil S.A. PAC',
     'icon': '/account/static/description/l10n.png',
     'countries': ['pa'],
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'category': 'Accounting/Localizations/EDI',
     'description': """
 Panama Electronic Invoicing — Factura Fácil S.A. Provider
@@ -13,24 +13,27 @@ Concrete implementation of the `l10n_pa_edi.PACProvider` interface for
 Factura Fácil S.A. (DGI registered PAC, RUC 155723374-2-2022,
 Resolución 201-2167).
 
-Implements the four PAC operations:
+Implemented against the Factura Fácil REST API v1 documented at
+`https://backend-qa-api.facturafacil.com.pa/swagger/`:
 
-* `send_invoice(move)` — submit a DGI XML and obtain a CUFE
-* `get_status(cufe)`   — query authorization status
-* `cancel_invoice(move, reason)` — register an Anulación event
-* `validate_ruc(ruc, dv)` — RUC + DV validation through the PAC
+* `send_invoice(move)` — POST `/pac/reception_fe/detailed/`; obtains
+  CUFE, document UUID, authorized XML, QR payload, and PDF URL.
+* `get_status(cufe)`   — GET `/pac/reception_fe/find_by_cufe_or_id/`
+  by CUFE or document UUID.
+* `cancel_invoice(move, reason)` — POST `/pac/event/issue/` with an
+  Anulación (`type='AN'`) event against the authorized CUFE.
+* `validate_ruc(ruc, dv)` — local DV recomputation (no PAC endpoint).
 
-HTTP integration is implemented using `requests` with a 30s timeout,
-exponential-backoff retries on 5xx and connection errors, and
-sanitized request/response logging.
+Authentication uses three HTTP headers (`X-FF-Company`, `X-FF-Branch`,
+`X-FF-API-Key`), stored per `res.company` since each contribuyente is
+a separate Factura Fácil tenant. Endpoint URLs and HTTP timeout come
+from `ir.config_parameter`.
 
-Stub methods that depend on Factura Fácil's full OpenAPI schema raise
-`NotImplementedError` with a TODO and are documented in
-`INTEGRATION_CHECKLIST.md` at the repo root. Filling these in is the
-sole remaining task once sandbox credentials are available.
+The HTTP client has a 30s timeout, exponential-backoff retries on 5xx
+and connection errors, and sanitized request/response logging.
 
 Configuration UI lives at:
-**Settings → Accounting → Panama Electronic Invoicing → Factura Fácil**.
+**Settings → Accounting → Fiscal Localization → Factura Fácil (PAC Panamá)**.
 """,
     'author': 'Go Beyond Inc, Community',
     'website': 'https://github.com/gobeyondpty/odoo-panama',

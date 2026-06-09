@@ -8,24 +8,24 @@
             <xpath expr="//header" position="inside">
                 <button name="action_l10n_pa_send_to_pac"
                         type="object"
-                        string="Enviar a DGI vía PAC"
+                        string="Send to DGI"
                         class="btn-primary"
                         invisible="country_code != 'PA' or move_type not in ('out_invoice','out_refund') or l10n_pa_pac_status in ('authorized','cancelled') or state != 'posted'"/>
                 <button name="action_l10n_pa_query_status"
                         type="object"
-                        string="Consultar estado DGI"
+                        string="Check DGI Status"
                         invisible="country_code != 'PA' or not l10n_pa_cufe or l10n_pa_pac_status not in ('sent','rejected')"/>
                 <button name="action_l10n_pa_cancel_with_pac"
                         type="object"
-                        string="Anular en DGI"
+                        string="Cancel with DGI"
                         invisible="country_code != 'PA' or l10n_pa_pac_status != 'authorized'"/>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Factura Electrónica DGI"
+                <page string="DGI Electronic Invoice"
                       name="l10n_pa_edi"
                       invisible="country_code != 'PA' or move_type not in ('out_invoice','out_refund')">
                     <group>
-                        <group string="Estado DGI">
+                        <group string="DGI Status">
                             <field name="l10n_pa_pac_status" readonly="1"/>
                             <field name="l10n_pa_cufe" readonly="1"/>
                             <field name="l10n_pa_security_code" readonly="1"/>
@@ -35,7 +35,7 @@
                             <field name="l10n_pa_pac_error_codes" readonly="1"
                                    invisible="not l10n_pa_pac_error_codes"/>
                         </group>
-                        <group string="Referencias y modalidad">
+                        <group string="References and Mode">
                             <field name="l10n_pa_origin_cufe"
                                    invisible="move_type not in ('out_refund',)"/>
                             <field name="l10n_pa_contingency"/>
@@ -44,15 +44,15 @@
                                    required="l10n_pa_contingency"/>
                         </group>
                     </group>
-                    <group string="Clasificación DGI">
+                    <group string="DGI Classification">
                         <field name="l10n_pa_operation_nature"/>
                         <field name="l10n_pa_operation_type"/>
                         <field name="l10n_pa_operation_destination"/>
                     </group>
-                    <group string="Respuesta cruda del PAC (depuración)">
+                    <group string="Raw PAC Response (Debug)">
                         <field name="l10n_pa_pac_response" nolabel="1" readonly="1"/>
                     </group>
-                    <group string="Historial PAC">
+                    <group string="PAC History">
                         <field name="l10n_pa_pac_event_ids" nolabel="1">
                             <list>
                                 <field name="create_date"/>

@@ -130,6 +130,18 @@
         <field name="parameter_value">13</field>
     </record>
 
+    <record id="l10n_pa_rule_param_isr_periods_per_month" model="hr.rule.parameter">
+        <field name="name">Panama ISR Payroll Periods Per Month</field>
+        <field name="code">l10n_pa_isr_periods_per_month</field>
+        <field name="country_id" ref="base.pa"/>
+        <field name="description">FALLBACK únicamente. Número de planillas regulares por mes para repartir la retención mensual de ISR cuando el contrato no tiene schedule_pay reconocido. La regla ISR_EMP normalmente deriva este valor de version.schedule_pay (monthly→1, semi-monthly→2), por lo que empleados mensuales y quincenales del mismo período se calculan correctamente sin tocar este parámetro. Use 1 para planilla mensual y 2 para quincena. Ejemplo: salario mensual 1,500.00 pagado por quincena retiene 49.04 en cada planilla.</field>
+    </record>
+    <record id="l10n_pa_rule_param_isr_periods_per_month_2026" model="hr.rule.parameter.value">
+        <field name="rule_parameter_id" ref="l10n_pa_rule_param_isr_periods_per_month"/>
+        <field name="date_from">2026-01-01</field>
+        <field name="parameter_value">1</field>
+    </record>
+
     <record id="l10n_pa_rule_param_isr_spouse_deduction" model="hr.rule.parameter">
         <field name="name">Panama ISR Spouse Deduction (Joint Filing)</field>
         <field name="code">l10n_pa_isr_spouse_deduction</field>

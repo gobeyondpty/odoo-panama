@@ -25,6 +25,7 @@ from lib.calculations import (
     annual_representation_tax,
     calculate_decimo_lines,
     calculate_monthly_income_tax,
+    calculate_period_income_tax,
     calculate_statutory_lines,
     cesantia_indemnization_accrual,
     combined_surcharge_pay,
@@ -45,6 +46,7 @@ from lib.calculations import (
     monthly_representation_tax,
     overtime_excess_pay,
     overtime_pay,
+    periods_per_month_for_schedule,
     prima_antiguedad_payout,
     professional_risk_employer,
     professional_risk_employer_from_grade,
@@ -73,12 +75,23 @@ class TestCSS(unittest.TestCase):
 
     def test_employer_rate_schedule(self):
         # Numeral 2 lits. a-c: 13.25 / 14.25 / 15.25.
+        self.assertEqual(css_employer_rate_for_date("2024-08-31"), 0.1225)
         self.assertEqual(css_employer_rate_for_date("2025-03-31"), 0.1225)
         self.assertEqual(css_employer_rate_for_date("2025-04-01"), 0.1325)
         self.assertEqual(css_employer_rate_for_date("2027-02-28"), 0.1325)
         self.assertEqual(css_employer_rate_for_date("2027-03-01"), 0.1425)
         self.assertEqual(css_employer_rate_for_date("2029-02-28"), 0.1425)
         self.assertEqual(css_employer_rate_for_date("2029-03-01"), 0.1525)
+
+    def test_2024_css_notice_aggregate_pattern(self):
+        # CSS notice aggregate shape (fictional base): employee 9.75% +
+        # employer 12.25% (pre-reform Aug 2024 rate) = 22.00% combined.
+        taxable_base = 3200.0
+        employee = css_employee(taxable_base)
+        employer = css_employer(taxable_base, css_employer_rate_for_date("2024-08-31"))
+        self.assertEqual(employee, 312.0)
+        self.assertEqual(employer, 392.0)
+        self.assertEqual(employee + employer, 704.0)
 
     def test_decimo_special_rates(self):
         # Numeral 4: 10.75 % patronal; numeral 5: 7.25 % obrera.
@@ -117,6 +130,10 @@ class TestRiesgosProfesionales(unittest.TestCase):
     def test_premium(self):
         self.assertEqual(professional_risk_employer(1000, 0.0098), 9.8)
         self.assertEqual(professional_risk_employer_from_grade(1000, 8), 5.6)
+
+    def test_2024_css_notice_risk_pattern(self):
+        # CSS notice risk shape (fictional base): risk rate 0.98% × 3,200.00.
+        self.assertEqual(professional_risk_employer(3200, 0.0098), 31.36)
 
 
 class TestISRBrackets(unittest.TestCase):
@@ -176,6 +193,23 @@ class TestISRMonthlyRetention(unittest.TestCase):
         self.assertEqual(calculate_monthly_income_tax(1000, annual_deductions=800), 13.85)
 
 
+class TestISRPeriodRetention(unittest.TestCase):
+    """Payroll-period ISR allocation from private semimonthly receipts."""
+
+    def test_monthly_default_matches_monthly_helper(self):
+        self.assertEqual(calculate_period_income_tax(1000), 23.08)
+
+    def test_semimonthly_taxable_salary(self):
+        # Fictional B/.1,500 monthly salary paid as B/.750 quincena.
+        # Monthly ISR = B/.98.08, split across two pay periods.
+        self.assertEqual(calculate_period_income_tax(750, periods_per_month=2), 49.04)
+
+    def test_semimonthly_under_threshold_is_zero(self):
+        # Fictional B/.700 monthly salary paid as B/.350 quincena remains
+        # below the annual ISR threshold.
+        self.assertEqual(calculate_period_income_tax(350, periods_per_month=2), 0.0)
+
+
 class TestISRMatchesEtax2Probe(unittest.TestCase):
     """Golden master against DGI eTax2 calculator output for Privado sector.
 
@@ -212,6 +246,42 @@ class TestISRMatchesEtax2Probe(unittest.TestCase):
                 ded = SPOUSE_DEDUCTION if spouse else 0.0
                 got = calculate_monthly_income_tax(monthly, annual_deductions=ded)
                 self.assertEqual(got, expected, f"${monthly}, spouse={spouse}: got ${got}, expected ${expected}")
+
+
+class TestPeriodsPerMonthForSchedule(unittest.TestCase):
+    """ISR projection factor derived from the contract's pay frequency.
+
+    Keys mirror Odoo's hr.payroll.structure.type schedule_pay selection.
+    A monthly contract pays once a month; a quincenal (semi-monthly) one
+    pays twice. Deriving this per contract is what lets a monthly and a
+    quincenal employee be calculated correctly in the same period.
+    """
+
+    def test_monthly_is_one(self):
+        self.assertEqual(periods_per_month_for_schedule("monthly"), 1.0)
+
+    def test_semi_monthly_is_two(self):
+        self.assertEqual(periods_per_month_for_schedule("semi-monthly"), 2.0)
+
+    def test_weekly_and_biweekly(self):
+        self.assertAlmostEqual(periods_per_month_for_schedule("weekly"), 52.0 / 12.0)
+        self.assertAlmostEqual(periods_per_month_for_schedule("bi-weekly"), 26.0 / 12.0)
+
+    def test_unknown_falls_back_to_default(self):
+        # Blank/None/unrecognised → caller-provided fallback (the global param).
+        self.assertEqual(periods_per_month_for_schedule(None, default=2.0), 2.0)
+        self.assertEqual(periods_per_month_for_schedule("", default=1.0), 1.0)
+        self.assertEqual(periods_per_month_for_schedule("fortnightly", default=2.0), 2.0)
+
+    def test_low_wage_quincenal_under_threshold_is_zero(self):
+        # The bug this fixes (fictional amounts): $700/mo employee paid
+        # quincenally. Each quincena GROSS = $350; periods derived from
+        # "semi-monthly" = 2. $350 × 2 × 13 = $9,100 ≤ $11,000 → $0, not
+        # the $41.54 a monthly slip mis-read through a quincenal lens
+        # produced.
+        periods = periods_per_month_for_schedule("semi-monthly")
+        from lib.calculations import calculate_period_income_tax
+        self.assertEqual(calculate_period_income_tax(350, periods_per_month=periods), 0.0)
 
 
 class TestLiquidationISR(unittest.TestCase):

@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
             <xpath expr="//group[@name='group_standard_price']" position="after">
-                <group string="Factura Electrónica Panamá">
+                <group string="Panama Electronic Invoicing">
                     <field name="l10n_pa_edi_cpbs_id"/>
                     <field name="l10n_pa_edi_uom_id"/>
                 </group>

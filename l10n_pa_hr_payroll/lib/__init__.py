@@ -1,5 +1,6 @@
 from .calculations import (
     calculate_monthly_income_tax,
+    calculate_period_income_tax,
     calculate_statutory_lines,
     css_employee,
     css_employer,

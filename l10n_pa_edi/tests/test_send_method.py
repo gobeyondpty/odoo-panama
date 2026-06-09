@@ -118,7 +118,7 @@ class TestSendMethod(TransactionCase):
     def test_pa_dgi_listed_in_extra_edis(self):
         edis = self.env['account.move.send']._get_all_extra_edis()
         self.assertIn('pa_dgi', edis)
-        self.assertEqual(edis['pa_dgi']['label'], 'Enviar a DGI vía PAC')
+        self.assertEqual(edis['pa_dgi']['label'], 'Send to DGI')
 
     def test_pa_dgi_applicable_for_panama_sale_invoice(self):
         inv = self._make_invoice()
@@ -181,6 +181,31 @@ class TestSendMethod(TransactionCase):
         self.assertEqual(inv.l10n_pa_pac_send_count, 1)
         self.assertIn('authorized', inv.l10n_pa_pac_event_ids.mapped('state'))
 
+    def test_authorized_pa_invoice_keeps_xml_internal_only(self):
+        inv = self._make_invoice()
+        inv.action_post()
+        inv.action_l10n_pa_send_to_pac()
+
+        attachments = self.env['account.move.send']._get_invoice_extra_attachments(inv)
+        self.assertTrue(inv.l10n_pa_xml_attachment_id)
+        self.assertFalse(inv.l10n_pa_xml_attachment_id.public)
+        self.assertNotIn(inv.l10n_pa_xml_attachment_id, attachments)
+        self.assertFalse(attachments.filtered(lambda a: a.name == inv._l10n_pa_get_cafe_report_filename()))
+
+    def test_authorized_pa_invoice_embeds_cafe_in_standard_invoice_report(self):
+        inv = self._make_invoice()
+        inv.action_post()
+        inv.action_l10n_pa_send_to_pac()
+
+        self.assertEqual(inv._get_name_invoice_report(), 'account.report_invoice_document')
+        self.assertFalse(self.env.ref('l10n_pa_edi.action_report_cafe').binding_model_id)
+        content, _report_format = self.env['ir.actions.report']._render(
+            'account.report_invoice',
+            inv.ids,
+        )
+        self.assertIn(b'Electronic invoice authorized by DGI', content)
+        self.assertIn(inv.l10n_pa_cufe.encode(), content)
+
     def test_action_send_raises_when_no_provider(self):
         inv = self._make_invoice()
         inv.action_post()
@@ -213,6 +238,29 @@ class TestSendMethod(TransactionCase):
         self.assertIn('rejected', inv.l10n_pa_pac_event_ids.mapped('state'))
         # invoice_data['error'] is also set so the UI surfaces it.
         self.assertIn('error', invoice_data)
+        self.assertIn('Issuer RUC is not authorized', '\n'.join(invoice_data['error']['errors']))
+
+    def test_action_send_translates_common_pac_rejection_messages_in_english(self):
+        inv = self._make_invoice()
+        inv.action_post()
+        _FakeProvider.next_send_response = PACResponse(
+            success=False,
+            errors=[
+                {'code': '1002', 'message': 'Documento duplicado'},
+                {'code': '1513', 'message': 'Número del documento fiscal duplicado'},
+            ],
+            raw_response='{"status":"REJECTED"}',
+            pac_status_code='1002',
+            pac_status_message='Documento duplicado',
+        )
+        with self.assertRaises(UserError) as error:
+            inv.with_context(lang='en_US').action_l10n_pa_send_to_pac()
+
+        message = error.exception.args[0]
+        self.assertIn('The PAC rejected the invoice', message)
+        self.assertIn('1002: Duplicate document', message)
+        self.assertIn('1513: Duplicate fiscal document number', message)
+        self.assertNotIn('Documento duplicado', message)
 
     def test_alerts_flag_missing_company_dv(self):
         inv = self._make_invoice()

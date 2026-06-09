@@ -12,21 +12,21 @@ class ResPartner(models.Model):
 
     l10n_pa_receiver_type = fields.Selection(
         [
-            ('01', "Contribuyente"),
-            ('02', "Consumidor Final"),
-            ('03', "Gobierno"),
-            ('04', "Extranjero"),
+            ('01', "Taxpayer"),
+            ('02', "Final Consumer"),
+            ('03', "Government"),
+            ('04', "Foreign"),
         ],
-        string="Tipo de Receptor (DGI)",
+        string="Recipient Type (DGI)",
         compute='_compute_l10n_pa_receiver_type',
         store=True,
         readonly=False,
-        help="Clasificación del receptor según DGI (campo iTipoRec).",
+        help="Recipient classification according to DGI (iTipoRec field).",
     )
     l10n_pa_edi_location_id = fields.Many2one(
         'l10n_pa_edi.location',
-        string="Ubicación DGI",
-        help="Código Provincia-Distrito-Corregimiento usado por DGI para la dirección fiscal.",
+        string="DGI Location",
+        help="Province-District-Township code used by DGI for the fiscal address.",
     )
 
     @api.depends('country_id', 'is_company', 'l10n_latam_identification_type_id', 'vat')

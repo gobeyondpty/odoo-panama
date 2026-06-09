@@ -6,7 +6,7 @@
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="Factura Electrónica Panamá"
+                <page string="Panama Electronic Invoicing"
                       name="l10n_pa_edi"
                       invisible="country_id and country_id.code != 'PA'">
                     <group>
@@ -14,7 +14,7 @@
                             <field name="l10n_pa_pac_provider"/>
                             <field name="l10n_pa_pac_environment"/>
                         </group>
-                        <group string="SFEP / Punto de Emisión">
+                        <group string="SFEP / Emission Point">
                             <field name="l10n_pa_sfep_branch"/>
                             <field name="l10n_pa_sfep_emission_point"/>
                             <field name="l10n_pa_sfep_emission_type"/>
@@ -23,7 +23,7 @@
                             <field name="l10n_pa_business_activity_code"/>
                         </group>
                     </group>
-                    <group string="Firma Electrónica (Registro Público)">
+                    <group string="Electronic Signature (Public Registry)">
                         <field name="l10n_pa_certificate_filename" invisible="1"/>
                         <field name="l10n_pa_certificate_id"
                                filename="l10n_pa_certificate_filename"/>

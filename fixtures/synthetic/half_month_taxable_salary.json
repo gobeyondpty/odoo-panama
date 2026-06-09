@@ -1,0 +1,24 @@
+{
+  "employee": "Synthetic Half-Month Taxable Employee",
+  "period": "2024-08-16/2024-08-31",
+  "gross_salary": 750.0,
+  "rates": {
+    "css_employee_rate": 0.0975,
+    "css_employer_rate": 0.1225,
+    "educational_employee_rate": 0.0125,
+    "educational_employer_rate": 0.015,
+    "professional_risk_rate": 0.0,
+    "periods_per_month": 2,
+    "income_tax_months": 13
+  },
+  "expected_lines": {
+    "CSS_EMP": -73.13,
+    "SE_EMP": -9.38,
+    "ISR_EMP": -49.04,
+    "CSS_COMP": 91.88,
+    "SE_COMP": 11.25,
+    "RP_COMP": 0.0
+  },
+  "expected_net": 618.45,
+  "notes": "Fictional amounts: monthly salary 1,500.00 paid as gross 750.00 per quincena. Exercises the semimonthly ISR projection (750 x 2 x 13 = 19,500 annual, art. 700 bracket 15%) plus the 2024 pre-reform employer CSS rate of 12.25%. The real-receipt counterparts of this scenario live in fixtures/private/ (not in Git)."
+}

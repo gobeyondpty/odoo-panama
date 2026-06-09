@@ -76,6 +76,16 @@ class HrPayrollPanamaMixin(models.AbstractModel):
         )
 
     @api.model
+    def period_income_tax(self, period_taxable_income, periods_per_month=1.0, months=13, annual_deductions=0.0):
+        return calculations.calculate_period_income_tax(
+            period_taxable_income, periods_per_month, months, annual_deductions
+        )
+
+    @api.model
+    def periods_per_month_for_schedule(self, schedule_pay, default=1.0):
+        return calculations.periods_per_month_for_schedule(schedule_pay, default)
+
+    @api.model
     def annual_income_tax(self, taxable_annual_income):
         return calculations.annual_income_tax(taxable_annual_income)
 

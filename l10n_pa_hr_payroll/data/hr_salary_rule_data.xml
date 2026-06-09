@@ -294,13 +294,19 @@ result = payslip.env['l10n.pa.hr.payroll.mixin'].vacation_pay(base, inputs['VAC_
 ded = 0.0
 if inputs.get('SPOUSE_JOINT') and inputs['SPOUSE_JOINT'].amount:
     ded = payslip._rule_parameter('l10n_pa_isr_spouse_deduction')
-result = -payslip.env['l10n.pa.hr.payroll.mixin'].monthly_income_tax(
+helper = payslip.env['l10n.pa.hr.payroll.mixin']
+periods = helper.periods_per_month_for_schedule(
+    version.schedule_pay,
+    payslip._rule_parameter('l10n_pa_isr_periods_per_month'),
+)
+result = -helper.period_income_tax(
     categories['GROSS'],
+    periods,
     int(payslip._rule_parameter('l10n_pa_income_tax_months')),
     ded,
 )
         </field>
-        <field name="note">Retención mensual del ISR per DE 170/1993 (Periodo Provisional de Cálculo). Anualiza la base × N + décimo proyectado, aplica tarifa art. 700 Cód. Fiscal, divide entre N. Insumo SPOUSE_JOINT activa la deducción de B/.800 por cónyuge (Cód. Fiscal art. 709 num. 1).</field>
+        <field name="note">Retención del ISR para el período de planilla per DE 170/1993 (Periodo Provisional de Cálculo). El número de planillas por mes se deriva de la frecuencia de pago del contrato (version.schedule_pay: monthly→1, semi-monthly/quincena→2) para que empleados mensuales y quincenales coexistan correctamente; si schedule_pay es desconocido cae al parámetro l10n_pa_isr_periods_per_month. Proyecta la base del período a equivalente mensual, anualiza × N, aplica tarifa art. 700 Cód. Fiscal, divide entre N y luego reparte entre los períodos del mes. Insumo SPOUSE_JOINT activa la deducción de B/.800 por cónyuge (Cód. Fiscal art. 709 num. 1).</field>
     </record>
 
     <record id="l10n_pa_rule_representation" model="hr.salary.rule">

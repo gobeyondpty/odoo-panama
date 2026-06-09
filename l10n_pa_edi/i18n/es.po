@@ -1,0 +1,1383 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* l10n_pa_edi
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0+e-20260421\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-05-19 18:02+0000\n"
+"PO-Revision-Date: 2026-05-19 00:00+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "%(name)s: company %(co)s has a RUC without a calculated DV."
+msgstr "%(name)s: la compañía %(co)s tiene RUC sin DV calculado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "%(name)s: company %(co)s has no RUC."
+msgstr "%(name)s: la compañía %(co)s no tiene RUC."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid ""
+"%(name)s: recipient '%(p)s' is classified as Taxpayer/Government and "
+"requires a RUC."
+msgstr ""
+"%(name)s: el receptor '%(p)s' clasificado como Contribuyente/Gobierno "
+"requiere RUC."
+
+#. module: l10n_pa_edi
+#: model:ir.actions.report,print_report_name:l10n_pa_edi.action_report_cafe
+msgid "'CAFE_%s' % (object.name).replace('/', '_')"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid ""
+"<br/>\n"
+"                                    <strong>CUFE:</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid ""
+"<br/>\n"
+"                                    <strong>Issue Date:</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "<strong>Document:</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "<strong>Issuer</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "<strong>Recipient</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "<strong>Total</strong>"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_account_move_send
+msgid "Account Move Send"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__active
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__active
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__active
+msgid "Active"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Activity:"
+msgstr "Actividad:"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__authorized
+msgid "Authorized"
+msgstr "Autorizado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_pac_status__authorized
+msgid "Authorized by DGI"
+msgstr "Autorizado por DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_sfep_delivery_cafe
+msgid "CAFE Delivery"
+msgstr "Entrega CAFE"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_sfep_form_cafe
+msgid "CAFE Format"
+msgstr "Formato CAFE"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_sfep_form_cafe
+msgid ""
+"CAFE generation format (iFormCafe), according to DGI PAC Technical "
+"Specification v1.00."
+msgstr ""
+"Forma de generación del CAFE (iFormCafe), según Ficha Técnica DGI PAC v1.00."
+
+#. module: l10n_pa_edi
+#: model:ir.actions.report,name:l10n_pa_edi.action_report_cafe
+msgid "CAFE — Electronic Invoice Authorization (DGI)"
+msgstr "CAFE — Constancia de Autorización (DGI)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_product__l10n_pa_edi_cpbs_id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_template__l10n_pa_edi_cpbs_id
+msgid "CPBS"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__code
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_cpbs_form
+msgid "CPBS Code"
+msgstr "Código CPBS"
+
+#. module: l10n_pa_edi
+#: model:ir.actions.act_window,name:l10n_pa_edi.action_l10n_pa_edi_cpbs
+#: model:ir.ui.menu,name:l10n_pa_edi.menu_l10n_pa_edi_cpbs
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_cpbs_list
+msgid "CPBS Codes"
+msgstr "Códigos CPBS"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_product_category__l10n_pa_edi_cpbs_id
+msgid "CPBS code used as a fallback for products in this category."
+msgstr "Código CPBS usado como fallback para productos de esta categoría."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_cufe
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_cufe
+msgid "CUFE"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_origin_cufe
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_origin_cufe
+msgid ""
+"CUFE of the original electronic invoice referenced by this credit or debit "
+"note. It is automatically filled from the source invoice CUFE when the note "
+"is created from a reversal (credit note) or through account_debit_note "
+"(debit note); it can be overwritten manually."
+msgstr ""
+"CUFE de la factura electrónica original referenciada por esta nota de "
+"crédito o débito. Se autocompleta del CUFE de la factura origen cuando la "
+"nota se crea desde una reversión (nota de crédito) o vía account_debit_note "
+"(nota de débito); puede sobrescribirse manualmente."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "Cancel with DGI"
+msgstr "Anular en DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__operation__cancel
+msgid "Cancellation"
+msgstr "Anulación"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "Cancellation requested by the taxpayer"
+msgstr "Anulación solicitada por el contribuyente"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_pac_status__cancelled
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__cancelled
+msgid "Cancelled"
+msgstr "Anulado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_certificate_filename
+msgid "Certificate Filename"
+msgstr "Nombre del Archivo del Certificado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_certificate_password
+msgid "Certificate Password"
+msgstr "Contraseña del Certificado"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "Check DGI Status"
+msgstr "Consultar estado DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__code
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__code
+msgid "Code"
+msgstr "Código"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__company_id
+msgid "Company"
+msgstr ""
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "Company '%(company)s' has no PAC configured."
+msgstr "La compañía '%(company)s' no tiene un PAC configurado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "Company '%(company)s' must have RUC and DV configured."
+msgstr "La compañía '%(company)s' debe tener RUC y DV configurados."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__complete_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__complete_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__complete_name
+msgid "Complete Name"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__12
+msgid "Consignment"
+msgstr "Consignación"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_contingency
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_contingency
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_emission_type__02
+msgid "Contingency"
+msgstr "Contingencia"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_contingency_reason
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_contingency_reason
+msgid "Contingency Reason"
+msgstr "Motivo de Contingencia"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__create_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__create_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__create_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__create_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__create_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__create_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__create_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__create_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/dgi_error_codes.py:0
+msgid "DGI %(code)s (no local description)"
+msgstr "DGI %(code)s (sin descripción local)"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "DGI Classification"
+msgstr "Clasificación DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__code
+msgid "DGI Code"
+msgstr "Código DGI"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "DGI Electronic Invoice"
+msgstr "Factura Electrónica DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_l10n_pa_edi_dgi_error_code
+msgid "DGI Error Code"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_partner__l10n_pa_edi_location_id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_users__l10n_pa_edi_location_id
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_location_form
+msgid "DGI Location"
+msgstr "Ubicación DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.actions.act_window,name:l10n_pa_edi.action_l10n_pa_edi_location
+#: model:ir.ui.menu,name:l10n_pa_edi.menu_l10n_pa_edi_location
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_location_list
+msgid "DGI Locations"
+msgstr "Ubicaciones DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_destination
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_operation_destination
+msgid "DGI Operation Destination"
+msgstr "Destino de la Operación DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_nature
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_operation_nature
+msgid "DGI Operation Nature"
+msgstr "Naturaleza de la Operación DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_type
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_operation_type
+msgid "DGI Operation Type"
+msgstr "Tipo de Operación DGI"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "DGI Status"
+msgstr "Estado DGI"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "DGI rejected the cancellation: %(msg)s"
+msgstr "DGI rechazó la anulación: %(msg)s"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "DGI rejected the invoice"
+msgstr "DGI rechazó la factura"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_error_codes
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_error_codes
+msgid "DGI/PAC Error Codes"
+msgstr "Códigos de error DGI/PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_category__l10n_pa_edi_cpbs_id
+msgid "Default CPBS"
+msgstr "CPBS por defecto"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_sfep_emission_type
+msgid "Default emission mode (iTpEmis)."
+msgstr "Modalidad de emisión por defecto (iTpEmis)."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__description
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Description"
+msgstr "Descripción"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move_send__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_category__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_template__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__display_name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__district
+msgid "District"
+msgstr "Distrito"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid ""
+"Document type %(move_type)s is not supported by the Panama Electronic "
+"Invoicing module."
+msgstr ""
+"El tipo de documento %(move_type)s no es soportado por el módulo de Factura "
+"Electrónica de Panamá."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_pac_status__draft
+msgid "Draft"
+msgstr "Borrador"
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_emisor_ruc
+msgid ""
+"El RUC del emisor no se encuentra autorizado por DGI para emitir factura "
+"electrónica, o su DV no coincide."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_receptor_ruc
+msgid "El RUC del receptor no es válido o el DV no coincide."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_b06_invalid_doc
+msgid ""
+"El campo iDoc no corresponde a un tipo de documento DGI válido (01–09)."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_b15_formcafe
+msgid ""
+"El campo iFormCafe debe estar entre 1 y 3 según la modalidad de entrega "
+"configurada."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_e501_tasa_itbms
+msgid ""
+"El código de tasa ITBMS (dTasaITBMS) debe ser 00 (exento), 01 (7%), 02 (10%)"
+" o 03 (15%)."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_b07_nro_df
+msgid ""
+"El número de documento fiscal (dNroDF) debe ser único en la serie del emisor"
+" y de hasta 10 dígitos."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_b08_pto_facturacion
+msgid "El punto de facturación (dPtoFacDF) debe ser un número de 3 dígitos."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_delivery_cafe__3
+msgid "Electronic CAFE"
+msgstr "CAFE en formato electrónico"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Electronic Invoice Authorization Certificate (CAFE)"
+msgstr "Constancia de Autorización de Factura Electrónica (CAFE)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_product__l10n_pa_edi_uom_id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_template__l10n_pa_edi_uom_id
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_uom_form
+msgid "Electronic Invoice Unit"
+msgstr "Unidad FE"
+
+#. module: l10n_pa_edi
+#: model:ir.actions.act_window,name:l10n_pa_edi.action_l10n_pa_edi_uom
+#: model:ir.ui.menu,name:l10n_pa_edi.menu_l10n_pa_edi_uom
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_l10n_pa_edi_uom_list
+msgid "Electronic Invoice Units"
+msgstr "Unidades FE"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_res_company_form_pa_edi
+msgid "Electronic Signature (Public Registry)"
+msgstr "Firma Electrónica (Registro Público)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_certificate_id
+msgid "Electronic Signature Certificate (.p12)"
+msgstr "Certificado de Firma Electrónica (.p12)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_sfep_emission_point
+msgid "Emission Point"
+msgstr "Punto de Emisión"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_sfep_emission_type
+msgid "Emission Type"
+msgstr "Tipo de Emisión"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_contingency
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_contingency
+msgid ""
+"Enable when this invoice is issued under contingency mode (iTpEmis = 02)."
+msgstr ""
+"Marcar si esta factura se emite bajo modalidad de contingencia (iTpEmis = "
+"02)."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_dgi_error_code__severity__error
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__error
+msgid "Error"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__error_codes
+msgid "Error Codes"
+msgstr ""
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "Error sending to the PAC"
+msgstr "Error al enviar al PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__02
+msgid "Export"
+msgstr "Exportación"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_partner__l10n_pa_receiver_type__02
+msgid "Final Consumer"
+msgstr "Consumidor Final"
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_signature
+msgid "Firma electrónica inválida"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_destination__2
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_partner__l10n_pa_receiver_type__04
+msgid "Foreign"
+msgstr "Extranjero"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__04
+msgid "Foreign-source sale"
+msgstr "Venta de fuente extranjera"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__05
+msgid "Foreign-source service"
+msgstr "Servicio de fuente extranjera"
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_b15_formcafe
+msgid "Formato de generación del CAFE inválido"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__14
+msgid "Free delivery"
+msgstr "Entrega gratuita"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_partner__l10n_pa_receiver_type__03
+msgid "Government"
+msgstr "Gobierno"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_sfep_delivery_cafe
+msgid ""
+"How the CAFE is delivered to the recipient (iEntCafe), according to DGI PAC "
+"Technical Specification v1.00."
+msgstr ""
+"Manera de entrega del CAFE al receptor (iEntCafe), según Ficha Técnica DGI "
+"PAC v1.00."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move_send__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_category__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_product_template__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "ITBMS"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Identification:"
+msgstr "Identificación:"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__21
+msgid "Import"
+msgstr "Importación"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_dgi_error_code__severity__info
+msgid "Information"
+msgstr "Información"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_type__2
+msgid "Input or purchase"
+msgstr "Entrada o compra"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_signature
+msgid ""
+"La firma XAdES del documento no se valida contra el certificado del emisor o"
+" de la cadena de confianza."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_f02_total_itbms
+msgid "La suma de los ITBMS por ítem no coincide con dTotITBMS."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_f01_total_neto
+msgid "La suma de los montos de los ítems no coincide con dTotNeto."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_last_attempt
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_last_attempt
+msgid "Last PAC Attempt"
+msgstr "Último intento PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__write_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__write_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__write_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__write_uid
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__write_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__write_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__write_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__write_date
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_form_cafe__3
+msgid "Letter-size paper"
+msgstr "Papel formato carta"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__move_id
+msgid "Move"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_cpbs__name
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_uom__name
+msgid "Name"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_delivery_cafe__1
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_form_cafe__1
+msgid "No CAFE generation"
+msgstr "Sin generación de CAFE"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "No PAC details."
+msgstr "Sin detalles del PAC."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "No PAC is configured."
+msgstr "No hay PAC configurado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid ""
+"No PAC provider registered with code '%(code)s' was found. Verify that the "
+"corresponding module is installed."
+msgstr ""
+"No se encontró un proveedor PAC registrado con el código '%(code)s'. "
+"Verifique que el módulo correspondiente esté instalado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "No specific error message."
+msgstr "Sin mensaje de error específico."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_emission_type__01
+msgid "Normal operation"
+msgstr "Operación normal"
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_b07_nro_df
+msgid "Número de documento fiscal inválido"
+msgstr ""
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "Only authorized invoices can be cancelled with DGI."
+msgstr "Solo facturas autorizadas pueden ser anuladas en DGI."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__operation
+msgid "Operation"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_type__1
+msgid "Output or sale"
+msgstr "Salida o venta"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_res_company_form_pa_edi
+msgid "PAC"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_pac_provider
+msgid "PAC (DGI)"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_send_count
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_send_count
+msgid "PAC Attempts"
+msgstr "Intentos PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_pac_environment
+msgid "PAC Environment"
+msgstr "Ambiente PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_event_ids
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_event_ids
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "PAC History"
+msgstr "Historial PAC"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "PAC Not Configured"
+msgstr "PAC no configurado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_status
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_status
+msgid "PAC Status"
+msgstr "Estado PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_pac_environment
+msgid "PAC environment. In testing mode, invoices are not fiscal."
+msgstr "Ambiente del PAC. En modo pruebas, las facturas no son fiscales."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_certificate_id
+msgid ""
+"PKCS#12 certificate issued by Registro Publico / Firma Electronica used to "
+"sign DGI documents."
+msgstr ""
+"Certificado PKCS#12 emitido por Registro Público / Firma Electrónica usado "
+"para firmar documentos DGI."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__pac_status_code
+msgid "Pac Status Code"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__pac_status_message
+msgid "Pac Status Message"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_destination__1
+msgid "Panama"
+msgstr "Panamá"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_l10n_pa_edi_cpbs
+msgid "Panama CPBS Code"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_l10n_pa_edi_location
+msgid "Panama DGI Location Code"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_l10n_pa_edi_uom
+msgid "Panama DGI Unit of Measure Code"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.ui.menu,name:l10n_pa_edi.menu_l10n_pa_edi_catalog_root
+msgid "Panama Electronic Invoice Catalogs"
+msgstr "Catálogos FE Panamá"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_product_template_form_l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_res_company_form_pa_edi
+msgid "Panama Electronic Invoicing"
+msgstr "Factura Electrónica Panamá"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_product_product__l10n_pa_edi_cpbs_id
+#: model:ir.model.fields,help:l10n_pa_edi.field_product_template__l10n_pa_edi_cpbs_id
+msgid "Panama Goods and Services Coding code for electronic invoicing."
+msgstr ""
+"Código de la Codificación Panameña de Bienes y Servicios para factura "
+"electrónica."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_l10n_pa_edi_cpbs__code
+msgid "Panama Goods and Services Coding used in electronic invoicing."
+msgstr ""
+"Codificación Panameña de Bienes y Servicios usada en factura electrónica."
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_l10n_pa_edi_pac_event
+msgid "Panama PAC Event"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_delivery_cafe__2
+msgid "Paper CAFE"
+msgstr "CAFE en papel"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_form_cafe__2
+msgid "Paper roll"
+msgstr "Cinta de papel"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__pending
+msgid "Pending"
+msgstr "Pendiente"
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_product_template
+msgid "Product"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model,name:l10n_pa_edi.model_product_category
+msgid "Product Category"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_pac_environment__prod
+msgid "Production"
+msgstr "Producción"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__province
+msgid "Province"
+msgstr "Provincia"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_partner__l10n_pa_edi_location_id
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_users__l10n_pa_edi_location_id
+msgid "Province-District-Township code used by DGI for the fiscal address."
+msgstr ""
+"Código Provincia-Distrito-Corregimiento usado por DGI para la dirección "
+"fiscal."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_emission_type__03
+msgid "Provisional"
+msgstr "Provisional"
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_b08_pto_facturacion
+msgid "Punto de facturación inválido"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__20
+msgid "Purchase"
+msgstr "Compra"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_qr_payload
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_qr_payload
+msgid "QR Code Payload"
+msgstr "Carga del Código QR"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Qty."
+msgstr "Cant."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_pac_provider
+msgid ""
+"Qualified Authorization Provider (PAC) used by the company to issue "
+"electronic invoices to DGI."
+msgstr ""
+"Proveedor de Autorización Calificado (PAC) que la compañía utiliza para "
+"emitir facturas electrónicas a DGI."
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_emisor_ruc
+msgid "RUC del emisor no autorizado"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_receptor_ruc
+msgid "RUC del receptor inválido"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "RUC:"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_security_code
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_security_code
+msgid "Random 9-digit code used to calculate the CUFE."
+msgstr "Código aleatorio de 9 dígitos usado en el cálculo del CUFE."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_response
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_pac_response
+msgid "Raw PAC Response"
+msgstr "Respuesta cruda del PAC"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "Raw PAC Response (Debug)"
+msgstr "Respuesta cruda del PAC (depuración)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__raw_response
+msgid "Raw Response"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__03
+msgid "Re-export"
+msgstr "Re-exportación"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_partner__l10n_pa_receiver_type
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_users__l10n_pa_receiver_type
+msgid "Recipient Type (DGI)"
+msgstr "Tipo de Receptor (DGI)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_partner__l10n_pa_receiver_type
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_users__l10n_pa_receiver_type
+msgid "Recipient classification according to DGI (iTipoRec field)."
+msgstr "Clasificación del receptor según DGI (campo iTipoRec)."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_origin_cufe
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_origin_cufe
+msgid "Referenced CUFE (Credit/Debit Note)"
+msgstr "CUFE referenciado (Nota de Crédito/Débito)"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "References and Mode"
+msgstr "Referencias y modalidad"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_pac_status__rejected
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__rejected
+msgid "Rejected"
+msgstr "Rechazado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__13
+msgid "Remittance"
+msgstr "Remesa"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_sfep_emission_type__04
+msgid "Replacement"
+msgstr "Reemplazo"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__11
+msgid "Return"
+msgstr "Devolución"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_res_company_form_pa_edi
+msgid "SFEP / Emission Point"
+msgstr "SFEP / Punto de Emisión"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_res_company__l10n_pa_sfep_branch
+msgid "SFEP Branch"
+msgstr "Sucursal SFEP"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_sfep_emission_point
+msgid "SFEP billing point (3 digits, dPtoFacDF)."
+msgstr "Punto de facturación SFEP (3 dígitos, dPtoFacDF)."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_sfep_branch
+msgid "SFEP branch code (4 digits, dSucEm)."
+msgstr "Código de sucursal del SFEP (4 dígitos, dSucEm)."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__01
+msgid "Sale"
+msgstr "Venta"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_security_code
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_security_code
+msgid "Security Code (dSeg)"
+msgstr "Código de Seguridad (dSeg)"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__operation__send
+msgid "Send"
+msgstr "Envío"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid ""
+"Send this invoice to the configured PAC to obtain its DGI Unique Electronic "
+"Invoice Code (CUFE)."
+msgstr ""
+"Envía esta factura al PAC configurado para obtener su Código Único de "
+"Factura Electrónica (CUFE) de DGI."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.view_account_move_form_pa_edi
+msgid "Send to DGI"
+msgstr "Enviar a DGI"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__sent
+msgid "Sent"
+msgstr "Enviado"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_pac_status__sent
+msgid "Sent to PAC"
+msgstr "Enviado al PAC"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__severity
+msgid "Severity"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_dgi_error_code__short_message
+msgid "Short Message"
+msgstr "Mensaje corto"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_pac_event__state
+msgid "State"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__operation__status
+msgid "Status Check"
+msgstr "Consulta"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_res_company__l10n_pa_certificate_password
+msgid ""
+"Stored as an Odoo-encrypted ir.config_parameter. Do not print it in logs or "
+"API responses."
+msgstr ""
+"Almacenada como ir.config_parameter cifrado por Odoo. No imprimir en logs ni"
+" respuestas API."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_qr_payload
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_qr_payload
+msgid "String encoded in the CAFE QR code."
+msgstr "Cadena codificada en el código QR del CAFE."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Subtotal"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_e501_tasa_itbms
+msgid "Tasa ITBMS inválida"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_partner__l10n_pa_receiver_type__01
+msgid "Taxpayer"
+msgstr "Contribuyente"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__res_company__l10n_pa_pac_environment__test
+msgid "Testing / Sandbox"
+msgstr "Pruebas / Sandbox"
+
+#. module: l10n_pa_edi
+#: model:ir.model.constraint,message:l10n_pa_edi.constraint_l10n_pa_edi_cpbs_code_unique
+msgid "The CPBS code must be unique."
+msgstr "El código CPBS debe ser único."
+
+#. module: l10n_pa_edi
+#: model:ir.model.constraint,message:l10n_pa_edi.constraint_l10n_pa_edi_dgi_error_code_code_unique
+msgid "The DGI code must be unique."
+msgstr "El código DGI debe ser único."
+
+#. module: l10n_pa_edi
+#: model:ir.model.constraint,message:l10n_pa_edi.constraint_l10n_pa_edi_location_code_unique
+msgid "The DGI location code must be unique."
+msgstr "El código de ubicación DGI debe ser único."
+
+#. module: l10n_pa_edi
+#: model:ir.model.constraint,message:l10n_pa_edi.constraint_l10n_pa_edi_uom_code_unique
+msgid "The DGI unit of measure code must be unique."
+msgstr "El código de unidad de medida DGI debe ser único."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid ""
+"The PAC rejected the invoice:\n"
+"%(errors)s"
+msgstr ""
+"El PAC rechazó la factura:\n"
+"%(errors)s"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid "The company has no PAC provider selected."
+msgstr "La compañía no tiene un proveedor PAC seleccionado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move_send.py:0
+msgid ""
+"The following invoices cannot be sent to DGI until they are corrected:\n"
+"%(items)s"
+msgstr ""
+"Las siguientes facturas no pueden enviarse a DGI hasta corregir:\n"
+"%(items)s"
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "The invoice has already been authorized by DGI."
+msgstr "La factura ya fue autorizada por DGI."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid ""
+"The invoice must have at least one product/service line to generate the DGI "
+"XML."
+msgstr ""
+"La factura debe tener al menos una línea de producto/servicio para generar "
+"el XML DGI."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid ""
+"This document is the printed representation of the\n"
+"                            electronic invoice issued and authorized by DGI. The\n"
+"                            original electronic invoice is the associated XML file."
+msgstr ""
+"Este documento es la representación impresa de la factura\n"
+"                            electrónica emitida y autorizada por DGI. La factura\n"
+"                            electrónica original es el archivo XML asociado."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "This invoice has no CUFE to query."
+msgstr "Esta factura no tiene un CUFE para consultar."
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_b06_invalid_doc
+msgid "Tipo de documento inválido"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Total"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_f02_total_itbms
+msgid "Total ITBMS inconsistente"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_f03_vtot
+msgid "Total general inconsistente"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,short_message:l10n_pa_edi.dgi_error_f01_total_neto
+msgid "Total neto inconsistente"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_l10n_pa_edi_location__township
+msgid "Township"
+msgstr "Corregimiento"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__account_move__l10n_pa_operation_nature__10
+msgid "Transfer"
+msgstr "Transferencia / Traspaso"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_l10n_pa_edi_location__code
+msgid "Unified Province-District-Township code used by DGI."
+msgstr "Código unificado Provincia-Distrito-Corregimiento usado por DGI."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_cufe
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_cufe
+msgid "Unique Electronic Invoice Code assigned by DGI through the PAC."
+msgstr ""
+"Código Único de Factura Electrónica asignado por DGI a través del PAC."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_cafe
+msgid "Unit Price"
+msgstr "P. Unit."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_product_product__l10n_pa_edi_uom_id
+#: model:ir.model.fields,help:l10n_pa_edi.field_product_template__l10n_pa_edi_uom_id
+msgid "Unit of measure approved for electronic invoicing."
+msgstr "Unidad de medida homologada para factura electrónica."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_l10n_pa_edi_uom__code
+msgid "Unit of measure code used in electronic invoicing."
+msgstr "Código de unidad de medida usado en factura electrónica."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_pac_event__state__unknown
+msgid "Unknown"
+msgstr "Desconocido"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_pac_response
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_pac_response
+msgid "Unprocessed response returned by the PAC. Useful for debugging."
+msgstr "Respuesta sin procesar devuelta por el PAC. Útil para depuración."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields.selection,name:l10n_pa_edi.selection__l10n_pa_edi_dgi_error_code__severity__warning
+msgid "Warning"
+msgstr "Advertencia"
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_xml_attachment_id
+#: model:ir.model.fields,field_description:l10n_pa_edi.field_account_move__l10n_pa_xml_attachment_id
+msgid "XML DGI"
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:l10n_pa_edi.dgi.error.code,description:l10n_pa_edi.dgi_error_f03_vtot
+msgid ""
+"dVTot debe ser igual a dTotNeto + dTotITBMS + otros impuestos − descuentos."
+msgstr ""
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_destination
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_operation_destination
+msgid "iDest field from the DGI PAC Technical Specification v1.00."
+msgstr "Campo iDest de la Ficha Técnica DGI PAC v1.00."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_nature
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_operation_nature
+msgid "iNatOp field from the DGI PAC Technical Specification v1.00."
+msgstr "Campo iNatOp de la Ficha Técnica DGI PAC v1.00."
+
+#. module: l10n_pa_edi
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_bank_statement_line__l10n_pa_operation_type
+#: model:ir.model.fields,help:l10n_pa_edi.field_account_move__l10n_pa_operation_type
+msgid "iTipoOp field from the DGI PAC Technical Specification v1.00."
+msgstr "Campo iTipoOp de la Ficha Técnica DGI PAC v1.00."
+
+#. module: l10n_pa_edi
+#. odoo-python
+#: code:addons/l10n_pa_edi/models/account_move.py:0
+msgid "no details"
+msgstr "sin detalles"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid "DGI Electronic Invoice Authorization (CAFE)"
+msgstr "Autorización de Factura Electrónica DGI (CAFE)"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid ""
+"This invoice is the printed representation of the electronic\n"
+"                        invoice issued and authorized by DGI. The original electronic\n"
+"                        invoice is the associated XML file."
+msgstr ""
+"Esta factura es la representación impresa de la factura\n"
+"                        electrónica emitida y autorizada por la DGI. La factura\n"
+"                        electrónica original es el archivo XML asociado."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid "DGI Validation"
+msgstr "Validación DGI"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid "Electronic invoice authorized by DGI"
+msgstr "Factura electrónica autorizada por la DGI"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid ""
+"Scan the QR code or use the CUFE below to validate this invoice\n"
+"                                in the DGI system."
+msgstr ""
+"Escanee el código QR o use el CUFE abajo para validar esta factura\n"
+"                                en el sistema de la DGI."
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid "Status"
+msgstr "Estado"
+
+#. module: l10n_pa_edi
+#: model_terms:ir.ui.view,arch_db:l10n_pa_edi.report_invoice_document_inherit_l10n_pa_edi
+msgid "DGI QR"
+msgstr "QR DGI"

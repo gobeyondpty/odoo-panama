@@ -10,20 +10,20 @@ class L10nPaEdiLocation(models.Model):
     _order = 'code'
 
     code = fields.Char(
-        string="Código",
+        string="Code",
         required=True,
         index=True,
-        help="Código unificado Provincia-Distrito-Corregimiento usado por DGI.",
+        help="Unified Province-District-Township code used by DGI.",
     )
-    province = fields.Char(string="Provincia", required=True)
-    district = fields.Char(string="Distrito", required=True)
-    township = fields.Char(string="Corregimiento", required=True)
+    province = fields.Char(string="Province", required=True)
+    district = fields.Char(string="District", required=True)
+    township = fields.Char(string="Township", required=True)
     active = fields.Boolean(default=True)
     complete_name = fields.Char(compute='_compute_complete_name', store=True)
 
     _code_unique = models.Constraint(
         'unique(code)',
-        'El código de ubicación DGI debe ser único.',
+        'The DGI location code must be unique.',
     )
 
     @api.depends('code', 'province', 'district', 'township')
@@ -40,10 +40,10 @@ class L10nPaEdiCpbs(models.Model):
     _order = 'code'
 
     code = fields.Char(
-        string="Código CPBS",
+        string="CPBS Code",
         required=True,
         index=True,
-        help="Codificación Panameña de Bienes y Servicios usada en factura electrónica.",
+        help="Panama Goods and Services Coding used in electronic invoicing.",
     )
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
@@ -51,7 +51,7 @@ class L10nPaEdiCpbs(models.Model):
 
     _code_unique = models.Constraint(
         'unique(code)',
-        'El código CPBS debe ser único.',
+        'The CPBS code must be unique.',
     )
 
     @api.depends('code', 'name')
@@ -67,10 +67,10 @@ class L10nPaEdiUom(models.Model):
     _order = 'code'
 
     code = fields.Char(
-        string="Código",
+        string="Code",
         required=True,
         index=True,
-        help="Código de unidad de medida usado en factura electrónica.",
+        help="Unit of measure code used in electronic invoicing.",
     )
     name = fields.Char(required=True)
     active = fields.Boolean(default=True)
@@ -78,7 +78,7 @@ class L10nPaEdiUom(models.Model):
 
     _code_unique = models.Constraint(
         'unique(code)',
-        'El código de unidad de medida DGI debe ser único.',
+        'The DGI unit of measure code must be unique.',
     )
 
     @api.depends('code', 'name')

@@ -8,8 +8,8 @@ class ProductCategory(models.Model):
 
     l10n_pa_edi_cpbs_id = fields.Many2one(
         'l10n_pa_edi.cpbs',
-        string="CPBS por defecto",
-        help="Código CPBS usado como fallback para productos de esta categoría.",
+        string="Default CPBS",
+        help="CPBS code used as a fallback for products in this category.",
     )
 
 
@@ -19,10 +19,10 @@ class ProductTemplate(models.Model):
     l10n_pa_edi_cpbs_id = fields.Many2one(
         'l10n_pa_edi.cpbs',
         string="CPBS",
-        help="Código de la Codificación Panameña de Bienes y Servicios para FE.",
+        help="Panama Goods and Services Coding code for electronic invoicing.",
     )
     l10n_pa_edi_uom_id = fields.Many2one(
         'l10n_pa_edi.uom',
-        string="Unidad FE",
-        help="Unidad de medida homologada para factura electrónica.",
+        string="Electronic Invoice Unit",
+        help="Unit of measure approved for electronic invoicing.",
     )

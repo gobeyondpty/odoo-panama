@@ -8,8 +8,11 @@ the linkage to the original CUFE for credit/debit notes.
 from __future__ import annotations
 
 import logging
+from base64 import b64encode
+from io import BytesIO
 
 from lxml import etree
+import qrcode
 
 from odoo import _, api, fields, models
 from odoo.exceptions import UserError
@@ -31,6 +34,19 @@ _COUNTRY_ALPHA3 = {
     'UY': 'URY', 'VE': 'VEN', 'DO': 'DOM', 'CU': 'CUB', 'BO': 'BOL',
     'PY': 'PRY', 'ES': 'ESP', 'GB': 'GBR', 'FR': 'FRA', 'DE': 'DEU',
     'IT': 'ITA', 'CN': 'CHN', 'JP': 'JPN', 'KR': 'KOR', 'IL': 'ISR',
+}
+
+_PAC_ERROR_MESSAGES_EN = {
+    '1002': "Duplicate document",
+    '1513': "Duplicate fiscal document number",
+    'B201': "Issuer RUC is not authorized",
+}
+
+_PAC_MESSAGE_TRANSLATIONS_EN = {
+    'Documento duplicado': "Duplicate document",
+    'Número del documento fiscal duplicado': "Duplicate fiscal document number",
+    'RUC del emisor no autorizado': "Issuer RUC is not authorized",
+    'Documento rechazado': "Document rejected",
 }
 
 
@@ -69,8 +85,8 @@ def _move_type_to_dgi_doc(
     if move_type == 'in_refund':  # vendor credit note flows are out of scope by plan
         return dgi_xml.DGI_DOC_NOTA_CREDITO_GENERICA
     raise UserError(_(
-        "El tipo de documento %(move_type)s no es soportado por el "
-        "módulo de Factura Electrónica de Panamá.",
+        "Document type %(move_type)s is not supported by the Panama "
+        "Electronic Invoicing module.",
         move_type=move_type,
     ))
 
@@ -85,66 +101,66 @@ class AccountMove(models.Model):
         copy=False,
         readonly=True,
         tracking=True,
-        help="Código Único de Factura Electrónica asignado por DGI a través del PAC.",
+        help="Unique Electronic Invoice Code assigned by DGI through the PAC.",
     )
     l10n_pa_security_code = fields.Char(
-        string="Código de Seguridad (dSeg)",
+        string="Security Code (dSeg)",
         copy=False,
         readonly=True,
         size=9,
-        help="Código aleatorio de 9 dígitos usado en el cálculo del CUFE.",
+        help="Random 9-digit code used to calculate the CUFE.",
     )
     l10n_pa_pac_status = fields.Selection(
         [
-            ('draft', "Borrador"),
-            ('sent', "Enviado al PAC"),
-            ('authorized', "Autorizado por DGI"),
-            ('rejected', "Rechazado"),
-            ('cancelled', "Anulado"),
+            ('draft', "Draft"),
+            ('sent', "Sent to PAC"),
+            ('authorized', "Authorized by DGI"),
+            ('rejected', "Rejected"),
+            ('cancelled', "Cancelled"),
         ],
         default='draft',
         copy=False,
         tracking=True,
-        string="Estado PAC",
+        string="PAC Status",
     )
     l10n_pa_pac_response = fields.Text(
-        string="Respuesta cruda del PAC",
+        string="Raw PAC Response",
         copy=False,
         readonly=True,
-        help="Respuesta sin procesar devuelta por el PAC. Útil para depuración.",
+        help="Unprocessed response returned by the PAC. Useful for debugging.",
     )
     l10n_pa_pac_error_codes = fields.Char(
-        string="Códigos de error DGI/PAC",
+        string="DGI/PAC Error Codes",
         copy=False,
         readonly=True,
     )
     l10n_pa_pac_send_count = fields.Integer(
-        string="Intentos PAC",
+        string="PAC Attempts",
         copy=False,
         readonly=True,
     )
     l10n_pa_pac_last_attempt = fields.Datetime(
-        string="Último intento PAC",
+        string="Last PAC Attempt",
         copy=False,
         readonly=True,
     )
     l10n_pa_pac_event_ids = fields.One2many(
         comodel_name='l10n_pa_edi.pac.event',
         inverse_name='move_id',
-        string="Historial PAC",
+        string="PAC History",
         readonly=True,
     )
     l10n_pa_origin_cufe = fields.Char(
-        string="CUFE referenciado (Nota de Crédito/Débito)",
+        string="Referenced CUFE (Credit/Debit Note)",
         copy=False,
         compute='_compute_l10n_pa_origin_cufe',
         store=True,
         readonly=False,
-        help="CUFE de la factura electrónica original referenciada por esta "
-             "nota de crédito o débito. Se autocompleta del CUFE de la "
-             "factura origen cuando la nota se crea desde una reversión "
-             "(Nota de Crédito) o vía account_debit_note (Nota de Débito); "
-             "puede sobreescribirse manualmente.",
+        help="CUFE of the original electronic invoice referenced by this "
+             "credit or debit note. It is automatically filled from the "
+             "source invoice CUFE when the note is created from a reversal "
+             "(credit note) or through account_debit_note (debit note); it "
+             "can be overwritten manually.",
     )
 
     @api.depends(
@@ -172,60 +188,60 @@ class AccountMove(models.Model):
             elif not move.l10n_pa_origin_cufe:
                 move.l10n_pa_origin_cufe = False
     l10n_pa_contingency = fields.Boolean(
-        string="Contingencia",
+        string="Contingency",
         copy=False,
-        help="Marcar si esta factura se emite bajo modalidad de contingencia "
+        help="Enable when this invoice is issued under contingency mode "
              "(iTpEmis = 02).",
     )
     l10n_pa_contingency_reason = fields.Char(
-        string="Motivo de Contingencia",
+        string="Contingency Reason",
         copy=False,
     )
     l10n_pa_operation_nature = fields.Selection(
         [
-            ('01', "Venta"),
-            ('02', "Exportación"),
-            ('03', "Re-exportación"),
-            ('04', "Venta de fuente extranjera"),
-            ('05', "Servicio de fuente extranjera"),
-            ('10', "Transferencia / Traspaso"),
-            ('11', "Devolución"),
-            ('12', "Consignación"),
-            ('13', "Remesa"),
-            ('14', "Entrega gratuita"),
-            ('20', "Compra"),
-            ('21', "Importación"),
+            ('01', "Sale"),
+            ('02', "Export"),
+            ('03', "Re-export"),
+            ('04', "Foreign-source sale"),
+            ('05', "Foreign-source service"),
+            ('10', "Transfer"),
+            ('11', "Return"),
+            ('12', "Consignment"),
+            ('13', "Remittance"),
+            ('14', "Free delivery"),
+            ('20', "Purchase"),
+            ('21', "Import"),
         ],
-        string="Naturaleza de la Operación DGI",
+        string="DGI Operation Nature",
         compute='_compute_l10n_pa_dgi_operation_defaults',
         store=True,
         readonly=False,
         copy=False,
-        help="Campo iNatOp de la Ficha Técnica DGI PAC v1.00.",
+        help="iNatOp field from the DGI PAC Technical Specification v1.00.",
     )
     l10n_pa_operation_type = fields.Selection(
         [
-            ('1', "Salida o venta"),
-            ('2', "Entrada o compra"),
+            ('1', "Output or sale"),
+            ('2', "Input or purchase"),
         ],
-        string="Tipo de Operación DGI",
+        string="DGI Operation Type",
         compute='_compute_l10n_pa_dgi_operation_defaults',
         store=True,
         readonly=False,
         copy=False,
-        help="Campo iTipoOp de la Ficha Técnica DGI PAC v1.00.",
+        help="iTipoOp field from the DGI PAC Technical Specification v1.00.",
     )
     l10n_pa_operation_destination = fields.Selection(
         [
-            ('1', "Panamá"),
-            ('2', "Extranjero"),
+            ('1', "Panama"),
+            ('2', "Foreign"),
         ],
-        string="Destino de la Operación DGI",
+        string="DGI Operation Destination",
         compute='_compute_l10n_pa_dgi_operation_defaults',
         store=True,
         readonly=False,
         copy=False,
-        help="Campo iDest de la Ficha Técnica DGI PAC v1.00.",
+        help="iDest field from the DGI PAC Technical Specification v1.00.",
     )
     l10n_pa_xml_attachment_id = fields.Many2one(
         'ir.attachment',
@@ -234,10 +250,10 @@ class AccountMove(models.Model):
         readonly=True,
     )
     l10n_pa_qr_payload = fields.Char(
-        string="Carga del Código QR",
+        string="QR Code Payload",
         copy=False,
         readonly=True,
-        help="Cadena codificada en el código QR del CAFE.",
+        help="String encoded in the CAFE QR code.",
     )
 
     @api.depends('move_type', 'commercial_partner_id.country_id', 'debit_origin_id')
@@ -269,8 +285,8 @@ class AccountMove(models.Model):
         provider_cls = self.env['account.move']._l10n_pa_provider_registry().get(code)
         if not provider_cls:
             raise UserError(_(
-                "No se encontró un proveedor PAC registrado con el código '%(code)s'. "
-                "Verifique que el módulo correspondiente esté instalado.",
+                "No PAC provider registered with code '%(code)s' was found. "
+                "Verify that the corresponding module is installed.",
                 code=code,
             ))
         return provider_cls(self.company_id)
@@ -295,7 +311,7 @@ class AccountMove(models.Model):
 
         if not company.vat or not company.partner_id.l10n_pa_dv:
             raise UserError(_(
-                "La compañía '%(company)s' debe tener RUC y DV configurados.",
+                "Company '%(company)s' must have RUC and DV configured.",
                 company=company.name,
             ))
         if not self.l10n_pa_security_code:
@@ -425,8 +441,8 @@ class AccountMove(models.Model):
         ]
         if not items:
             raise UserError(_(
-                "La factura debe tener al menos una línea de producto/servicio "
-                "para generar el XML DGI."
+                "The invoice must have at least one product/service line "
+                "to generate the DGI XML."
             ))
 
         totales = self._l10n_pa_build_totales_dict()
@@ -556,15 +572,47 @@ class AccountMove(models.Model):
             'raw_response': getattr(response, 'raw_response', '') or '',
         })
 
+    def _l10n_pa_language_is_spanish(self):
+        return (self.env.lang or '').lower().startswith('es')
+
+    def _l10n_pa_translate_pac_message(self, code='', message=''):
+        """Return a user-facing PAC message in the current UI language.
+
+        PAC providers often return Spanish strings even when the Odoo user
+        interface is English. Keep raw responses untouched, but translate the
+        common rejection messages that are displayed to users.
+        """
+        code = str(code or '').strip()
+        message = (message or '').strip()
+        if self._l10n_pa_language_is_spanish():
+            return message
+        if code in _PAC_ERROR_MESSAGES_EN:
+            return _PAC_ERROR_MESSAGES_EN[code]
+        return _PAC_MESSAGE_TRANSLATIONS_EN.get(message, message)
+
+    def _l10n_pa_format_pac_error(self, error):
+        code = str(error.get('code') or '').strip()
+        message = self._l10n_pa_translate_pac_message(
+            code=code,
+            message=error.get('message') or '',
+        )
+        if code and message:
+            return f"{code}: {message}"
+        if message:
+            return message
+        if code:
+            return self.env['l10n_pa_edi.dgi.error.code'].resolve(code)
+        return ''
+
     def action_l10n_pa_send_to_pac(self):
         """User-facing button: submit this invoice to the configured PAC."""
         self.ensure_one()
         if self.l10n_pa_pac_status == 'authorized':
-            raise UserError(_("La factura ya fue autorizada por DGI."))
+            raise UserError(_("The invoice has already been authorized by DGI."))
         provider = self._l10n_pa_get_pac_provider()
         if not provider:
             raise UserError(_(
-                "La compañía '%(company)s' no tiene un PAC configurado.",
+                "Company '%(company)s' has no PAC configured.",
                 company=self.company_id.name,
             ))
         if not self.l10n_pa_cufe:
@@ -602,13 +650,12 @@ class AccountMove(models.Model):
             self._l10n_pa_log_pac_event(operation, 'rejected', response=response)
             messages = []
             for e in response.errors or []:
-                if e.get('message'):
-                    messages.append(f"{e.get('code', '')}: {e['message']}")
-                elif e.get('code'):
-                    messages.append(self.env['l10n_pa_edi.dgi.error.code'].resolve(e['code']))
+                message = self._l10n_pa_format_pac_error(e)
+                if message:
+                    messages.append(message)
             raise UserError(_(
-                "El PAC rechazó la factura:\n%(errors)s",
-                errors='\n'.join(messages) if messages else _("Sin mensaje de error específico."),
+                "The PAC rejected the invoice:\n%(errors)s",
+                errors='\n'.join(messages) if messages else _("No specific error message."),
             ))
 
     def _l10n_pa_store_xml_attachment(self, xml_string: str):
@@ -621,18 +668,46 @@ class AccountMove(models.Model):
             'res_model': self._name,
             'res_id': self.id,
             'mimetype': 'application/xml',
+            'public': False,
         })
         self.l10n_pa_xml_attachment_id = attachment.id
         return attachment
+
+    def _l10n_pa_get_cafe_report_filename(self):
+        self.ensure_one()
+        return f"CAFE_{(self.name or 'factura').replace('/', '_')}.pdf"
+
+    def _l10n_pa_get_qr_barcode_src(self):
+        self.ensure_one()
+        payload = self.l10n_pa_qr_payload or self.l10n_pa_cufe or ''
+        if not payload:
+            return ''
+        qr = qrcode.QRCode(box_size=5, border=2)
+        qr.add_data(payload)
+        qr.make(fit=True)
+        image = qr.make_image(fill_color='black', back_color='white')
+        buffer = BytesIO()
+        image.save(buffer, format='PNG')
+        return 'data:image/png;base64,%s' % b64encode(buffer.getvalue()).decode()
+
+    def _l10n_pa_show_cafe_on_invoice(self):
+        """Show the DGI/CAFE legal block on the standard invoice PDF."""
+        self.ensure_one()
+        return (
+            self.country_code == 'PA'
+            and self.is_sale_document(include_receipts=True)
+            and self.l10n_pa_pac_status == 'authorized'
+            and bool(self.l10n_pa_cufe)
+        )
 
     def action_l10n_pa_query_status(self):
         """Refresh PAC status by querying the provider."""
         self.ensure_one()
         provider = self._l10n_pa_get_pac_provider()
         if not provider:
-            raise UserError(_("No hay PAC configurado."))
+            raise UserError(_("No PAC is configured."))
         if not self.l10n_pa_cufe:
-            raise UserError(_("Esta factura no tiene un CUFE para consultar."))
+            raise UserError(_("This invoice has no CUFE to query."))
         status = provider.get_status(self.l10n_pa_cufe)
         self.l10n_pa_pac_response = status.raw_response or ''
         if status.state in ('authorized', 'rejected', 'cancelled'):
@@ -649,14 +724,14 @@ class AccountMove(models.Model):
         return True
 
     def action_l10n_pa_cancel_with_pac(self):
-        """Register an Anulación event with the PAC."""
+        """Register a cancellation event with the PAC."""
         self.ensure_one()
         if self.l10n_pa_pac_status != 'authorized':
-            raise UserError(_("Solo facturas autorizadas pueden ser anuladas en DGI."))
+            raise UserError(_("Only authorized invoices can be cancelled with DGI."))
         provider = self._l10n_pa_get_pac_provider()
         if not provider:
-            raise UserError(_("No hay PAC configurado."))
-        reason = self.env.context.get('l10n_pa_cancel_reason') or _("Anulación solicitada por el contribuyente")
+            raise UserError(_("No PAC is configured."))
+        reason = self.env.context.get('l10n_pa_cancel_reason') or _("Cancellation requested by the taxpayer")
         response = provider.cancel_invoice(self, reason)
         if response.success:
             self.l10n_pa_pac_status = 'cancelled'
@@ -664,7 +739,7 @@ class AccountMove(models.Model):
         else:
             self._l10n_pa_log_pac_event('cancel', 'rejected', response=response)
             raise UserError(_(
-                "DGI rechazó la anulación: %(msg)s",
-                msg=response.pac_status_message or _("sin detalles"),
+                "DGI rejected the cancellation: %(msg)s",
+                msg=response.pac_status_message or _("no details"),
             ))
         return True

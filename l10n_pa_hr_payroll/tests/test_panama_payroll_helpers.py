@@ -35,7 +35,13 @@ class TestPanamaPayrollHelpers(TransactionCase):
 
         # DGI eTax2 Privado: ×13 / ÷13. $1,000 → $23.08.
         self.assertEqual(helper.monthly_income_tax(1000.0), 23.08)
+        self.assertEqual(helper.period_income_tax(750.0, 2), 49.04)
         self.assertEqual(helper.annual_income_tax(20000.0), 1350.0)
+
+        # ISR periods derived from the contract's pay frequency.
+        self.assertEqual(helper.periods_per_month_for_schedule("monthly"), 1.0)
+        self.assertEqual(helper.periods_per_month_for_schedule("semi-monthly"), 2.0)
+        self.assertEqual(helper.periods_per_month_for_schedule(False, 2.0), 2.0)
 
         # Cód. Fiscal art. 701 lit. j.
         self.assertEqual(helper.liquidation_isr(20000, 5), 450.0)

@@ -266,6 +266,74 @@ def calculate_monthly_income_tax(
     return money(annual_income_tax(annual_taxable) / months)
 
 
+def calculate_period_income_tax(
+    period_taxable_income: float,
+    periods_per_month: float = 1.0,
+    months: int = 13,
+    annual_deductions: float = 0.0,
+) -> float:
+    """ISR retention for one payroll period.
+
+    ``calculate_monthly_income_tax`` expects a monthly taxable base. For
+    semimonthly payrolls the payslip ``GROSS`` category is only half of the
+    monthly salary, so the correct retention is:
+
+    - project the period gross to its monthly equivalent
+      (``period_taxable_income × periods_per_month``)
+    - compute the monthly ISR retention under the DGI eTax2 private-sector
+      method
+    - divide it back across the payroll periods in that month
+
+    Example: B/.750.00 semimonthly × 2 = B/.1,500.00 monthly. Monthly ISR
+    is B/.98.08, so each quincena withholds B/.49.04.
+    """
+    periods = float(periods_per_month or 0.0)
+    if periods <= 0:
+        return 0.0
+    monthly_equivalent = float(period_taxable_income or 0.0) * periods
+    monthly_tax = calculate_monthly_income_tax(
+        monthly_equivalent, months, annual_deductions
+    )
+    return money(monthly_tax / periods)
+
+
+# Pay events per month for each Odoo ``schedule_pay`` value. The keys match
+# ``hr.payroll.structure.type._get_selection_schedule_pay()``. This is the
+# factor ``calculate_period_income_tax`` uses to project a single payroll
+# period's taxable base to its monthly equivalent: it depends only on how
+# often the contract is paid, so it belongs on the contract, not in a
+# company-wide constant. ``monthly`` → 1, ``semi-monthly`` (quincena) → 2.
+PERIODS_PER_MONTH_BY_SCHEDULE = {
+    "annually": 1.0 / 12.0,
+    "semi-annually": 1.0 / 6.0,
+    "quarterly": 1.0 / 3.0,
+    "bi-monthly": 0.5,
+    "monthly": 1.0,
+    "semi-monthly": 2.0,
+    "bi-weekly": 26.0 / 12.0,
+    "weekly": 52.0 / 12.0,
+    "daily": 30.0,
+}
+
+
+def periods_per_month_for_schedule(schedule_pay, default: float = 1.0) -> float:
+    """Pay events per month for an Odoo ``schedule_pay`` value.
+
+    Deriving the ISR projection factor from the contract's own pay frequency
+    lets monthly and quincenal employees coexist in one company: a global
+    parameter cannot be correct for both at once. ``monthly`` → 1,
+    ``semi-monthly`` → 2. An unknown or blank value returns ``default`` so the
+    caller can fall back to a global parameter.
+
+    Frequencies coarser than monthly (``annually`` … ``bi-monthly``) are mapped
+    for completeness but are not validated against DGI eTax2 — Panama wage
+    withholding is monthly, quincenal, or weekly in practice.
+    """
+    if not schedule_pay:
+        return float(default)
+    return PERIODS_PER_MONTH_BY_SCHEDULE.get(schedule_pay, float(default))
+
+
 # ---------------------------------------------------------------------------
 # ISR on liquidación laboral — Cód. Fiscal art. 701 literal j
 # ---------------------------------------------------------------------------

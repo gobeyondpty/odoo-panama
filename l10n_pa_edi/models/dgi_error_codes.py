@@ -14,22 +14,22 @@ class L10nPaEdiDgiErrorCode(models.Model):
     _description = "DGI Error Code"
     _rec_name = 'code'
 
-    code = fields.Char(string="Código DGI", required=True, index=True)
+    code = fields.Char(string="DGI Code", required=True, index=True)
     severity = fields.Selection(
         [
             ('error', "Error"),
-            ('warning', "Advertencia"),
-            ('info', "Información"),
+            ('warning', "Warning"),
+            ('info', "Information"),
         ],
         default='error',
         required=True,
     )
-    short_message = fields.Char(string="Mensaje corto", translate=True)
-    description = fields.Text(string="Descripción", translate=True)
+    short_message = fields.Char(string="Short Message", translate=True)
+    description = fields.Text(string="Description", translate=True)
 
     _code_unique = models.Constraint(
         'unique(code)',
-        "El código DGI debe ser único.",
+        "The DGI code must be unique.",
     )
 
     @api.model
@@ -39,5 +39,5 @@ class L10nPaEdiDgiErrorCode(models.Model):
             return ''
         rec = self.search([('code', '=', code)], limit=1)
         if not rec:
-            return _("DGI %(code)s (sin descripción local)", code=code)
+            return _("DGI %(code)s (no local description)", code=code)
         return f"DGI {rec.code}: {rec.short_message or rec.description or ''}"

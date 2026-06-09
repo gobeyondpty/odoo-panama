@@ -7,21 +7,29 @@
         <field name="arch" type="xml">
             <xpath expr="//block[@name='fiscal_localization_setting_container']" position="inside">
                 <setting id="l10n_pa_factura_facil_setting"
-                         string="Factura Fácil (PAC Panamá)"
-                         help="Credenciales y endpoints del PAC Factura Fácil S.A."
+                         string="Factura Fácil (Panama PAC)"
+                         help="Factura Fácil S.A. PAC credentials and endpoints."
                          documentation="">
                     <div class="content-group">
                         <div class="row mt16">
+                            <label for="l10n_pa_factura_facil_company_uuid" class="col-lg-4 o_light_label"/>
+                            <field name="l10n_pa_factura_facil_company_uuid" class="oe_inline"/>
+                        </div>
+                        <div class="row">
+                            <label for="l10n_pa_factura_facil_branch_uuid" class="col-lg-4 o_light_label"/>
+                            <field name="l10n_pa_factura_facil_branch_uuid" class="oe_inline"/>
+                        </div>
+                        <div class="row">
+                            <label for="l10n_pa_factura_facil_api_key" class="col-lg-4 o_light_label"/>
+                            <field name="l10n_pa_factura_facil_api_key" password="True" class="oe_inline"/>
+                        </div>
+                        <div class="row">
                             <label for="l10n_pa_factura_facil_base_url" class="col-lg-4 o_light_label"/>
                             <field name="l10n_pa_factura_facil_base_url" class="oe_inline"/>
                         </div>
                         <div class="row">
                             <label for="l10n_pa_factura_facil_base_url_prod" class="col-lg-4 o_light_label"/>
                             <field name="l10n_pa_factura_facil_base_url_prod" class="oe_inline"/>
-                        </div>
-                        <div class="row">
-                            <label for="l10n_pa_factura_facil_api_key" class="col-lg-4 o_light_label"/>
-                            <field name="l10n_pa_factura_facil_api_key" password="True" class="oe_inline"/>
                         </div>
                         <div class="row">
                             <label for="l10n_pa_factura_facil_timeout" class="col-lg-4 o_light_label"/>

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Report action and paperformat for the CAFE (Constancia de
-         Autorización de Factura Electrónica). The PDF is renderable
-         from any authorized account.move (state=posted, l10n_pa_pac_status=authorized). -->
+    <!-- Internal report action for the CAFE (Constancia de Autorización de
+         Factura Electrónica). It is intentionally not bound to account.move:
+         customers should receive Odoo's regular invoice PDF with the embedded
+         DGI/CAFE block, not a separate CAFE document from the invoice preview. -->
     <record id="action_report_cafe" model="ir.actions.report">
-        <field name="name">CAFE — Constancia de Autorización (DGI)</field>
+        <field name="name">CAFE — Electronic Invoice Authorization (DGI)</field>
         <field name="model">account.move</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">l10n_pa_edi.report_cafe</field>
         <field name="report_file">l10n_pa_edi.report_cafe</field>
-        <field name="binding_model_id" ref="account.model_account_move"/>
+        <field name="binding_model_id" eval="False"/>
         <field name="binding_type">report</field>
         <field name="print_report_name">'CAFE_%s' % (object.name).replace('/', '_')</field>
     </record>

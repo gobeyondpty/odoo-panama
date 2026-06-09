@@ -4,7 +4,7 @@
         <field name="name">l10n_pa_edi.location.list</field>
         <field name="model">l10n_pa_edi.location</field>
         <field name="arch" type="xml">
-            <list string="Ubicaciones DGI">
+            <list string="DGI Locations">
                 <field name="code"/>
                 <field name="province"/>
                 <field name="district"/>
@@ -18,7 +18,7 @@
         <field name="name">l10n_pa_edi.location.form</field>
         <field name="model">l10n_pa_edi.location</field>
         <field name="arch" type="xml">
-            <form string="Ubicación DGI">
+            <form string="DGI Location">
                 <sheet>
                     <group>
                         <field name="code"/>
@@ -33,7 +33,7 @@
     </record>
 
     <record id="action_l10n_pa_edi_location" model="ir.actions.act_window">
-        <field name="name">Ubicaciones DGI</field>
+        <field name="name">DGI Locations</field>
         <field name="res_model">l10n_pa_edi.location</field>
         <field name="view_mode">list,form</field>
     </record>
@@ -42,7 +42,7 @@
         <field name="name">l10n_pa_edi.cpbs.list</field>
         <field name="model">l10n_pa_edi.cpbs</field>
         <field name="arch" type="xml">
-            <list string="Códigos CPBS">
+            <list string="CPBS Codes">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="active"/>
@@ -54,7 +54,7 @@
         <field name="name">l10n_pa_edi.cpbs.form</field>
         <field name="model">l10n_pa_edi.cpbs</field>
         <field name="arch" type="xml">
-            <form string="Código CPBS">
+            <form string="CPBS Code">
                 <sheet>
                     <group>
                         <field name="code"/>
@@ -67,7 +67,7 @@
     </record>
 
     <record id="action_l10n_pa_edi_cpbs" model="ir.actions.act_window">
-        <field name="name">Códigos CPBS</field>
+        <field name="name">CPBS Codes</field>
         <field name="res_model">l10n_pa_edi.cpbs</field>
         <field name="view_mode">list,form</field>
     </record>
@@ -76,7 +76,7 @@
         <field name="name">l10n_pa_edi.uom.list</field>
         <field name="model">l10n_pa_edi.uom</field>
         <field name="arch" type="xml">
-            <list string="Unidades FE">
+            <list string="Electronic Invoice Units">
                 <field name="code"/>
                 <field name="name"/>
                 <field name="active"/>
@@ -88,7 +88,7 @@
         <field name="name">l10n_pa_edi.uom.form</field>
         <field name="model">l10n_pa_edi.uom</field>
         <field name="arch" type="xml">
-            <form string="Unidad FE">
+            <form string="Electronic Invoice Unit">
                 <sheet>
                     <group>
                         <field name="code"/>
@@ -101,13 +101,13 @@
     </record>
 
     <record id="action_l10n_pa_edi_uom" model="ir.actions.act_window">
-        <field name="name">Unidades FE</field>
+        <field name="name">Electronic Invoice Units</field>
         <field name="res_model">l10n_pa_edi.uom</field>
         <field name="view_mode">list,form</field>
     </record>
 
     <menuitem id="menu_l10n_pa_edi_catalog_root"
-              name="Catálogos FE Panamá"
+              name="Panama Electronic Invoice Catalogs"
               parent="account.menu_finance_configuration"
               sequence="45"
               groups="account.group_account_manager"/>

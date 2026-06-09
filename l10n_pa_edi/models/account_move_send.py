@@ -3,7 +3,7 @@
 
 Registers the `pa_dgi` extra-EDI key. When an Odoo user sends an invoice
 and the partner's company-country is Panama with a configured PAC,
-"Enviar a DGI vía PAC" appears as an option in the send wizard.
+"Send to DGI" appears as an option in the send wizard.
 
 Reference: <https://www.odoo.com/documentation/19.0/applications/finance/accounting/customer_invoices/electronic_invoicing.html>
 """
@@ -38,11 +38,11 @@ class AccountMoveSend(models.AbstractModel):
         # EXTENDS 'account'
         res = super()._get_all_extra_edis()
         res['pa_dgi'] = {
-            'label': _("Enviar a DGI vía PAC"),
+            'label': _("Send to DGI"),
             'is_applicable': self._is_pa_dgi_applicable,
             'help': _(
-                "Envía esta factura al PAC configurado para obtener su "
-                "Código Único de Factura Electrónica (CUFE) de DGI."
+                "Send this invoice to the configured PAC to obtain its "
+                "DGI Unique Electronic Invoice Code (CUFE)."
             ),
         }
         return res
@@ -61,25 +61,25 @@ class AccountMoveSend(models.AbstractModel):
         for m in pa_moves:
             if not m.company_id.vat:
                 problems.append(_(
-                    "%(name)s: la compañía %(co)s no tiene RUC.",
+                    "%(name)s: company %(co)s has no RUC.",
                     name=m.display_name, co=m.company_id.name,
                 ))
             if m.company_id.vat and not m.company_id.partner_id.l10n_pa_dv:
                 problems.append(_(
-                    "%(name)s: la compañía %(co)s tiene RUC sin DV calculado.",
+                    "%(name)s: company %(co)s has a RUC without a calculated DV.",
                     name=m.display_name, co=m.company_id.name,
                 ))
             partner = m.commercial_partner_id
             if partner.l10n_pa_receiver_type in ('01', '03') and not partner.vat:
                 problems.append(_(
-                    "%(name)s: el receptor '%(p)s' clasificado como Contribuyente/Gobierno requiere RUC.",
+                    "%(name)s: recipient '%(p)s' is classified as Taxpayer/Government and requires a RUC.",
                     name=m.display_name, p=partner.name,
                 ))
         if problems:
             alerts['l10n_pa_edi_preflight'] = {
                 'message': _(
-                    "Las siguientes facturas no pueden enviarse a DGI hasta corregir:\n%(items)s",
-                    items='\n'.join(f"• {p}" for p in problems),
+                    "The following invoices cannot be sent to DGI until they are corrected:\n%(items)s",
+                    items='\n'.join(f"- {p}" for p in problems),
                 ),
                 'level': 'danger',
             }
@@ -96,8 +96,8 @@ class AccountMoveSend(models.AbstractModel):
         provider = invoice._l10n_pa_get_pac_provider()
         if not provider:
             invoice_data['error'] = {
-                'error_title': _("PAC no configurado"),
-                'errors': [_("La compañía no tiene un proveedor PAC seleccionado.")],
+                'error_title': _("PAC Not Configured"),
+                'errors': [_("The company has no PAC provider selected.")],
             }
             return
         try:
@@ -121,25 +121,28 @@ class AccountMoveSend(models.AbstractModel):
                 )
                 invoice._l10n_pa_log_pac_event('send', 'rejected', response=response)
                 error_lines = [
-                    f"{e.get('code', '')}: {e.get('message', '')}".strip(': ')
-                    for e in (response.errors or [])
+                    line for line in (
+                        invoice._l10n_pa_format_pac_error(e)
+                        for e in (response.errors or [])
+                    ) if line
                 ]
                 invoice_data['error'] = {
-                    'error_title': _("DGI rechazó la factura"),
-                    'errors': error_lines or [_("Sin detalles del PAC.")],
+                    'error_title': _("DGI rejected the invoice"),
+                    'errors': error_lines or [_("No PAC details.")],
                 }
         except UserError as e:
             invoice.l10n_pa_pac_status = 'rejected'
             invoice._l10n_pa_log_pac_event('send', 'error', message=e.args[0])
             invoice_data['error'] = {
-                'error_title': _("Error al enviar al PAC"),
+                'error_title': _("Error sending to the PAC"),
                 'errors': [e.args[0]],
             }
             _logger.warning("Pa DGI send failed for %s: %s", invoice.name, e)
 
     def _get_invoice_extra_attachments(self, move):
         # EXTENDS 'account'
-        attachments = super()._get_invoice_extra_attachments(move)
-        if move.l10n_pa_xml_attachment_id:
-            attachments |= move.l10n_pa_xml_attachment_id
-        return attachments
+        # Keep the authorized DGI XML on the invoice for internal audit
+        # purposes, but do not expose it through customer-facing invoice
+        # email attachments or portal downloads. The customer receives the
+        # standard invoice PDF with the embedded CAFE/QR validation block.
+        return super()._get_invoice_extra_attachments(move)

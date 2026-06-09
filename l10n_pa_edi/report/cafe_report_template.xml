@@ -4,29 +4,27 @@
          estándar). Layout is intentionally simple: header with
          emisor/receptor, line table, totals, and a QR code carrying
          the CUFE so DGI inspectors can verify with a phone scanner. -->
-    <template id="report_cafe">
-        <t t-call="web.html_container">
-            <t t-foreach="docs" t-as="o">
-                <t t-call="web.external_layout">
-                    <div class="page">
+    <template id="report_cafe_document">
+        <t t-call="web.external_layout">
+            <div class="page">
                         <h2 class="text-center">
-                            Constancia de Autorización de Factura Electrónica (CAFE)
+                            Electronic Invoice Authorization Certificate (CAFE)
                         </h2>
                         <div class="row">
                             <div class="col-6">
-                                <strong>Emisor</strong>
+                                <strong>Issuer</strong>
                                 <div t-field="o.company_id.name"/>
                                 <div>RUC: <t t-out="o.company_id.vat"/>-<t t-out="o.company_id.partner_id.l10n_pa_dv"/></div>
                                 <div t-field="o.company_id.partner_id.contact_address_inline"/>
                                 <div t-if="o.company_id.l10n_pa_business_activity_code">
-                                    Actividad: <t t-out="o.company_id.l10n_pa_business_activity_code"/>
+                                    Activity: <t t-out="o.company_id.l10n_pa_business_activity_code"/>
                                 </div>
                             </div>
                             <div class="col-6">
-                                <strong>Receptor</strong>
+                                <strong>Recipient</strong>
                                 <div t-field="o.commercial_partner_id.name"/>
                                 <div t-if="o.commercial_partner_id.vat">
-                                    Identificación: <t t-out="o.commercial_partner_id.vat"/>
+                                    Identification: <t t-out="o.commercial_partner_id.vat"/>
                                     <t t-if="o.commercial_partner_id.l10n_pa_dv">
                                         -<t t-out="o.commercial_partner_id.l10n_pa_dv"/>
                                     </t>
@@ -38,10 +36,10 @@
                         <div class="row">
                             <div class="col-8">
                                 <p>
-                                    <strong>Documento:</strong>
+                                    <strong>Document:</strong>
                                     <span t-field="o.name"/>
                                     <br/>
-                                    <strong>Fecha de emisión:</strong>
+                                    <strong>Issue Date:</strong>
                                     <span t-field="o.invoice_date"/>
                                     <br/>
                                     <strong>CUFE:</strong>
@@ -50,11 +48,8 @@
                                 </p>
                             </div>
                             <div class="col-4 text-end">
-                                <img t-if="o.l10n_pa_qr_payload"
-                                     t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=200&amp;height=200' % o.l10n_pa_qr_payload"
-                                     style="max-width: 200px;"/>
-                                <img t-elif="o.l10n_pa_cufe"
-                                     t-att-src="'/report/barcode/?type=QR&amp;value=%s&amp;width=200&amp;height=200' % o.l10n_pa_cufe"
+                                <img t-if="o.l10n_pa_qr_payload or o.l10n_pa_cufe"
+                                     t-att-src="o._l10n_pa_get_qr_barcode_src()"
                                      style="max-width: 200px;"/>
                             </div>
                         </div>
@@ -62,9 +57,9 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Descripción</th>
-                                    <th class="text-end">Cant.</th>
-                                    <th class="text-end">P. Unit.</th>
+                                    <th>Description</th>
+                                    <th class="text-end">Qty.</th>
+                                    <th class="text-end">Unit Price</th>
                                     <th class="text-end">Subtotal</th>
                                     <th class="text-end">ITBMS</th>
                                     <th class="text-end">Total</th>
@@ -76,7 +71,9 @@
                                     <t t-set="idx" t-value="idx + 1"/>
                                     <tr>
                                         <td t-out="idx"/>
-                                        <td t-field="line.name"/>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
                                         <td class="text-end" t-out="'%.4f' % line.quantity"/>
                                         <td class="text-end" t-out="'%.2f' % line.price_unit"/>
                                         <td class="text-end" t-out="'%.2f' % line.price_subtotal"/>
@@ -107,13 +104,54 @@
                             </div>
                         </div>
                         <p class="small text-muted">
-                            Este documento es la representación impresa de la factura
-                            electrónica emitida y autorizada por DGI. La factura
-                            electrónica original es el archivo XML asociado.
+                            This document is the printed representation of the
+                            electronic invoice issued and authorized by DGI. The
+                            original electronic invoice is the associated XML file.
                         </p>
-                    </div>
-                </t>
+            </div>
+        </t>
+    </template>
+
+    <template id="report_cafe">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="l10n_pa_edi.report_cafe_document"/>
             </t>
         </t>
+    </template>
+
+    <template id="report_invoice_document_inherit_l10n_pa_edi" inherit_id="account.report_invoice_document">
+        <xpath expr="//table[@name='invoice_line_table']" position="after">
+            <div t-if="o._l10n_pa_show_cafe_on_invoice()"
+                 class="mt-3 mb-3 p-0 avoid-page-break-inside"
+                 name="l10n_pa_cafe_block">
+                <table class="w-100 table-borderless l10n-pa-cafe-summary" style="border-collapse: collapse;">
+                    <tr>
+                        <td class="l10n-pa-cafe-copy" style="vertical-align: top; padding-right: 16px;">
+                            <div class="l10n-pa-cafe-eyebrow">DGI Validation</div>
+                            <h6 class="mb-1">Electronic invoice authorized by DGI</h6>
+                            <div class="l10n-pa-cafe-note">
+                                Scan the QR code or use the CUFE below to validate this invoice
+                                in the DGI system.
+                            </div>
+                            <div class="l10n-pa-cafe-status mt-2">
+                                <strong>Status</strong>
+                                <span t-field="o.l10n_pa_pac_status"/>
+                            </div>
+                            <div class="l10n-pa-cafe-cufe mt-2">
+                                <strong>CUFE</strong>
+                                <span t-out="o.l10n_pa_cufe"/>
+                            </div>
+                        </td>
+                        <td class="l10n-pa-cafe-qr" style="width: 118px; vertical-align: top; text-align: right;">
+                            <img t-if="o.l10n_pa_qr_payload or o.l10n_pa_cufe"
+                                 t-att-src="o._l10n_pa_get_qr_barcode_src()"
+                                 style="width: 112px; height: 112px;"/>
+                            <div class="l10n-pa-cafe-qr-label">DGI QR</div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </xpath>
     </template>
 </odoo>

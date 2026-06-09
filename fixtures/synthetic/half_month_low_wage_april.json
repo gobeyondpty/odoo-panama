@@ -1,0 +1,24 @@
+{
+  "employee": "Synthetic Half-Month Low Wage Employee",
+  "period": "2026-04-16/2026-04-30",
+  "gross_salary": 350.0,
+  "rates": {
+    "css_employee_rate": 0.0975,
+    "css_employer_rate": 0.1325,
+    "educational_employee_rate": 0.0125,
+    "educational_employer_rate": 0.015,
+    "professional_risk_rate": 0.0,
+    "periods_per_month": 2,
+    "income_tax_months": 13
+  },
+  "expected_lines": {
+    "CSS_EMP": -34.13,
+    "SE_EMP": -4.38,
+    "ISR_EMP": -0.0,
+    "CSS_COMP": 46.38,
+    "SE_COMP": 5.25,
+    "RP_COMP": 0.0
+  },
+  "expected_net": 311.49,
+  "notes": "Fictional amounts: monthly salary 700.00 paid as gross 350.00 per quincena. Exercises a quincenal wage that stays under the ISR threshold (350 x 2 x 13 = 9,100 annual <= 11,000) with the post-reform employer CSS rate of 13.25%. The real-receipt counterparts of this scenario live in fixtures/private/ (not in Git)."
+}

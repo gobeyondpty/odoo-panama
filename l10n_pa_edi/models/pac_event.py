@@ -20,20 +20,20 @@ class L10nPaEdiPacEvent(models.Model):
     )
     operation = fields.Selection(
         [
-            ('send', 'Envío'),
-            ('status', 'Consulta'),
-            ('cancel', 'Anulación'),
+            ('send', 'Send'),
+            ('status', 'Status Check'),
+            ('cancel', 'Cancellation'),
         ],
         required=True,
     )
     state = fields.Selection(
         [
-            ('sent', 'Enviado'),
-            ('authorized', 'Autorizado'),
-            ('rejected', 'Rechazado'),
-            ('cancelled', 'Anulado'),
-            ('pending', 'Pendiente'),
-            ('unknown', 'Desconocido'),
+            ('sent', 'Sent'),
+            ('authorized', 'Authorized'),
+            ('rejected', 'Rejected'),
+            ('cancelled', 'Cancelled'),
+            ('pending', 'Pending'),
+            ('unknown', 'Unknown'),
             ('error', 'Error'),
         ],
         required=True,

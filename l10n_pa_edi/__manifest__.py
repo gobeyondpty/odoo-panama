@@ -22,7 +22,7 @@ This module is PAC-agnostic. It provides:
   carrying the original CUFE reference
 * Cancellation / Anulación event registration
 * Hooks into Odoo 19's `account_move_send` framework as a delivery
-  method ("Enviar a DGI vía PAC")
+  method ("Send to DGI")
 * Spanish-localized DGI error code mapping
 * Contingency mode (`l10n_pa_contingency`) flag on invoices
 

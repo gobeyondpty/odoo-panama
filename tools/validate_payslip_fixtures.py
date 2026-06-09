@@ -13,7 +13,8 @@ Fixture format::
       "gross_salary": 1000.0,
       "structure": "PA_REGULAR",        # optional, default PA_REGULAR
       "rates": { ... },                  # only used by PA_REGULAR
-      "expected_lines": { ... }
+      "expected_lines": { ... },
+      "expected_net": 866.92             # optional; employee-facing net
     }
 """
 from __future__ import annotations
@@ -29,6 +30,7 @@ sys.path.insert(0, str(REPO_ROOT / "l10n_pa_hr_payroll"))
 from lib.calculations import (  # noqa: E402
     StatutoryRates,
     calculate_decimo_lines,
+    calculate_period_income_tax,
     calculate_statutory_lines,
     money,
 )
@@ -42,10 +44,18 @@ def load_fixture(path: Path) -> dict:
 def actual_lines_for(fixture: dict) -> dict[str, float]:
     structure = fixture.get("structure", "PA_REGULAR")
     if structure == "PA_REGULAR":
+        fixture_rates = fixture.get("rates", {})
         rates_kwargs = {
-            k: v for k, v in fixture.get("rates", {}).items()
+            k: v for k, v in fixture_rates.items()
             if k in StatutoryRates.__dataclass_fields__
         }
+        if "monthly_income_tax" not in rates_kwargs and "periods_per_month" in fixture_rates:
+            rates_kwargs["monthly_income_tax"] = calculate_period_income_tax(
+                fixture["gross_salary"],
+                fixture_rates["periods_per_month"],
+                int(fixture_rates.get("income_tax_months", 13)),
+                fixture_rates.get("annual_deductions", 0.0),
+            )
         rates = StatutoryRates(**rates_kwargs)
         return calculate_statutory_lines(fixture["gross_salary"], rates)
     if structure == "PA_DECIMO":
@@ -64,6 +74,17 @@ def compare_fixture(path: Path, tolerance: float) -> list[str]:
         expected_value = money(expected_value)
         if abs(actual_value - expected_value) > tolerance:
             errors.append(f"{path}: {code}: expected {expected_value}, got {actual_value}")
+
+    if "expected_net" in fixture:
+        employee_lines = (
+            value
+            for code, value in actual.items()
+            if code.endswith("_EMP") or code.endswith("_EMP_DEC")
+        )
+        actual_net = money(fixture["gross_salary"] + sum(employee_lines))
+        expected_net = money(fixture["expected_net"])
+        if abs(actual_net - expected_net) > tolerance:
+            errors.append(f"{path}: expected_net: expected {expected_net}, got {actual_net}")
 
     return errors
 

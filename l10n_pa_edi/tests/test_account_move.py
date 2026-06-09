@@ -8,7 +8,38 @@ from lxml import etree
 from odoo.tests.common import TransactionCase, tagged
 
 from odoo.addons.l10n_pa_edi.models import dgi_xml
-from odoo.addons.l10n_pa_edi.models.account_move import _move_type_to_dgi_doc
+from odoo.addons.l10n_pa_edi.models.account_move import (
+    _COUNTRY_ALPHA3,
+    _country_alpha3,
+    _move_type_to_dgi_doc,
+)
+
+
+@tagged('-at_install', 'post_install', 'l10n_pa_edi')
+class TestCountryAlpha3(TransactionCase):
+
+    def test_every_res_country_resolves(self):
+        # Every installable res.country must map to a real alpha-3 code;
+        # an unmapped country would emit a padded alpha-2 (e.g. 'AUX')
+        # that the PAC rejects.
+        missing = [
+            country.code
+            for country in self.env['res.country'].search([('code', '!=', False)])
+            if country.code.upper() not in _COUNTRY_ALPHA3
+        ]
+        self.assertFalse(
+            missing,
+            "res.country codes without an alpha-3 mapping: %s" % missing,
+        )
+
+    def test_known_codes(self):
+        pa = self.env['res.country'].search([('code', '=', 'PA')])
+        self.assertEqual(_country_alpha3(pa), 'PAN')
+        au = self.env['res.country'].search([('code', '=', 'AU')])
+        self.assertEqual(_country_alpha3(au), 'AUS')
+
+    def test_no_country_default(self):
+        self.assertEqual(_country_alpha3(None, 'PAN'), 'PAN')
 
 
 @tagged('-at_install', 'post_install', 'l10n_pa_edi')

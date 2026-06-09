@@ -23,17 +23,17 @@ fix that should follow. Each item: what, why, risk, future fix.
   `lxml.etree.XMLSchema` validation in `_l10n_pa_generate_xml()` (debug
   mode) and in `tests/test_xml_generation.py`.
 
-## Country alpha-3 mapping is hand-rolled
+## Country alpha-3 mapping is hand-rolled — RESOLVED 2026-06-09
 
-- **What:** `_country_alpha3` in `account_move.py` ships a 35-country
-  hardcoded alpha-2 → alpha-3 map for the `cPaisRec` field.
-- **Why:** Odoo's `res.country` model only stores alpha-2 codes. DGI
-  expects alpha-3 (ISO 3166-1).
-- **Risk:** A partner from a country outside the map gets a `XX`-padded
-  alpha-2 code in the XML, which the PAC will reject.
-- **Future fix:** Either (a) extend the map to all ISO countries, or
-  (b) add an `l10n_pa_country_alpha3` field on `res.country` populated
-  from a CSV.
+- **What:** `_country_alpha3` in `account_move.py` originally shipped a
+  35-country hardcoded alpha-2 → alpha-3 map for the `cPaisRec` field.
+- **Resolution:** The map now carries the full ISO 3166-1 table (249
+  entries, generated from the Debian `iso-codes` dataset) plus Odoo's
+  two non-ISO codes (`XK` → `XKX`, `XI` → `GBR`).
+  `TestCountryAlpha3.test_every_res_country_resolves` asserts every
+  `res.country` code resolves, so a future Odoo country addition that
+  is missing from the map fails the suite instead of emitting a padded
+  alpha-2 the PAC would reject.
 
 ## Synchronous PAC submission
 

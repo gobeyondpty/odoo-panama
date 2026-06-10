@@ -79,11 +79,15 @@ class AccountChartTemplate(models.AbstractModel):
         for xmlid in salary_expense_rules:
             rules_mapping[rule(xmlid)]['debit'] = '514'
 
-        # Employee deductions withheld by the employer.
+        # Employee deductions withheld by the employer. These rules
+        # compute NEGATIVE totals, and hr_payroll_account flips sides
+        # for negative amounts (an account_debit mapping yields a
+        # credit line) — so deductions go on 'debit' to end up
+        # crediting the payable accounts.
         for xmlid in ('l10n_pa_rule_css_employee', 'l10n_pa_rule_educational_employee'):
-            rules_mapping[rule(xmlid)]['credit'] = '242'
+            rules_mapping[rule(xmlid)]['debit'] = '242'
         for xmlid in ('l10n_pa_rule_income_tax_employee', 'l10n_pa_rule_isr_representation'):
-            rules_mapping[rule(xmlid)]['credit'] = '244'
+            rules_mapping[rule(xmlid)]['debit'] = '244'
 
         # Employer contributions: expense against CSS payable.
         for xmlid in (
@@ -109,7 +113,8 @@ class AccountChartTemplate(models.AbstractModel):
         # --- Panama: Decimo Tercer Mes -----------------------------
         # The payout consumes the provision built up by DECIMO_ACCR.
         rules_mapping[rule('l10n_pa_rule_decimo_basic')]['debit'] = '243'
-        rules_mapping[rule('l10n_pa_rule_decimo_css_employee')]['credit'] = '242'
+        # negative deduction → 'debit' mapping credits 242 (see above)
+        rules_mapping[rule('l10n_pa_rule_decimo_css_employee')]['debit'] = '242'
         rules_mapping[rule('l10n_pa_rule_decimo_css_employer')]['debit'] = '515'
         rules_mapping[rule('l10n_pa_rule_decimo_css_employer')]['credit'] = '242'
         rules_mapping[rule('l10n_pa_rule_decimo_net')]['credit'] = '241'
@@ -122,7 +127,8 @@ class AccountChartTemplate(models.AbstractModel):
         rules_mapping[rule('l10n_pa_rule_liq_bonif')]['debit'] = '514'
         rules_mapping[rule('l10n_pa_rule_liq_prima_antiguedad')]['debit'] = '246'
         rules_mapping[rule('l10n_pa_rule_liq_indemnizacion')]['debit'] = '261'
-        rules_mapping[rule('l10n_pa_rule_liq_isr')]['credit'] = '244'
+        # negative deduction → 'debit' mapping credits 244 (see above)
+        rules_mapping[rule('l10n_pa_rule_liq_isr')]['debit'] = '244'
         rules_mapping[rule('l10n_pa_rule_liq_net')]['credit'] = '241'
 
         self._configure_payroll_account(

@@ -30,11 +30,26 @@ class TestPaPayrollAccountMapping(TransactionCase):
     def test_regular_structure_mapping(self):
         self.assertEqual(self._rule('l10n_pa_rule_basic').account_debit.code[:3], '514')
         self.assertEqual(self._rule('l10n_pa_rule_net').account_credit.code[:3], '241')
-        self.assertEqual(self._rule('l10n_pa_rule_css_employee').account_credit.code[:3], '242')
-        self.assertEqual(self._rule('l10n_pa_rule_income_tax_employee').account_credit.code[:3], '244')
         employer = self._rule('l10n_pa_rule_css_employer')
         self.assertEqual(employer.account_debit.code[:3], '515')
         self.assertEqual(employer.account_credit.code[:3], '242')
+
+    def test_deductions_mapped_on_debit_side(self):
+        # Deduction rules compute negative totals; hr_payroll_account
+        # flips sides for negative amounts, so the liability account
+        # must sit on account_debit (and account_credit must stay
+        # empty, or the entry self-cancels on the same account).
+        for xmlid, payable in (
+            ('l10n_pa_rule_css_employee', '242'),
+            ('l10n_pa_rule_educational_employee', '242'),
+            ('l10n_pa_rule_income_tax_employee', '244'),
+            ('l10n_pa_rule_isr_representation', '244'),
+            ('l10n_pa_rule_decimo_css_employee', '242'),
+            ('l10n_pa_rule_liq_isr', '244'),
+        ):
+            deduction = self._rule(xmlid)
+            self.assertEqual(deduction.account_debit.code[:3], payable, xmlid)
+            self.assertFalse(deduction.account_credit, xmlid)
 
     def test_accrual_provisions(self):
         for xmlid, provision in (
@@ -52,7 +67,6 @@ class TestPaPayrollAccountMapping(TransactionCase):
         self.assertEqual(self._rule('l10n_pa_rule_decimo_net').account_credit.code[:3], '241')
         self.assertEqual(self._rule('l10n_pa_rule_liq_prima_antiguedad').account_debit.code[:3], '246')
         self.assertEqual(self._rule('l10n_pa_rule_liq_indemnizacion').account_debit.code[:3], '261')
-        self.assertEqual(self._rule('l10n_pa_rule_liq_isr').account_credit.code[:3], '244')
         self.assertEqual(self._rule('l10n_pa_rule_liq_net').account_credit.code[:3], '241')
 
     def test_structures_journal_assigned(self):

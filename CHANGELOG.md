@@ -18,7 +18,11 @@ and this project adheres to semantic versioning per Odoo conventions
   expense (515), net salaries payable (241), CSS/SE payable (242), ISR
   withheld (244), and the decimo (243) / vacation (245) / seniority
   premium (246) / cesantia (261) provisions. Decimo payouts and
-  liquidacion prima/indemnizacion consume their provisions.
+  liquidacion prima/indemnizacion consume their provisions. Employee
+  deduction rules (negative totals) are mapped on `account_debit`
+  because `hr_payroll_account` flips sides for negative amounts — a
+  `codex review` finding; mapping them on credit would have debited
+  the payables.
 - Two payroll provision accounts (`245` Provisión para Vacaciones,
   `246` Provisión para Prima de Antigüedad) are added to the `pa`
   chart template; companies whose chart predates the module get them
